@@ -1,7 +1,10 @@
-module com.liqaa {
+module gov.iti.jets {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.web;
+    requires org.controlsfx.controls;
+    requires org.kordamp.ikonli.javafx;
 
-    opens com.liqaa to javafx.fxml;
-    exports com.liqaa;
+    opens gov.iti.jets to javafx.fxml;
+    exports gov.iti.jets;
 }

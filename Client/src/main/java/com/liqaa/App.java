@@ -1,4 +1,4 @@
-package com.liqaa;
+package gov.iti.jets;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,17 +8,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("primary"), 1024, 768);  // تغيير الأبعاد لتتناسب مع الشكل الجديد
         stage.setScene(scene);
+        stage.setTitle("Chat App");
+        stage.setMinWidth(900);
+        stage.setMinHeight(700);
         stage.show();
     }
 
@@ -34,5 +34,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }
