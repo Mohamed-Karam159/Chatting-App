@@ -1,0 +1,5 @@
+.pane-shadow {
+    -fx-background-color: #ffffff; /* Background color */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 10);
+    -fx-offset-y: 10;
+}

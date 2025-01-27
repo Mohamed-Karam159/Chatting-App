@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="609.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.controllers.StatisticsController">
+    <left>
+        <AnchorPane prefHeight="534.0" prefWidth="221.0" style="-fx-background-color: e5e7eb;" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="98.0" fitWidth="176.0" layoutX="23.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@images/logo.png" />
+                    </image>
+                </ImageView>
+                <Pane layoutY="195.0" onMouseClicked="#switchToManager" prefHeight="50.0" prefWidth="222.0" style="-fx-background-radius: 25px 0px 0px 25px; -fx-cursor: hand;">
+                    <children>
+                        <ImageView fitHeight="32.0" fitWidth="40.0" layoutX="4.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/manager.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="43.0" layoutY="9.0" prefHeight="32.0" prefWidth="176.0" text="Manager">
+                            <font>
+                                <Font name="Roboto" size="20.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Pane layoutY="253.0"  prefHeight="50.0" prefWidth="222.0" style="-fx-background-radius: 25px 0px 0px 25px; -fx-cursor: hand; -fx-background-color: f4f4f4;">
+                    <children>
+                        <ImageView fitHeight="32.0" fitWidth="39.0" layoutX="4.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/statistics.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="43.0" layoutY="9.0" prefHeight="32.0" prefWidth="176.0" text="Statistics">
+                            <font>
+                                <Font name="Roboto" size="20.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Pane layoutY="311.0" onMouseClicked="#switchToAnnouncements" prefHeight="50.0" prefWidth="222.0" style="-fx-background-radius: 25px 0px 0px 25px; -fx-cursor: hand;">
+                    <children>
+                        <ImageView fitHeight="32.0" fitWidth="39.0" layoutX="4.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/announcement.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="43.0" layoutY="9.0" prefHeight="32.0" prefWidth="176.0" text="Announcements">
+                            <font>
+                                <Font name="Roboto" size="20.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Pane layoutY="369.0" onMouseClicked="#logout" prefHeight="50.0" prefWidth="222.0" style="-fx-background-radius: 25px 0px 0px 25px; -fx-cursor: hand;">
+                    <children>
+                        <ImageView fitHeight="32.0" fitWidth="39.0" layoutX="4.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@images/logout.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="43.0" layoutY="9.0" prefHeight="32.0" prefWidth="176.0" text="Logout">
+                            <font>
+                                <Font name="Roboto" size="20.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+            </children>
+        </AnchorPane>
+    </left>
+   <center>
+      <BorderPane prefHeight="618.0" prefWidth="662.0" BorderPane.alignment="CENTER">
+         <center>
+              <VBox prefHeight="626.0" prefWidth="702.0">
+                  <children>
+                      <BorderPane>
+                          <left>
+                              <Pane nodeOrientation="LEFT_TO_RIGHT" BorderPane.alignment="TOP_LEFT">
+                                  <children>
+                                      <Label layoutX="1.0" layoutY="-14.0" prefHeight="75.0" prefWidth="132.0" text="Statistics">
+                                          <font>
+                                              <Font name="Roboto" size="22.0" />
+                                          </font>
+                                      </Label>
+                                  </children>
+                              </Pane>
+                          </left>
+                          <right>
+                              <Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="0.0" prefWidth="126.0" BorderPane.alignment="CENTER">
+                                  <children>
+                                      <ImageView fitHeight="56.0" fitWidth="53.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                              <Image url="@images/admin.png" />
+                                          </image>
+                                      </ImageView>
+                                      <Label layoutX="50.0" layoutY="14.0" text="Admin Name" textFill="#40bfc7">
+                                          <font>
+                                              <Font name="Roboto" size="13.0" />
+                                          </font>
+                                      </Label>
+                                      <Label layoutX="50.0" layoutY="28.0" text="online" textFill="#6b7280">
+                                          <font>
+                                              <Font name="Roboto" size="12.0" />
+                                          </font>
+                                      </Label>
+                                  </children>
+                              </Pane>
+                          </right>
+                     <bottom>
+                        <Pane prefHeight="53.0" prefWidth="626.0" BorderPane.alignment="CENTER" />
+                     </bottom>
+                      </BorderPane>
+                  <BorderPane prefHeight="86.0" prefWidth="669.0">
+                     <top>
+                        <Pane prefHeight="0.0" prefWidth="591.0" BorderPane.alignment="CENTER" />
+                     </top>
+                     <bottom>
+                        <HBox prefHeight="68.0" prefWidth="626.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <AnchorPane prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: f9fafb; -fx-background-radius: 20 20 20 20; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 5);" stylesheets="@styles/shadow.css" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Pane layoutX="14.0" layoutY="16.0" style="-fx-background-color: #3b82f6; -fx-background-radius: 7 7 7 7;">
+                                       <children>
+                                          <ImageView fitHeight="33.0" fitWidth="41.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #3b82f6;">
+                                             <image>
+                                                <Image url="@images/totalUsers.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </Pane>
+                                    <Label layoutX="60.0" layoutY="18.0" text="Total Users" textFill="#6b7280">
+                                       <font>
+                                          <Font name="Roboto" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="60.0" layoutY="36.0" style="-fx-font-weight: 700;" text="12,847">
+                                       <font>
+                                          <Font name="Roboto" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Pane prefHeight="72.0" prefWidth="34.0" />
+                              <AnchorPane prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: f9fafb; -fx-background-radius: 20 20 20 20; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 5);" stylesheets="@styles/shadow.css" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Pane layoutX="14.0" layoutY="16.0" style="-fx-background-color: #22c55e; -fx-background-radius: 7 7 7 7;">
+                                       <children>
+                                          <ImageView fitHeight="38.0" fitWidth="41.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #3b82f6;">
+                                             <image>
+                                                <Image url="@images/onlineusers.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </Pane>
+                                    <Label layoutX="60.0" layoutY="18.0" text="Online Users" textFill="#6b7280">
+                                       <font>
+                                          <Font name="Roboto" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="60.0" layoutY="36.0" style="-fx-font-weight: 700;" text="1,234">
+                                       <font>
+                                          <Font name="Roboto" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Pane prefHeight="72.0" prefWidth="34.0" />
+                              <AnchorPane prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: f9fafb; -fx-background-radius: 20 20 20 20; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 5);" stylesheets="@styles/shadow.css" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Pane layoutX="14.0" layoutY="16.0" style="-fx-background-color: #ef4444; -fx-background-radius: 7 7 7 7;">
+                                       <children>
+                                          <ImageView fitHeight="38.0" fitWidth="44.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #3b82f6;">
+                                             <image>
+                                                <Image url="@images/offlineUsers.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </Pane>
+                                    <Label layoutX="60.0" layoutY="18.0" text="Offline Users" textFill="#6b7280">
+                                       <font>
+                                          <Font name="Roboto" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="60.0" layoutY="36.0" style="-fx-font-weight: 700;" text="10,865">
+                                       <font>
+                                          <Font name="Roboto" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                              <Pane prefHeight="72.0" prefWidth="34.0" />
+                              <AnchorPane prefHeight="73.0" prefWidth="155.0" style="-fx-background-color: f9fafb; -fx-background-radius: 20 20 20 20; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 5);" stylesheets="@styles/shadow.css" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Pane layoutX="14.0" layoutY="16.0" prefHeight="37.0" prefWidth="40.0" style="-fx-background-color: #a855f7; -fx-background-radius: 7 7 7 7;">
+                                       <children>
+                                          <ImageView fitHeight="43.0" fitWidth="47.0" layoutX="-3.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #3b82f6;">
+                                             <image>
+                                                <Image url="@images/countries.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </Pane>
+                                    <Label layoutX="60.0" layoutY="18.0" text="Countries" textFill="#6b7280">
+                                       <font>
+                                          <Font name="Roboto" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="60.0" layoutY="36.0" style="-fx-font-weight: 700;" text="16">
+                                       <font>
+                                          <Font name="Roboto" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </HBox>
+                     </bottom>
+                  </BorderPane>
+                  <Pane prefHeight="24.0" prefWidth="669.0" />
+                  <BorderPane>
+                     <center>
+                        <HBox prefHeight="165.0" prefWidth="669.0">
+                           <children>
+                              <AnchorPane prefHeight="124.0" prefWidth="221.0" style="-fx-background-color: f9fafb; -fx-background-radius: 20 20 20 20; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 5);" stylesheets="@styles/shadow.css" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="152.0" style="-fx-font-weight: bold;" text="Gender Distribution">
+                                       <font>
+                                          <Font name="Roboto" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="42.0" fitWidth="48.0" layoutX="241.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/genderChart.png" />
+                                       </image>
+                                    </ImageView>
+                                    <StackPane layoutX="42.0" layoutY="48.0">
+                                       <children>
+                                          <Circle fill="DODGERBLUE" radius="36.0" stroke="#3b82f6" strokeType="INSIDE" strokeWidth="6.0" style="-fx-fill: f9fafb; -fx-focus-traversable: Color.TRANSPARENT;" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="45%" wrappingWidth="31.55780029296875">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </StackPane>
+                                    <StackPane layoutX="144.0" layoutY="48.0">
+                                       <children>
+                                          <Circle fill="DODGERBLUE" radius="36.0" stroke="#ec4899" strokeType="INSIDE" strokeWidth="6.0" style="-fx-fill: f9fafb; -fx-focus-traversable: Color.TRANSPARENT;" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="38%" wrappingWidth="31.55780029296875">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </AnchorPane>
+                              <Pane prefHeight="124.0" prefWidth="48.0" />
+                              <AnchorPane prefHeight="124.0" prefWidth="232.0" style="-fx-background-color: f9fafb; -fx-background-radius: 20 20 20 20; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 5);" stylesheets="@styles/shadow.css" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="152.0" style="-fx-font-weight: bold;" text="Gender Distribution">
+                                       <font>
+                                          <Font name="Roboto" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="42.0" fitWidth="48.0" layoutX="216.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/genderChart.png" />
+                                       </image>
+                                    </ImageView>
+                                    <StackPane layoutX="42.0" layoutY="48.0">
+                                       <children>
+                                          <Circle fill="DODGERBLUE" radius="36.0" stroke="#3b82f6" strokeType="INSIDE" strokeWidth="6.0" style="-fx-fill: f9fafb; -fx-focus-traversable: Color.TRANSPARENT;" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="45%" wrappingWidth="31.55780029296875">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </StackPane>
+                                    <StackPane layoutX="144.0" layoutY="48.0">
+                                       <children>
+                                          <Circle fill="DODGERBLUE" radius="36.0" stroke="#ec4899" strokeType="INSIDE" strokeWidth="6.0" style="-fx-fill: f9fafb; -fx-focus-traversable: Color.TRANSPARENT;" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="38%" wrappingWidth="31.55780029296875">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </HBox>
+                     </center>
+                     <top>
+                        <Pane prefHeight="26.0" prefWidth="626.0" BorderPane.alignment="CENTER" />
+                     </top>
+                     <bottom>
+                        <Pane prefHeight="15.0" prefWidth="626.0" BorderPane.alignment="CENTER" />
+                     </bottom>
+                  </BorderPane>
+                  <Pane prefHeight="49.0" prefWidth="669.0" />
+                  <BorderPane prefHeight="232.0" prefWidth="669.0">
+                     <left>
+                        <Pane prefHeight="230.0" prefWidth="37.0" BorderPane.alignment="CENTER" />
+                     </left>
+                     <right>
+                        <Pane prefHeight="230.0" prefWidth="30.0" BorderPane.alignment="CENTER" />
+                     </right>
+                     <center>
+                        <AnchorPane prefHeight="218.0" prefWidth="523.0" style="-fx-background-color: f9fafb; -fx-background-radius: 20 20 20 20; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 5);" stylesheets="@styles/shadow.css" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label layoutX="20.0" layoutY="65.0" prefHeight="30.0" prefWidth="152.0" style="-fx-font-weight: bold;" text="Gender Distribution">
+                                 <font>
+                                    <Font name="Roboto" size="13.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="42.0" fitWidth="48.0" layoutX="218.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/genderChart.png" />
+                                 </image>
+                              </ImageView>
+                              <StackPane layoutX="42.0" layoutY="48.0" />
+                              <StackPane layoutX="144.0" layoutY="48.0" />
+                              <StackedBarChart alternativeRowFillVisible="false" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" layoutX="90.0" layoutY="142.0" prefHeight="142.0" prefWidth="386.0" verticalGridLinesVisible="false" verticalZeroLineVisible="false">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </StackedBarChart>
+                           </children>
+                        </AnchorPane>
+                     </center>
+                     <bottom>
+                        <Pane prefHeight="22.0" prefWidth="669.0" BorderPane.alignment="CENTER" />
+                     </bottom>
+                  </BorderPane>
+                  </children>
+              </VBox>
+         </center>
+         <left>
+            <Pane prefHeight="610.0" prefWidth="36.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <Pane prefHeight="610.0" prefWidth="41.0" BorderPane.alignment="CENTER" />
+         </right>
+         <top>
+            <Pane prefHeight="47.0" prefWidth="669.0" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+   </center>
+</BorderPane>

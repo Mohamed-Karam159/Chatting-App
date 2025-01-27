@@ -1,0 +1,11 @@
+module com.liqaa.server {
+    requires javafx.controls;
+    requires javafx.fxml;
+
+    exports com.liqaa.controllers to javafx.fxml;
+    opens com.liqaa.controllers to javafx.fxml; // Required for reflection
+    opens com.liqaa to javafx.fxml;
+    exports com.liqaa;
+    exports com.liqaa;
+    opens com.liqaa to javafx.fxml;
+}

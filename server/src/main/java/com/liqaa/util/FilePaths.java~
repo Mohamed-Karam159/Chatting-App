@@ -1,0 +1,12 @@
+package com.liqaa.util;
+
+public class FilePaths
+{
+    public static final String LOGIN_SCREEN_FXML = "resources/com/liqaa/login.fxml";
+    public static final String MANAGER_SCREEN_FXML = "resources/com/liqaa/manager.fxml";
+    public static final String ANNOUNCEMENTS_SCREEN_FXML = "resources/com/liqaa/announcements.fxml";
+    public static final String STATISTICS_SCREEN_FXML = "resources/com/liqaa/statistics.fxml";
+
+
+
+}
