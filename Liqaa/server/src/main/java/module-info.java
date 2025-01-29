@@ -5,6 +5,7 @@ module com.liqaa.server {
     requires java.sql;
     requires mysql.connector.java;
 
+
     exports com.liqaa.server;
     exports com.liqaa.server.controllers.FXMLcontrollers to javafx.fxml;
 

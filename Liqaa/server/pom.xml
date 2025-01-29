@@ -13,6 +13,7 @@
       <groupId>com.liqaa</groupId>
       <artifactId>shared</artifactId>
       <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
@@ -32,7 +33,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.liqaa.server/com.liqaa.server.Main</mainClass>
+              <mainClass>com.liqaa.server.Main</mainClass>
             </configuration>
           </execution>
         </executions>
