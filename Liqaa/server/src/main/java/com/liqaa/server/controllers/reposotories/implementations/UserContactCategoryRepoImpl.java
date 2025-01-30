@@ -14,7 +14,6 @@ import java.util.List;
 
 public class UserContactCategoryRepoImpl implements UserContactCategoryRepo {
     @Override
-<<<<<<< HEAD
     public boolean createUserContactCategory(UserContactCategory userContactCategory) throws SQLException {
         if (userContactCategory == null) {
             System.err.println("Error creating user_contact_category: UserContactCategory is null");
@@ -86,9 +85,9 @@ public class UserContactCategoryRepoImpl implements UserContactCategoryRepo {
             System.err.println("Error deleting user_contact_category: UserContactCategory is null");
             return false;
         }
-        try(Connection connection = DatabaseManager.getConnection();) {
+        try (Connection connection = DatabaseManager.getConnection();) {
             String query = "DELETE FROM usercontactcategories WHERE user_id = ? AND category_id = ?";
-            try(PreparedStatement statement = connection.prepareStatement(query);) {
+            try (PreparedStatement statement = connection.prepareStatement(query);) {
                 statement.setInt(1, userContactCategory.getUserId());
                 statement.setInt(2, userContactCategory.getCategoryId());
                 int rowsAffected = statement.executeUpdate();
@@ -100,70 +99,19 @@ public class UserContactCategoryRepoImpl implements UserContactCategoryRepo {
                 return (rowsAffected > 0);
             }
         }
-=======
-    public boolean addNew(UserContactCategory userContactCategory) throws SQLException {
-        Connection connection = DatabaseManager.getInstance().getConnection();
-        String query = "INSERT INTO usercontactcategories (user_id, category_id) VALUES (?, ?)";
-        PreparedStatement statement = connection.prepareStatement(query);
-        int rowsAffected = statement.executeUpdate();
-        return (rowsAffected > 0);
     }
 
-    @Override
-    public List<UserContactCategory> getAll() throws SQLException {
-        Connection connection = DatabaseManager.getInstance().getConnection();
-        String query = "SELECT user_id, category_id, created_at FROM usercontactcategories";
-        PreparedStatement statement = connection.prepareStatement(query);
-        ResultSet resultSet = statement.executeQuery();
-        List<UserContactCategory> list = new ArrayList<>();
-        while (resultSet.next()){
-            UserContactCategory userContactCategory = new UserContactCategory(resultSet.getInt("user_id"), resultSet.getInt("category_id"), resultSet.getTimestamp("created_at").toLocalDateTime());
-            list.add(userContactCategory);
-        }
-        return list;
-    }
-
-    @Override
-    public boolean update(UserContactCategory userContactCategory) throws SQLException {
-        Connection connection = DatabaseManager.getInstance().getConnection();
-        String deleteQuery = "DELETE FROM usercontactcategories WHERE user_id = ? AND category_id = ?";
-        PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
-        deleteStatement.setInt(1, userContactCategory.getUserId());
-        deleteStatement.setInt(2, userContactCategory.getCategoryId());
-        deleteStatement.executeUpdate();
-
-        String insertQuery = "INSERT INTO usercontactcategories (user_id, category_id) VALUES (?, ?)";
-        PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
-        insertStatement.setInt(1, userContactCategory.getUserId());
-        insertStatement.setInt(2, userContactCategory.getCategoryId());
-        int rowsAffected = insertStatement.executeUpdate();
-        return (rowsAffected > 0);
-    }
-
-    @Override
-    public boolean delete(UserContactCategory userContactCategory) throws SQLException {
-        Connection connection = DatabaseManager.getInstance().getConnection();
-        String query = "DELETE FROM usercontactcategories WHERE user_id = ? AND category_id = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, userContactCategory.getUserId());
-        statement.setInt(2, userContactCategory.getCategoryId());
-        int rowsAffected = statement.executeUpdate();
-        return (rowsAffected > 0);
->>>>>>> c6df57e (my 30-1 local changes)
-    }
-
-    @Override /** like getAll() but this for a specific user only */
+    @Override  /** like getAll() but this for a specific user only */
     public List<UserContactCategory> getSpecificUserWithCategories(int userId) throws SQLException {
-<<<<<<< HEAD
-        if(userId <= 0) {
+        if (userId <= 0) {
             System.err.println("Error getting categories: Invalid user ID");
             return null;
         }
-        try(Connection connection = DatabaseManager.getConnection();) {
+        try (Connection connection = DatabaseManager.getConnection();) {
             String query = "SELECT user_id, category_id, created_at FROM usercontactcategories WHERE user_id = ?";
-            try(PreparedStatement statement = connection.prepareStatement(query);) {
+            try (PreparedStatement statement = connection.prepareStatement(query);) {
                 statement.setInt(1, userId);
-                try(ResultSet resultSet = statement.executeQuery();) {
+                try (ResultSet resultSet = statement.executeQuery();) {
                     List<UserContactCategory> list = new ArrayList<>();
                     while (resultSet.next()) {
                         UserContactCategory userContactCategory = new UserContactCategory(resultSet.getInt("user_id"), resultSet.getInt("category_id"), resultSet.getTimestamp("created_at").toLocalDateTime());
@@ -173,18 +121,5 @@ public class UserContactCategoryRepoImpl implements UserContactCategoryRepo {
                 }
             }
         }
-=======
-        Connection connection = DatabaseManager.getInstance().getConnection();
-        String query = "SELECT user_id, category_id, created_at FROM usercontactcategories WHERE user_id = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, userId);
-        ResultSet resultSet = statement.executeQuery();
-        List<UserContactCategory> list = new ArrayList<>();
-        while (resultSet.next()){
-            UserContactCategory userContactCategory = new UserContactCategory(resultSet.getInt("user_id"), resultSet.getInt("category_id"), resultSet.getTimestamp("created_at").toLocalDateTime());
-            list.add(userContactCategory);
-        }
-        return list;
->>>>>>> c6df57e (my 30-1 local changes)
     }
 }
