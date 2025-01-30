@@ -1,7 +1,6 @@
 package com.liqaa.shared.models.entities;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -71,9 +70,12 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+
+
     /**
      * ************************ Setter *************************************
      */
+    public void setId(int id) { this.id = id; }
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -157,7 +159,7 @@ public class User implements Serializable {
         return gender;
     }
 
-    public Date getDateofBirth() {
+    public LocalDate getDateofBirth() {
         return dateOfBirth;
     }
 
