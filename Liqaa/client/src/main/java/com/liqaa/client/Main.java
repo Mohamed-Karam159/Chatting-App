@@ -27,8 +27,8 @@ public class Main extends Application {
     public static void main(String[] args) throws SQLException {
 
         //launch();
-        Announcement announcement = new Announcement(1, "try1", "thhhhh", LocalDateTime.now());
-        AnnouncementRepoImpl impl = new AnnouncementRepoImpl();
-        impl.addNew(announcement);
+//        Announcement announcement = new Announcement(1, "try1", "thhhhh", LocalDateTime.now());
+//        AnnouncementRepoImpl impl = new AnnouncementRepoImpl();
+//        impl.addNew(announcement);
     }
 }

@@ -11,33 +11,32 @@ import java.util.List;
 public class AnnouncementRepoImpl implements AnnouncementRepo {
     @Override
     public int addNew(Announcement announcement) throws SQLException {
-        try(Connection connection = DatabaseManager.getInstance().getConnection();) {
-            try(PreparedStatement statement = connection.prepareStatement("INSERT INTO announcements (title, content) VALUE (?, ?)");) {
-                statement.setString(1, announcement.getTitle());
-                statement.setString(2, announcement.getContent());
-                statement.executeQuery();
-                ResultSet resultSet = statement.getGeneratedKeys(); /** To get all the auto-generated IDs created fot these inserted rows */
-                int id = -1;
-                while (resultSet.next()) {
-                    id = resultSet.getInt("id");
-                }
-                return id;
-            }
+        Connection connection = DatabaseManager.getInstance().getConnection();
+        String query = "INSERT INTO announcements (title, content) VALUE (?, ?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, announcement.getTitle());
+        statement.setString(2, announcement.getContent());
+        statement.executeQuery();
+        ResultSet resultSet = statement.getGeneratedKeys(); /** To get all the auto-generated IDs created fot these inserted rows */
+        int id = -1;
+        while (resultSet.next()) {
+            id = resultSet.getInt("id");
         }
+        return id;
     }
 
     @Override
     public Announcement getById(int id) throws SQLException {
         /** try with resources to close connection, statement, and resultSet */
         try(Connection connection = DatabaseManager.getInstance().getConnection();) {
-            try (PreparedStatement statement = connection.prepareStatement("SELECT id, title, content, sent_at FROM announcements where id = ?");) {
+            String query = "SELECT id, title, content, sent_at FROM announcements where id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query);) {
                 statement.setInt(1, id);
                 ResultSet resultSet = statement.executeQuery();
-                Announcement announcement = null;
                 if (resultSet.next()) {
-                    announcement = new Announcement(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("content"), resultSet.getTimestamp("sent_at").toLocalDateTime());
+                    return new Announcement(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("content"), resultSet.getTimestamp("sent_at").toLocalDateTime());
                 }
-                return announcement;
+                return null;
             }
         }
     }
@@ -45,7 +44,8 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
     @Override
     public List<Announcement> getAll() throws SQLException {
         Connection connection = DatabaseManager.getInstance().getConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT id, title, content, sent_at FROM announcement");
+        String query = "SELECT id, title, content, sent_at FROM announcement";
+        PreparedStatement statement = connection.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery();
         List<Announcement> announcements = new ArrayList<> ();
         while (resultSet.next()){
@@ -58,16 +58,21 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
     @Override
     public boolean update(Announcement announcement) throws SQLException {
         Connection connection = DatabaseManager.getInstance().getConnection();
-        PreparedStatement statement = connection.prepareStatement("UPDATE announcements SET title = ?, content = ?, sent_at = ? WHERE id = ?");
+        String query = "UPDATE announcements SET title = ?, content = ? WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, announcement.getTitle());
         statement.setString(2, announcement.getContent());
-        statement.setTimestamp(3, Timestamp.valueOf(announcement.getSentAt()));
         statement.setInt(4, announcement.getId());
-        return (statement.executeUpdate() == 1);
+        return (statement.executeUpdate() > 0);
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public boolean delete(int id) throws SQLException {
+        Connection connection = DatabaseManager.getInstance().getConnection();
+        String query = "DELETE FROM announcements WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        int rowsAffected = statement.executeUpdate(); /** number of deleted rows */
+        return (rowsAffected > 0);
     }
 }

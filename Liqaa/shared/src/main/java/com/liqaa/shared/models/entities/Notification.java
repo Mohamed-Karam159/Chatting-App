@@ -1,26 +1,30 @@
 package com.liqaa.shared.models.entities;
 
+import com.liqaa.shared.models.enums.NotificationType;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Notification implements Serializable {
-    private int id, senderId, recipientId, AnnouncementId;
+    private int id, recipientId, senderId, AnnouncementId;
+    private NotificationType type;
     private boolean isRead;
     private LocalDateTime sentAt;
 
-    public Notification(int id, int senderId, int recipientId, int announcementId, boolean isRead, LocalDateTime sentAt) {
-        this.id = id;
-        this.senderId = senderId;
+    public Notification(int recipientId, int senderId, int announcementId, NotificationType type, boolean isRead) {
         this.recipientId = recipientId;
+        this.senderId = senderId;
         AnnouncementId = announcementId;
+        this.type = type;
         this.isRead = isRead;
-        this.sentAt = sentAt;
     }
 
-    public Notification(int senderId, int recipientId, int announcementId, boolean isRead, LocalDateTime sentAt) {
-        this.senderId = senderId;
+    public Notification(int id, int recipientId, int senderId, int announcementId, NotificationType type, boolean isRead, LocalDateTime sentAt) {
+        this.id = id;
         this.recipientId = recipientId;
+        this.senderId = senderId;
         AnnouncementId = announcementId;
+        this.type = type;
         this.isRead = isRead;
         this.sentAt = sentAt;
     }
@@ -33,14 +37,6 @@ public class Notification implements Serializable {
         this.id = id;
     }
 
-    public int getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(int senderId) {
-        this.senderId = senderId;
-    }
-
     public int getRecipientId() {
         return recipientId;
     }
@@ -49,12 +45,28 @@ public class Notification implements Serializable {
         this.recipientId = recipientId;
     }
 
+    public int getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
+    }
+
     public int getAnnouncementId() {
         return AnnouncementId;
     }
 
     public void setAnnouncementId(int announcementId) {
         AnnouncementId = announcementId;
+    }
+
+    public NotificationType getType() {
+        return type;
+    }
+
+    public void setType(NotificationType type) {
+        this.type = type;
     }
 
     public boolean isRead() {
