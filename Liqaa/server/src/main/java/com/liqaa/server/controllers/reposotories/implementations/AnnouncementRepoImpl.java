@@ -12,6 +12,7 @@ import static com.liqaa.server.util.DatabaseManager.*;
 
 public class AnnouncementRepoImpl implements AnnouncementRepo {
     @Override
+<<<<<<< HEAD
     public int createAnnouncement(Announcement announcement) throws SQLException {
         if (announcement == null) {
             System.err.println("Error creating announcement: Announcement is null");
@@ -36,10 +37,25 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                     return id;
                 }
             }
+=======
+    public int addNew(Announcement announcement) throws SQLException {
+        Connection connection = DatabaseManager.getInstance().getConnection();
+        String query = "INSERT INTO announcements (title, content) VALUE (?, ?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, announcement.getTitle());
+        statement.setString(2, announcement.getContent());
+        statement.executeQuery();
+        ResultSet resultSet = statement.getGeneratedKeys(); /** To get all the auto-generated IDs created fot these inserted rows */
+        int id = -1;
+        while (resultSet.next()) {
+            id = resultSet.getInt("id");
+>>>>>>> c6df57e (my 30-1 local changes)
         }
+        return id;
     }
 
     @Override
+<<<<<<< HEAD
     public Announcement getAnnouncementById(int id) throws SQLException {
         if(id <= 0) {
             System.err.println("Error getting announcement: Invalid ID");
@@ -55,11 +71,25 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                     }
                     return null;
                 }
+=======
+    public Announcement getById(int id) throws SQLException {
+        /** try with resources to close connection, statement, and resultSet */
+        try(Connection connection = DatabaseManager.getInstance().getConnection();) {
+            String query = "SELECT id, title, content, sent_at FROM announcements where id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query);) {
+                statement.setInt(1, id);
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    return new Announcement(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("content"), resultSet.getTimestamp("sent_at").toLocalDateTime());
+                }
+                return null;
+>>>>>>> c6df57e (my 30-1 local changes)
             }
         }
     }
 
     @Override
+<<<<<<< HEAD
     public List<Announcement> getAllAnnouncements() throws SQLException {
         try(Connection connection = DatabaseManager.getConnection();) {
             String query = "SELECT id, title, content, sent_at FROM announcement";
@@ -73,10 +103,22 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                     return announcements;
                 }
             }
+=======
+    public List<Announcement> getAll() throws SQLException {
+        Connection connection = DatabaseManager.getInstance().getConnection();
+        String query = "SELECT id, title, content, sent_at FROM announcement";
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        List<Announcement> announcements = new ArrayList<> ();
+        while (resultSet.next()){
+            Announcement announcement = new Announcement(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("content"), resultSet.getTimestamp("sent_at").toLocalDateTime());
+            announcements.add(announcement);
+>>>>>>> c6df57e (my 30-1 local changes)
         }
     }
 
     @Override
+<<<<<<< HEAD
     public boolean updateAnnouncement(Announcement announcement) throws SQLException {
         if (announcement == null) {
             System.err.println("Error updating announcement: Announcement is null");
@@ -117,5 +159,25 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                 return (rowsAffected > 0);
             }
         }
+=======
+    public boolean update(Announcement announcement) throws SQLException {
+        Connection connection = DatabaseManager.getInstance().getConnection();
+        String query = "UPDATE announcements SET title = ?, content = ? WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, announcement.getTitle());
+        statement.setString(2, announcement.getContent());
+        statement.setInt(4, announcement.getId());
+        return (statement.executeUpdate() > 0);
+    }
+
+    @Override
+    public boolean delete(int id) throws SQLException {
+        Connection connection = DatabaseManager.getInstance().getConnection();
+        String query = "DELETE FROM announcements WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, id);
+        int rowsAffected = statement.executeUpdate(); /** number of deleted rows */
+        return (rowsAffected > 0);
+>>>>>>> c6df57e (my 30-1 local changes)
     }
 }
