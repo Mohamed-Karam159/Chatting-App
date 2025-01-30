@@ -127,43 +127,52 @@ public class NotificationRepoImpl implements NotificationRepo {
 
     @Override
     public List<Notification> getAllFriendRequests(int recipientId) throws SQLException {
-        Connection connection = DatabaseManager.getConnection();
-        String query = "SELECT id, recipient_id, sender_id, announcement_id, type, is_read, sent_at FROM notifications WHERE type = 'FRIEND_REQUEST'";
-        PreparedStatement statement = connection.prepareStatement(query);
-        ResultSet resultSet = statement.executeQuery();
-        List<Notification> notifications = new ArrayList<>();
-        while(resultSet.next()){
-            Notification notification = new Notification(resultSet.getInt("id"), resultSet.getInt("recipient_id"), resultSet.getInt("sender_id"), resultSet.getInt("announcement_id"), NotificationType.valueOf(resultSet.getString("type")), resultSet.getBoolean("is_read"), resultSet.getTimestamp("sent_at").toLocalDateTime());
-            notifications.add(notification);
+        try(Connection connection = DatabaseManager.getConnection();) {
+            String query = "SELECT id, recipient_id, sender_id, announcement_id, type, is_read, sent_at FROM notifications WHERE type = 'FRIEND_REQUEST'";
+            try(PreparedStatement statement = connection.prepareStatement(query);) {
+                try(ResultSet resultSet = statement.executeQuery();) {
+                    List<Notification> notifications = new ArrayList<>();
+                    while (resultSet.next()) {
+                        Notification notification = new Notification(resultSet.getInt("id"), resultSet.getInt("recipient_id"), resultSet.getInt("sender_id"), resultSet.getInt("announcement_id"), NotificationType.valueOf(resultSet.getString("type")), resultSet.getBoolean("is_read"), resultSet.getTimestamp("sent_at").toLocalDateTime());
+                        notifications.add(notification);
+                    }
+                    return notifications;
+                }
+            }
         }
-        return notifications;
     }
 
     @Override
     public List<Notification> getAllAcceptedRequests() throws SQLException {
-        Connection connection = DatabaseManager.getConnection();
-        String query = "SELECT id, recipient_id, sender_id, announcement_id, type, is_read, sent_at FROM notifications WHERE type = 'REQUEST_ACCEPTED'";
-        PreparedStatement statement = connection.prepareStatement(query);
-        ResultSet resultSet = statement.executeQuery();
-        List<Notification> notifications = new ArrayList<>();
-        while(resultSet.next()){
-            Notification notification = new Notification(resultSet.getInt("id"), resultSet.getInt("recipient_id"), resultSet.getInt("sender_id"), resultSet.getInt("announcement_id"), NotificationType.valueOf(resultSet.getString("type")), resultSet.getBoolean("is_read"), resultSet.getTimestamp("sent_at").toLocalDateTime());
-            notifications.add(notification);
+        try(Connection connection = DatabaseManager.getConnection();) {
+            String query = "SELECT id, recipient_id, sender_id, announcement_id, type, is_read, sent_at FROM notifications WHERE type = 'REQUEST_ACCEPTED'";
+            try(PreparedStatement statement = connection.prepareStatement(query);) {
+                try(ResultSet resultSet = statement.executeQuery();) {
+                    List<Notification> notifications = new ArrayList<>();
+                    while (resultSet.next()) {
+                        Notification notification = new Notification(resultSet.getInt("id"), resultSet.getInt("recipient_id"), resultSet.getInt("sender_id"), resultSet.getInt("announcement_id"), NotificationType.valueOf(resultSet.getString("type")), resultSet.getBoolean("is_read"), resultSet.getTimestamp("sent_at").toLocalDateTime());
+                        notifications.add(notification);
+                    }
+                    return notifications;
+                }
+            }
         }
-        return notifications;
     }
 
     @Override
     public List<Notification> getAllDeclinedRequests() throws SQLException {
-        Connection connection = DatabaseManager.getConnection();
-        String query = "SELECT id, recipient_id, sender_id, announcement_id, type, is_read, sent_at FROM notifications WHERE type = 'REQUEST_DECLINED'";
-        PreparedStatement statement = connection.prepareStatement(query);
-        ResultSet resultSet = statement.executeQuery();
-        List<Notification> notifications = new ArrayList<>();
-        while(resultSet.next()){
-            Notification notification = new Notification(resultSet.getInt("id"), resultSet.getInt("recipient_id"), resultSet.getInt("sender_id"), resultSet.getInt("announcement_id"), NotificationType.valueOf(resultSet.getString("type")), resultSet.getBoolean("is_read"), resultSet.getTimestamp("sent_at").toLocalDateTime());
-            notifications.add(notification);
+        try(Connection connection = DatabaseManager.getConnection();) {
+            String query = "SELECT id, recipient_id, sender_id, announcement_id, type, is_read, sent_at FROM notifications WHERE type = 'REQUEST_DECLINED'";
+            try(PreparedStatement statement = connection.prepareStatement(query);) {
+                try(ResultSet resultSet = statement.executeQuery();) {
+                    List<Notification> notifications = new ArrayList<>();
+                    while (resultSet.next()) {
+                        Notification notification = new Notification(resultSet.getInt("id"), resultSet.getInt("recipient_id"), resultSet.getInt("sender_id"), resultSet.getInt("announcement_id"), NotificationType.valueOf(resultSet.getString("type")), resultSet.getBoolean("is_read"), resultSet.getTimestamp("sent_at").toLocalDateTime());
+                        notifications.add(notification);
+                    }
+                    return notifications;
+                }
+            }
         }
-        return notifications;
     }
 }
