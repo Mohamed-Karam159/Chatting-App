@@ -1,19 +1,23 @@
 package com.liqaa.shared.models.entities;
+
 import java.time.LocalDateTime;
+import com.liqaa.shared.models.enums.MessageType;
+
 public class Message {
     private int id;
     private int senderId;
     private int conversationId;
     private String content;
-    private String type;
+    private MessageType type;
     private LocalDateTime sentAt;
     private boolean isSent;
     private LocalDateTime receivedAt;
     private LocalDateTime seenAt;
 
     // Constructors
+    public Message() {}
 
-    public Message(int id, int senderId, int conversationId, String content, String type, LocalDateTime sentAt, boolean isSent, LocalDateTime receivedAt, LocalDateTime seenAt) {
+    public Message(int id, int senderId, int conversationId, String content, MessageType type, LocalDateTime sentAt, boolean isSent, LocalDateTime receivedAt, LocalDateTime seenAt) {
         this.id = id;
         this.senderId = senderId;
         this.conversationId = conversationId;
@@ -24,8 +28,8 @@ public class Message {
         this.receivedAt = receivedAt;
         this.seenAt = seenAt;
     }
-    // Getters and Setters
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -58,11 +62,11 @@ public class Message {
         this.content = content;
     }
 
-    public String getType() {
+    public MessageType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(MessageType type) {
         this.type = type;
     }
 
@@ -97,8 +101,8 @@ public class Message {
     public void setSeenAt(LocalDateTime seenAt) {
         this.seenAt = seenAt;
     }
-    // Other methods
 
+    // Override toString()
     @Override
     public String toString() {
         return "Message{" +
@@ -106,7 +110,7 @@ public class Message {
                 ", senderId=" + senderId +
                 ", conversationId=" + conversationId +
                 ", content='" + content + '\'' +
-                ", type='" + type + '\'' +
+                ", type=" + type +
                 ", sentAt=" + sentAt +
                 ", isSent=" + isSent +
                 ", receivedAt=" + receivedAt +
