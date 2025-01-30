@@ -1,20 +1,21 @@
 package com.liqaa.server;
 
-import com.liqaa.server.util.FilePaths;
-import com.liqaa.server.util.SceneManager;
+import com.liqaa.server.controllers.reposotories.implementations.ConversationParticipantsRepoImpl;
+import com.liqaa.shared.models.entities.ConversationParticipant;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-
-import java.io.IOException;
+import java.util.List;
 
 public class Main extends Application
 {
+    public static void main(String[] args) 
+    {
+        launch();
+    }
+
     @Override
-    public void start(Stage stage) throws IOException
+    public void start(Stage stage) throws Exception
     {
 //        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(FilePaths.LOGIN_SCREEN_FXML));
 //        Pane root = fxmlLoader.load();
@@ -23,9 +24,5 @@ public class Main extends Application
 //        stage.setTitle("Liqaa!");
 //        stage.setScene(scene);
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }
