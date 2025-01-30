@@ -2,8 +2,9 @@ module com.liqaa.server {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.liqaa.shared;
-    requires java.sql;
     requires mysql.connector.java;
+    requires java.sql;
+    requires com.zaxxer.hikari;
 
 
     exports com.liqaa.server;
