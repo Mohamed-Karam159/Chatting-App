@@ -41,4 +41,13 @@ public class UserContactCategory implements Serializable {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    @Override
+    public String toString() {
+        return "UserContactCategory{" +
+                "userId=" + userId +
+                ", categoryId=" + categoryId +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

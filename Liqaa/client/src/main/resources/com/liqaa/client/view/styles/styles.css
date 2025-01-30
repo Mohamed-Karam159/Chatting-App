@@ -1,0 +1,8 @@
+.redius{
+    -fx-background-radius: 50px;
+}
+/* combo-box.css */
+.combo-box {
+    -fx-prompt-text-fill: transparent;  /* Set the color of the prompt text */
+   /* -fx-font-weight: transparent;       /* Make the prompt text bold */
+}

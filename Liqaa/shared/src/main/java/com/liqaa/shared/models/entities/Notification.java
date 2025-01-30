@@ -84,4 +84,17 @@ public class Notification implements Serializable {
     public void setSentAt(LocalDateTime sentAt) {
         this.sentAt = sentAt;
     }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id=" + id +
+                ", recipientId=" + recipientId +
+                ", senderId=" + senderId +
+                ", AnnouncementId=" + AnnouncementId +
+                ", type=" + type +
+                ", isRead=" + isRead +
+                ", sentAt=" + sentAt +
+                '}';
+    }
 }

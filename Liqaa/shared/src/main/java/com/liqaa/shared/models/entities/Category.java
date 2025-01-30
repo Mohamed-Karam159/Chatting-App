@@ -51,4 +51,14 @@ public class Category implements Serializable {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", categoryName='" + categoryName + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

@@ -21,6 +21,11 @@ public class Announcement implements Serializable {
         this.sentAt = sentAt;
     }
 
+    public Announcement(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     public int getId() {
         return id;
     }
@@ -51,5 +56,15 @@ public class Announcement implements Serializable {
 
     public void setSentAt(LocalDateTime sentAt) {
         this.sentAt = sentAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Announcement{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", sentAt=" + sentAt +
+                '}';
     }
 }

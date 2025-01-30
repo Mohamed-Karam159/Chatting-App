@@ -1,5 +1,7 @@
 package com.liqaa.server.util;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -8,32 +10,33 @@ import java.util.Properties;
 
 public class DatabaseManager
 {
-    private static final DatabaseManager instance = new DatabaseManager();
-    private Connection connection;
+    private static HikariDataSource dataSource;
 
-    private DatabaseManager()
-    {
-        try (InputStream input = DatabaseManager.class.getClassLoader().getResourceAsStream("datasource.properties")) {
-            Properties prop = new Properties();
+    static {
+        try (InputStream input = DatabaseManager.class.getClassLoader().getResourceAsStream("datasource.properties"))
+        {
             if (input == null)
-                throw new RuntimeException("Sorry, unable to find datasource.properties");
+            {
+                System.out.println("datasource.properties not found");
+            }
 
+            Properties prop = new Properties();
             prop.load(input);
-            String url = prop.getProperty("url");
-            String user = prop.getProperty("user");
-            String password = prop.getProperty("password");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = java.sql.DriverManager.getConnection(url, user, password);
-        } catch (IOException | SQLException | ClassNotFoundException e) {
-            throw new RuntimeException("An error occurred: " + e.getMessage(), e);
+
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(prop.getProperty("url"));
+            config.setUsername(prop.getProperty("user"));
+            config.setPassword(prop.getProperty("password"));
+            dataSource = new HikariDataSource(config);
+
+        } catch (IOException e)
+        {
+            System.err.println("Error loading datasource.properties " + e.getMessage());
         }
     }
 
-    public static DatabaseManager getInstance() {
-        return instance;
-    }
-
-    public Connection getConnection() {
-        return connection;
+    public static Connection getConnection() throws SQLException
+    {
+        return dataSource.getConnection();
     }
 }
