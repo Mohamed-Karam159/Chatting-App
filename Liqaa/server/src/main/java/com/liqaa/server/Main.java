@@ -4,13 +4,10 @@ import com.liqaa.server.controllers.reposotories.implementations.AnnouncementRep
 import com.liqaa.server.util.FilePaths;
 import com.liqaa.server.util.SceneManager;
 import com.liqaa.shared.models.entities.Announcement;
+import com.liqaa.server.controllers.reposotories.implementations.ConversationParticipantsRepoImpl;
+import com.liqaa.shared.models.entities.ConversationParticipant;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,7 +15,7 @@ import java.util.List;
 public class Main extends Application
 {
     @Override
-    public void start(Stage stage) throws IOException
+    public void start(Stage stage) throws Exception
     {
 //        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(FilePaths.LOGIN_SCREEN_FXML));
 //        Pane root = fxmlLoader.load();
