@@ -12,5 +12,4 @@ public interface GroupRepo
     public boolean deleteGroup(Group group);
     public List<Group> getGroups(Integer[] ids);
     public List<Group> getGroups(int id);
-
 }
