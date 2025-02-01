@@ -7,6 +7,9 @@ public class UserContactCategory implements Serializable {
     private int userId, categoryId;
     private LocalDateTime createdAt;
 
+    public UserContactCategory() {
+    }
+
     public UserContactCategory(int userId, int categoryId) {
         this.userId = userId;
         this.categoryId = categoryId;

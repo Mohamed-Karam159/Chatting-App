@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface AnnouncementRepo {
-    public int createAnnouncement(Announcement announcement) throws SQLException;
+    public boolean createAnnouncement(Announcement announcement) throws SQLException;
     public Announcement getAnnouncementById(int id) throws SQLException;
     public List<Announcement> getAllAnnouncements() throws SQLException;
     public boolean updateAnnouncement(Announcement announcement) throws SQLException;

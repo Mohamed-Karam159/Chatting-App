@@ -12,31 +12,27 @@ import java.util.List;
 public class NotificationRepoImpl implements NotificationRepo {
 
     @Override
-    public int createNotification(Notification notification) throws SQLException {
+    public boolean createNotification(Notification notification) throws SQLException {
         if (notification == null) {
             System.err.println("Error creating notification: Notification is null");
-            return 0;
+            return false;
         }
         try(Connection connection = DatabaseManager.getConnection();) {
             String query = "INSERT INTO notifications (recipient_id, sender_id, announcement_id, type, is_read) VALUES (?, ?, ?, ?, ?)";
             try(PreparedStatement statement = connection.prepareStatement(query);) {
                 statement.setInt(1, notification.getRecipientId());
-                statement.setInt(2, notification.getSenderId());
-                statement.setInt(3, notification.getAnnouncementId());
-                statement.setString(4, String.valueOf(notification.getType()));
+                statement.setObject(2, (notification.getSenderId() == 0 ? null : notification.getSenderId()));
+                statement.setObject(3, (notification.getAnnouncementId() == 0 ? null : notification.getAnnouncementId()));
+                statement.setString(4, notification.getType().toString());
                 statement.setBoolean(5, notification.isRead());
-                statement.executeQuery();
-                int id = -1;
-                try(ResultSet resultSet = statement.getGeneratedKeys();) {
-                    while (resultSet.next()) {
-                        id = resultSet.getInt("id");
-                    }
-                    if (id == -1) {
-                        System.err.println("Failed to create notification");
-                    } else {
-                        System.out.println("notification is created successfully");
-                    }
-                    return id;
+                int rowsAffected = statement.executeUpdate();
+                if(rowsAffected <= 0){
+                    System.err.println("Failed to create notification");
+                    return false;
+                }
+                else{
+                    System.out.println("notification is created successfully");
+                    return true;
                 }
             }
         }
@@ -86,13 +82,14 @@ public class NotificationRepoImpl implements NotificationRepo {
             return false;
         }
         try(Connection connection = DatabaseManager.getConnection();) {
-            String query = "UPDATE notifications SET recipient_id = ?, sender_id = ?, announcement_id = ?, type = ?, is_read = ?";
+            String query = "UPDATE notifications SET recipient_id = ?, sender_id = ?, announcement_id = ?, type = ?, is_read = ? WHERE id = ?";
             try(PreparedStatement statement = connection.prepareStatement(query);) {
                 statement.setInt(1, notification.getRecipientId());
                 statement.setInt(2, notification.getSenderId());
                 statement.setInt(3, notification.getAnnouncementId());
                 statement.setString(4, String.valueOf(notification.getType()));
                 statement.setBoolean(5, notification.isRead());
+                statement.setInt(6, notification.getId());
                 if (statement.executeUpdate() <= 0) { /** executeUpdate() returns the number of rows be updated successfully */
                     System.err.println("Failed to update notification");
                 } else {

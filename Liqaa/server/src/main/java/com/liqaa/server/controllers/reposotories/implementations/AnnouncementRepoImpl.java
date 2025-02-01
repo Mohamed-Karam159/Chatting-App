@@ -12,28 +12,24 @@ import static com.liqaa.server.util.DatabaseManager.*;
 
 public class AnnouncementRepoImpl implements AnnouncementRepo {
     @Override
-    public int createAnnouncement(Announcement announcement) throws SQLException {
+    public boolean createAnnouncement(Announcement announcement) throws SQLException {
         if (announcement == null) {
             System.err.println("Error creating announcement: Announcement is null");
-            return -1;
+            return false;
         } /** try with resources to close connection, statement, and resultSet */
         try(Connection connection = DatabaseManager.getConnection();) {
-            String query = "INSERT INTO announcements (title, content) VALUE (?, ?)";
+            String query = "INSERT INTO announcements (title, content) VALUES (?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(query);) {
                 statement.setString(1, announcement.getTitle());
                 statement.setString(2, announcement.getContent());
-                statement.executeQuery();
-                try (ResultSet resultSet = statement.getGeneratedKeys();) { /** To get all the auto-generated IDs created fot these inserted rows */
-                    int id = -1;
-                    while (resultSet.next()) {
-                        id = resultSet.getInt("id");
-                    }
-                    if (id == -1) {
-                        System.err.println("Failed to create announcement");
-                    } else {
-                        System.out.println("announcement is created successfully");
-                    }
-                    return id;
+                int rowsAffected = statement.executeUpdate();
+                if(rowsAffected <= 0){
+                    System.err.println("Failed to create announcement");
+                    return false;
+                }
+                else{
+                    System.out.println("announcement is created successfully");
+                    return true;
                 }
             }
         }
@@ -46,7 +42,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
             return null;
         }
         try(Connection connection = DatabaseManager.getConnection();) {
-            String query = "SELECT id, title, content, sent_at FROM announcements where id = ?";
+            String query = "SELECT id, title, content, sent_at FROM announcements WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(query);) {
                 statement.setInt(1, id);
                 try (ResultSet resultSet = statement.executeQuery();) {
@@ -62,7 +58,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
     @Override
     public List<Announcement> getAllAnnouncements() throws SQLException {
         try(Connection connection = DatabaseManager.getConnection();) {
-            String query = "SELECT id, title, content, sent_at FROM announcement";
+            String query = "SELECT id, title, content, sent_at FROM announcements";
             try (PreparedStatement statement = connection.prepareStatement(query);) {
                 try (ResultSet resultSet = statement.executeQuery();) {
                     List<Announcement> announcements = new ArrayList<>();
@@ -87,7 +83,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
             try (PreparedStatement statement = connection.prepareStatement(query);) {
                 statement.setString(1, announcement.getTitle());
                 statement.setString(2, announcement.getContent());
-                statement.setInt(4, announcement.getId());
+                statement.setInt(3, announcement.getId());
                 if (statement.executeUpdate() <= 0) {
                     System.err.println("Failed to update announcement");
                 } else {

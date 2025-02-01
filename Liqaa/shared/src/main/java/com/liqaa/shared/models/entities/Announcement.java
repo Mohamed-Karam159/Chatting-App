@@ -8,6 +8,9 @@ public class Announcement implements Serializable {
     private String title, content;
     private LocalDateTime sentAt;
 
+    public Announcement() {
+    }
+
     public Announcement(int id, String title, String content, LocalDateTime sentAt) {
         this.id = id;
         this.title = title;

@@ -25,10 +25,11 @@ public class UserContactCategoryRepoImpl implements UserContactCategoryRepo {
                 int rowsAffected = statement.executeUpdate();
                 if (rowsAffected <= 0) {
                     System.err.println("Failed to create user_contact_category");
+                    return false;
                 } else {
                     System.out.println("user_contact_category is created successfully");
+                    return true;
                 }
-                return (rowsAffected > 0);
             }
         }
     }
