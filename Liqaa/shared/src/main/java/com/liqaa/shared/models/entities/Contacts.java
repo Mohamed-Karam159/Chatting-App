@@ -1,6 +1,7 @@
 package com.liqaa.shared.models.entities;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -9,8 +10,13 @@ public class Contacts implements Serializable {
     private final int userId; //Made final for immutability
     private final int contactId;
     private boolean isBlocked;
-    private final LocalTime createdAt;
+    private LocalTime createdAt;
 
+    public Contacts(int userId, int contactId,  boolean isBlocked) {
+        this.userId = userId;
+        this.contactId = contactId;
+        this.isBlocked = isBlocked;
+    }
     public Contacts(int userId, int contactId, LocalTime createdAt, boolean isBlocked) {
         this.userId = userId;
         this.contactId = contactId;
