@@ -5,6 +5,7 @@ module com.liqaa.server {
     requires mysql.connector.java;
     requires java.sql;
     requires com.zaxxer.hikari;
+    requires org.slf4j;
 
 
     exports com.liqaa.server;
