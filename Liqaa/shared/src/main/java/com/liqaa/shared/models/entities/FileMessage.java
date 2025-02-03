@@ -8,7 +8,7 @@ public class FileMessage {
     private String filePath;
 
     // Constructor
-
+    public FileMessage() {}
 
     public FileMessage(int id, int messageId, String fileName, int fileSize, String filePath) {
         this.id = id;
