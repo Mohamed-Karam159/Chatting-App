@@ -2,6 +2,8 @@ package com.liqaa.server.controllers.reposotories.implementations;
 import com.liqaa.server.controllers.reposotories.interfaces.ContactInterface;
 import com.liqaa.shared.models.entities.Contacts;
 import com.liqaa.server.util.DatabaseManager;
+
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -133,7 +135,7 @@ public class ContactImplementation implements ContactInterface {
                 while (rs.next()) {
                     int userId = rs.getInt("user_id");
                     int contactId = rs.getInt("contact_id");
-                    LocalTime createdAt = rs.getObject("created_at",LocalTime.class);
+                   Date createdAt = rs.getObject("created_at", Date.class);
                     boolean isBlocked = rs.getBoolean("is_blocked");
                     contactsList.add(new Contacts(userId, contactId, createdAt, isBlocked));
 
