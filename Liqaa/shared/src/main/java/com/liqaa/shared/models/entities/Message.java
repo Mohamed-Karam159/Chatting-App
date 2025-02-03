@@ -1,7 +1,8 @@
 package com.liqaa.shared.models.entities;
 
-import java.time.LocalDateTime;
 import com.liqaa.shared.models.enums.MessageType;
+
+import java.time.LocalDateTime;
 
 public class Message {
     private int id;
@@ -14,7 +15,6 @@ public class Message {
     private LocalDateTime receivedAt;
     private LocalDateTime seenAt;
 
-    // Constructors
     public Message() {}
 
     public Message(int id, int senderId, int conversationId, String content, MessageType type, LocalDateTime sentAt, boolean isSent, LocalDateTime receivedAt, LocalDateTime seenAt) {
@@ -29,7 +29,12 @@ public class Message {
         this.seenAt = seenAt;
     }
 
+    public Message(int senderId, int conversationId, String content, MessageType type, LocalDateTime sentAt, boolean isSent, LocalDateTime receivedAt, LocalDateTime seenAt) {
+        this(0, senderId, conversationId, content, type, sentAt, isSent, receivedAt, seenAt); // Assume id is auto-generated
+    }
+
     // Getters and Setters
+
     public int getId() {
         return id;
     }
