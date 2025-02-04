@@ -51,11 +51,10 @@ public class ManagerController {
     }
 
     @javafx.fxml.FXML
-    public void toggleService(Event event)
-    {
+    public void toggleService(Event event) {
         serviceStatus = !serviceStatus;
         String imagePath = "images//password1.png";
-   }
+    }
 
     @javafx.fxml.FXML
     public void switchToAnnouncements(Event event) {
