@@ -75,7 +75,7 @@ public class CategoryRepoImpl implements CategoryRepo
                 return new Category(resultSet.getInt("id"),
                                     resultSet.getInt("user_id"),
                                     resultSet.getString("category_name"),
-                                    resultSet.getTimestamp("created_at"));
+                                    resultSet.getTimestamp("created_at").toLocalDateTime());
             }
             else
                 System.err.println("Error getting category: No category found with ID: " + id);
@@ -156,7 +156,7 @@ public class CategoryRepoImpl implements CategoryRepo
                 categories.add(new Category(resultSet.getInt("id"),
                         resultSet.getInt("user_id"),
                         resultSet.getString("category_name"),
-                        resultSet.getTimestamp("created_at")));
+                        resultSet.getTimestamp("created_at").toLocalDateTime()));
             }
             return categories;
 
@@ -193,7 +193,7 @@ public class CategoryRepoImpl implements CategoryRepo
                 categories.add(new Category(resultSet.getInt("id"),
                         resultSet.getInt("user_id"),
                         resultSet.getString("category_name"),
-                        resultSet.getTimestamp("created_at") != null ? Timestamp.valueOf(resultSet.getTimestamp("created_at").toLocalDateTime()) : null));
+                        resultSet.getTimestamp("created_at") != null ? (resultSet.getTimestamp("created_at").toLocalDateTime()) : null));
             }
             return categories;
 

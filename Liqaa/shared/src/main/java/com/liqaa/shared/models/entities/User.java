@@ -1,7 +1,9 @@
 package com.liqaa.shared.models.entities;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalTime;
 import java.util.Arrays;
 
@@ -29,7 +31,7 @@ public class User implements Serializable {
     private String country;
     private String bio;
     private Gender gender;
-    private LocalDate dateOfBirth;
+    private Date dateOfBirth;
     private boolean isActive;
     private CurrentStatus currentStatus = CurrentStatus.AVAILABLE; // Default value
     private byte[] profilePicture;
@@ -43,8 +45,8 @@ public class User implements Serializable {
     }
 
     // Constructor
-    public User(int id, String phoneNumber, String displayName, String email, String passwordHash, String country, String bio, Gender gender, LocalDate dateOfBirth, boolean isActive, CurrentStatus currentStatus, byte[] profilePicture, LocalTime createdAt) {
-        this.id = id;
+    public User( String phoneNumber, String displayName, String email, String passwordHash, String country, String bio, Gender gender, Date dateOfBirth, boolean isActive, CurrentStatus currentStatus, byte[] profilePicture, LocalTime createdAt) {
+        //this.id = id;
         this.phoneNumber = phoneNumber;
         this.displayName = displayName;
         this.email = email;
@@ -104,7 +106,7 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public void setDateofBirth(LocalDate dateofBirth) {
+    public void setDateofBirth(Date  dateofBirth) {
         this.dateOfBirth = dateofBirth;
     }
 
@@ -159,7 +161,7 @@ public class User implements Serializable {
         return gender;
     }
 
-    public LocalDate getDateofBirth() {
+    public Date getDateofBirth() {
         return dateOfBirth;
     }
 
@@ -183,7 +185,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{"
-                + "id=" + id
+                + "id=" + getId()
                 + ", phoneNumber='" + phoneNumber + '\''
                 + ", displayName='" + displayName + '\''
                 + ", email='" + email + '\''

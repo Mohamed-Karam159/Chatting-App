@@ -1,30 +1,55 @@
 package com.liqaa.shared.models.entities;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import com.liqaa.shared.models.enums.FriendRequestStatus;
 
 public class FriendRequests implements Serializable {
 
-    private final int senderId; // Made final for immutability
-    private final int receiverId; // Made final for immutability
+    private int senderId;
+    private int receiverId;
     private FriendRequestStatus requestStatus = FriendRequestStatus.PENDING; // Default value
-    private final LocalTime createdAt; // Made final for immutability
-    private LocalTime updatedAt;
+    private  LocalDateTime createdAt;
+    private LocalDateTime  updatedAt;
 
     // Constructor
-    public FriendRequests(int senderId, int receiverId, LocalTime createdAt, LocalTime updatedAt) {
+    public FriendRequests(int senderId, int receiverId, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+    public FriendRequests(int senderId, int receiverId) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+    }
+    public FriendRequests() {
+
+    }
 
     // Setter (only if mutability is required)
     public void setRequestStatus(FriendRequestStatus requestStatus) {
         this.requestStatus = requestStatus;
-        this.updatedAt = LocalTime.now(); // Update the timestamp when status changes
+        //this.updatedAt = LocalTime.now(); // Update the timestamp when status changes
+    }
+
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
+    }
+
+    public void setReceiverId(int receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public int getSenderId() {
@@ -39,11 +64,11 @@ public class FriendRequests implements Serializable {
         return requestStatus;
     }
 
-    public LocalTime getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public LocalTime getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 

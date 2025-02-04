@@ -13,4 +13,5 @@ module com.liqaa.server {
 
     opens com.liqaa.server to javafx.fxml;
     opens com.liqaa.server.controllers.FXMLcontrollers to javafx.fxml;
+    exports com.liqaa.server.controllers.reposotories.implementations;
 }
