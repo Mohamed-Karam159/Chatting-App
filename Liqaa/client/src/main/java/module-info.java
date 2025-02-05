@@ -7,4 +7,5 @@ module com.liqaa.client {
 
     opens com.liqaa.client to javafx.fxml;
     exports com.liqaa.client;
+    opens com.liqaa.client.controllers.fxmlControllers to javafx.fxml;
 }

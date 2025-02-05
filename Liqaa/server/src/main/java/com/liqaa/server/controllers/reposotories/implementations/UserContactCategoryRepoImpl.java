@@ -22,6 +22,8 @@ public class UserContactCategoryRepoImpl implements UserContactCategoryRepo {
         try(Connection connection = DatabaseManager.getConnection();) {
             String query = "INSERT INTO usercontactcategories (user_id, category_id) VALUES (?, ?)";
             try(PreparedStatement statement = connection.prepareStatement(query);) {
+                statement.setInt(1, userContactCategory.getUserId());
+                statement.setInt(2, userContactCategory.getCategoryId());
                 int rowsAffected = statement.executeUpdate();
                 if (rowsAffected <= 0) {
                     System.err.println("Failed to create user_contact_category");
@@ -81,16 +83,16 @@ public class UserContactCategoryRepoImpl implements UserContactCategoryRepo {
     }
 
     @Override
-    public boolean deleteUserContactCategory(UserContactCategory userContactCategory) throws SQLException {
-        if (userContactCategory == null) {
-            System.err.println("Error deleting user_contact_category: UserContactCategory is null");
+    public boolean deleteUserContactCategory(int userId, int categoryId) throws SQLException {
+        if (userId <= 0 || categoryId <= 0) {
+            System.err.println("Error deleting user_contact_category: Invalid user_id or category_id");
             return false;
         }
         try (Connection connection = DatabaseManager.getConnection();) {
             String query = "DELETE FROM usercontactcategories WHERE user_id = ? AND category_id = ?";
             try (PreparedStatement statement = connection.prepareStatement(query);) {
-                statement.setInt(1, userContactCategory.getUserId());
-                statement.setInt(2, userContactCategory.getCategoryId());
+                statement.setInt(1, userId);
+                statement.setInt(2, categoryId);
                 int rowsAffected = statement.executeUpdate();
                 if (rowsAffected <= 0) {
                     System.err.println("Failed to delete user_contact_category");

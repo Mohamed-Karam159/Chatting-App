@@ -21,8 +21,6 @@ public class Notification implements Serializable {
         this.isRead = isRead;
     }
 
-
-
     public Notification(int recipientId, int senderId, int announcementId, NotificationType type, boolean isRead) {
         this.recipientId = recipientId;
         this.senderId = senderId;

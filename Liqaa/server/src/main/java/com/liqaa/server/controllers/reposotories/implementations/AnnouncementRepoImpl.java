@@ -47,7 +47,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                 statement.setInt(1, id);
                 try (ResultSet resultSet = statement.executeQuery();) {
                     if (resultSet.next()) {
-                        return new Announcement(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("content"), resultSet.getTimestamp("sent_at").toLocalDateTime());
+                        return new Announcement(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("content"));
                     }
                     return null;
                 }
@@ -63,7 +63,7 @@ public class AnnouncementRepoImpl implements AnnouncementRepo {
                 try (ResultSet resultSet = statement.executeQuery();) {
                     List<Announcement> announcements = new ArrayList<>();
                     while (resultSet.next()) {
-                        Announcement announcement = new Announcement(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("content"), resultSet.getTimestamp("sent_at").toLocalDateTime());
+                        Announcement announcement = new Announcement(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("content"));
                         announcements.add(announcement);
                     }
                     return announcements;
