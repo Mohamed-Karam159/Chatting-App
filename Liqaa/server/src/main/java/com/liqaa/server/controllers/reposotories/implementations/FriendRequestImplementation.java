@@ -16,6 +16,15 @@ import java.util.List;
 
 public class FriendRequestImplementation implements FriendRequestInterface {
 
+    private static FriendRequestImplementation FriendRequestImplObject;
+    public  static FriendRequestImplementation getContactImplObject()
+    {
+        if(FriendRequestImplObject==null)
+        {
+            FriendRequestImplObject=new FriendRequestImplementation();
+        }
+        return  FriendRequestImplObject;
+    }
 
     private boolean isRequestExists (int senderId , int receiverId)
     {

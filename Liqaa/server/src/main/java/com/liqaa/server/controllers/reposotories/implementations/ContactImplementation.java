@@ -2,17 +2,26 @@ package com.liqaa.server.controllers.reposotories.implementations;
 import com.liqaa.server.controllers.reposotories.interfaces.ContactInterface;
 import com.liqaa.shared.models.entities.Contacts;
 import com.liqaa.server.util.DatabaseManager;
+import com.liqaa.shared.models.entities.User;
+import com.liqaa.shared.models.enums.CurrentStatus;
+import com.liqaa.shared.models.enums.Gender;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactImplementation implements ContactInterface {
 
+    private static ContactImplementation ContactImplObject;
+    public  static ContactImplementation getContactImplObject()
+    {
+        if(ContactImplObject==null)
+        {
+            ContactImplObject=new ContactImplementation();
+        }
+        return  ContactImplObject;
+    }
     @Override
     public boolean isContact(int userId, int contactId)
     {
@@ -35,13 +44,83 @@ public class ContactImplementation implements ContactInterface {
         return exists;
     }
     @Override
-    public  int createContact (Contacts contact)
+    public User getContact(String DisplayName )
+    {
+        User user=new User();
+        String query="SELECT users.name,users.phone_number,users.bio,users.current_status ,users.is_active ,users.profile_picture FROM  users  JOIN  contacts ON users.id = contacts.contact_id WHERE users.name = ? ";
+        try(PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
+        {
+            statement.setString(1, DisplayName);
+            ResultSet result = statement.executeQuery();
+            if (result.next())
+            {
+                user.setDisplayName(result.getString("name"));
+                user.setPhoneNumber(result.getString("phone_number"));
+                user.setBio(result.getString("bio"));
+                user.setCurrentstatus(CurrentStatus.valueOf(result.getString("current_status").toUpperCase()));
+                user.setIsActive(result.getBoolean("is_active"));
+                Blob profilePhotoBlob = result.getBlob("profile_picture");
+                if (profilePhotoBlob != null) {
+                    int blobLength = (int) profilePhotoBlob.length();
+                    byte[] profilePhotoBytes = profilePhotoBlob.getBytes(1, blobLength);
+                    user.setProfilepicture(profilePhotoBytes);
+                }
+                else {
+                    user.setProfilepicture(null);
+                }
+                return user;
+            }
+        }catch (SQLException e)
+        {
+            System.err.println("Error when get Contact info " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @Override
+    public  List<User> getUserFriends(int userID)
+    {
+        // Specific info about friend>> name, phone, status, bio, image,is active
+        List<User> userFriends= new ArrayList<>();
+        String query="SELECT users.name,users.phone_number,users.bio,users.current_status ,users.is_active ,users.profile_picture FROM  users  INNER JOIN contacts ON users.id = contacts.contact_id WHERE contacts.user_id = ? ";
+        try(PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
+        {
+            statement.setInt(1, userID);
+            ResultSet result = statement.executeQuery();
+            while (result.next())
+            {
+                User user=new User();
+                user.setDisplayName(result.getString("name"));
+                user.setPhoneNumber(result.getString("phone_number"));
+                user.setBio(result.getString("bio"));
+                user.setCurrentstatus(CurrentStatus.valueOf(result.getString("current_status").toUpperCase()));
+                user.setIsActive(result.getBoolean("is_active"));
+                Blob profilePhotoBlob = result.getBlob("profile_picture");
+                if (profilePhotoBlob != null) {
+                    int blobLength = (int) profilePhotoBlob.length();
+                    byte[] profilePhotoBytes = profilePhotoBlob.getBytes(1, blobLength);
+                    user.setProfilepicture(profilePhotoBytes);
+                }
+                else {
+                    user.setProfilepicture(null);
+                }
+               userFriends.add(user);
+            }
+        }catch (SQLException e)
+        {
+            System.err.println("Error when get Contact info " + e.getMessage());
+            e.printStackTrace();
+        }
+        return userFriends;
+    }
+    @Override
+    public  boolean createContact (Contacts contact)
     {
         //isContact(int userId, int contactId)
         if(isContact(contact.getUserId(),contact.getContactId()))
         {
             System.out.println("Contact already exists");
-            return 0;
+            return false;
         }
         String query = "INSERT INTO contacts (user_id, contact_id,  is_blocked) VALUES (?, ?, ?)";
         try(PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
@@ -50,34 +129,38 @@ public class ContactImplementation implements ContactInterface {
                 statement.setInt(2, contact.getContactId());
                 statement.setBoolean(3, contact.getIsBlocked());
                 System.out.println("Contact created successfully");
-                return statement.executeUpdate(); // if it is created it will return 1
+                if( statement.executeUpdate()==1) // if it is created it will return 1
+                      return true;
         }catch(SQLException e)
         {
             System.err.println("Error creating contact: " + e.getMessage());
             e.printStackTrace();
         }
-        return 0; // // Error occurred during creation
+        return false; // // Error occurred during creation
     }
     @Override
-    public int deleteById(int userId, int contactId)
+    public boolean deleteById(int userId, int contactId)
     {
         if (!isContact(userId, contactId))
         {
             System.out.println("Contact does not exist");
-            return 0;
+            return false;
         }
         String query = "DELETE FROM contacts WHERE user_id = ? AND contact_id = ?";
         try(PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query)) {
             statement.setInt(1, userId);
             statement.setInt(2, contactId);
             System.out.println("Contact deleted successfully");
-            return statement.executeUpdate();
+            if(statement.executeUpdate()==1)
+            {
+                return  true;
+            }
         }catch(SQLException e)
         {
             System.err.println("Error Deleting contact: " + e.getMessage());
             e.printStackTrace();
         }
-        return  0;
+        return  false;
     }
 
     @Override

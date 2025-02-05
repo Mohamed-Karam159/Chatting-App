@@ -26,6 +26,11 @@ public class FriendRequests implements Serializable {
         this.senderId = senderId;
         this.receiverId = receiverId;
     }
+    public FriendRequests(int senderId, int receiverId,FriendRequestStatus status) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.requestStatus=status;
+    }
     public FriendRequests() {
 
     }
