@@ -8,6 +8,8 @@ public interface MessageDAO {
     void save(Message message);
     Optional<Message> findById(int id);
     List<Message> findAll();
+    List<Message> findByConversationId(int conversationId, int offset, int limit); // New method for pagination
+    List<Message> findByConversationId(int conversationId); // New method without pagination
     void update(Message message);
     void delete(int id);
 }

@@ -52,7 +52,7 @@ public class MessageDAOImpl implements MessageDAO {
                         rs.getTimestamp("received_at") != null ? rs.getTimestamp("received_at").toLocalDateTime() : null,
                         rs.getTimestamp("seen_at") != null ? rs.getTimestamp("seen_at").toLocalDateTime() : null
                 );
-                message.setId(rs.getInt("id")); // Set the ID from the result set
+                message.setId(rs.getInt("id"));
                 return Optional.of(message);
             }
         } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class MessageDAOImpl implements MessageDAO {
                         rs.getTimestamp("received_at") != null ? rs.getTimestamp("received_at").toLocalDateTime() : null,
                         rs.getTimestamp("seen_at") != null ? rs.getTimestamp("seen_at").toLocalDateTime() : null
                 );
-                message.setId(rs.getInt("id")); // Set the ID from the result set
+                message.setId(rs.getInt("id"));
                 messages.add(message);
             }
         } catch (SQLException e) {
@@ -88,8 +88,63 @@ public class MessageDAOImpl implements MessageDAO {
     }
 
     @Override
-    public void save(Message message) {
+    public List<Message> findByConversationId(int conversationId, int offset, int limit) {
+        List<Message> messages = new ArrayList<>();
+        String sql = "SELECT * FROM messages WHERE conversation_id = ? ORDER BY sent_at DESC, id DESC LIMIT ? OFFSET ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, conversationId);
+            stmt.setInt(2, limit);
+            stmt.setInt(3, offset);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Message message = new Message(
+                        rs.getInt("sender_id"),
+                        rs.getInt("conversation_id"),
+                        rs.getString("content"),
+                        getMessageTypeFromString(rs.getString("type")),
+                        rs.getTimestamp("sent_at") != null ? rs.getTimestamp("sent_at").toLocalDateTime() : null,
+                        rs.getBoolean("is_sent"),
+                        rs.getTimestamp("received_at") != null ? rs.getTimestamp("received_at").toLocalDateTime() : null,
+                        rs.getTimestamp("seen_at") != null ? rs.getTimestamp("seen_at").toLocalDateTime() : null
+                );
+                message.setId(rs.getInt("id"));
+                messages.add(message);
+            }
+        } catch (SQLException e) {
+            logger.error("Error retrieving messages by conversation ID: ", e);
+        }
+        return messages;
+    }
 
+    @Override
+    public List<Message> findByConversationId(int conversationId) {
+        List<Message> messages = new ArrayList<>();
+        String sql = "SELECT * FROM messages WHERE conversation_id = ? ORDER BY sent_at DESC, id DESC";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, conversationId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Message message = new Message(
+                        rs.getInt("sender_id"),
+                        rs.getInt("conversation_id"),
+                        rs.getString("content"),
+                        getMessageTypeFromString(rs.getString("type")),
+                        rs.getTimestamp("sent_at") != null ? rs.getTimestamp("sent_at").toLocalDateTime() : null,
+                        rs.getBoolean("is_sent"),
+                        rs.getTimestamp("received_at") != null ? rs.getTimestamp("received_at").toLocalDateTime() : null,
+                        rs.getTimestamp("seen_at") != null ? rs.getTimestamp("seen_at").toLocalDateTime() : null
+                );
+                message.setId(rs.getInt("id"));
+                messages.add(message);
+            }
+        } catch (SQLException e) {
+            logger.error("Error retrieving messages by conversation ID: ", e);
+        }
+        return messages;
+    }
+
+    @Override
+    public void save(Message message) {
         String sql = "INSERT INTO messages (sender_id, conversation_id, content, type, sent_at, is_sent, received_at, seen_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, message.getSenderId());
@@ -101,14 +156,9 @@ public class MessageDAOImpl implements MessageDAO {
             stmt.setTimestamp(7, message.getReceivedAt() != null ? Timestamp.valueOf(message.getReceivedAt()) : null);
             stmt.setTimestamp(8, message.getSeenAt() != null ? Timestamp.valueOf(message.getSeenAt()) : null);
             stmt.executeUpdate();
-            connection.commit();
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 message.setId(generatedKeys.getInt(1));
-            }
-
-            if (!connection.getAutoCommit()) {
-                connection.commit();
             }
         } catch (SQLException e) {
             logger.error("Error saving message: ", e);
@@ -118,74 +168,32 @@ public class MessageDAOImpl implements MessageDAO {
     @Override
     public void update(Message message) {
         String sql = "UPDATE messages SET sender_id = ?, conversation_id = ?, content = ?, type = ?, sent_at = ?, is_sent = ?, received_at = ?, seen_at = ? WHERE id = ?";
-        try {
-            connection.setAutoCommit(false); // Disable auto-commit
-            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setInt(1, message.getSenderId());
-                stmt.setInt(2, message.getConversationId());
-                stmt.setString(3, message.getContent());
-                stmt.setString(4, message.getType() != null ? message.getType().name() : MessageType.TEXT.name());
-                stmt.setTimestamp(5, message.getSentAt() != null ? Timestamp.valueOf(message.getSentAt()) : null);
-                stmt.setBoolean(6, message.isSent());
-                stmt.setTimestamp(7, message.getReceivedAt() != null ? Timestamp.valueOf(message.getReceivedAt()) : null);
-                stmt.setTimestamp(8, message.getSeenAt() != null ? Timestamp.valueOf(message.getSeenAt()) : null);
-                stmt.setInt(9, message.getId());
-
-                int rowsAffected = stmt.executeUpdate();
-                connection.commit(); // Commit the transaction
-
-                if (rowsAffected > 0) {
-                    logger.info("Message updated successfully. Rows affected: " + rowsAffected);
-                } else {
-                    logger.warn("No message found with ID: " + message.getId());
-                }
-            } catch (SQLException e) {
-                logger.error("Error updating message: ", e);
-                connection.rollback(); // Rollback in case of error
-            }
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, message.getSenderId());
+            stmt.setInt(2, message.getConversationId());
+            stmt.setString(3, message.getContent());
+            stmt.setString(4, message.getType() != null ? message.getType().name() : MessageType.TEXT.name());
+            stmt.setTimestamp(5, message.getSentAt() != null ? Timestamp.valueOf(message.getSentAt()) : null);
+            stmt.setBoolean(6, message.isSent());
+            stmt.setTimestamp(7, message.getReceivedAt() != null ? Timestamp.valueOf(message.getReceivedAt()) : null);
+            stmt.setTimestamp(8, message.getSeenAt() != null ? Timestamp.valueOf(message.getSeenAt()) : null);
+            stmt.setInt(9, message.getId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Error managing transaction: ", e);
-        } finally {
-            try {
-                connection.setAutoCommit(true); // Re-enable auto-commit
-            } catch (SQLException e) {
-                logger.error("Error re-enabling auto-commit: ", e);
-            }
+            logger.error("Error updating message: ", e);
         }
     }
-
 
     @Override
     public void delete(int id) {
         String sql = "DELETE FROM messages WHERE id = ?";
-        try {
-            connection.setAutoCommit(false); // Disable auto-commit
-            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setInt(1, id);
-                int rowsAffected = stmt.executeUpdate();
-                connection.commit(); // Commit the transaction
-
-                if (rowsAffected > 0) {
-                    logger.info("Message deleted successfully. Rows affected: " + rowsAffected);
-                } else {
-                    logger.warn("No message found with ID: " + id);
-                }
-            } catch (SQLException e) {
-                logger.error("Error deleting message: ", e);
-                connection.rollback(); // Rollback in case of error
-            }
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Error managing transaction: ", e);
-        } finally {
-            try {
-                connection.setAutoCommit(true); // Re-enable auto-commit
-            } catch (SQLException e) {
-                logger.error("Error re-enabling auto-commit: ", e);
-            }
+            logger.error("Error deleting message: ", e);
         }
     }
-
-
     public static void main(String[] args) {
         MessageDAOImpl messageDAO = new MessageDAOImpl();
 
