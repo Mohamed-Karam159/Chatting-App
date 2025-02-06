@@ -12,19 +12,31 @@ import java.util.Collections;
 import java.util.List;
 
 public class GroupRepoImpl implements GroupRepo {
+    private static GroupRepoImpl instance;
+
+    private GroupRepoImpl() {}
+
+    public static synchronized GroupRepoImpl getInstance() {
+        if (instance == null) {
+            instance = new GroupRepoImpl();
+        }
+        return instance;
+    }
+
     @Override
     public int createGroup(Group group) {
         int id = 0;
         String query = "INSERT INTO groups_ (name, image, description, created_by) VALUES (?, ?, ?, ?);";
 
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             if (group == null) {
                 System.err.println("Error creating group: Group is null");
                 return 0;
             }
 
             statement.setString(1, group.getName());
-            statement.setString(2, group.getImage());
+            statement.setBytes(2, group.getImage());
             statement.setString(3, group.getDescription());
             statement.setInt(4, group.getCreatedBy());
 
@@ -45,7 +57,6 @@ public class GroupRepoImpl implements GroupRepo {
         return id;
     }
 
-
     @Override
     public Group getGroup(int id) {
         if (id <= 0) {
@@ -55,7 +66,8 @@ public class GroupRepoImpl implements GroupRepo {
 
         String query = "SELECT * FROM groups_ WHERE id = ?;";
 
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query)) {
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
 
@@ -65,7 +77,7 @@ public class GroupRepoImpl implements GroupRepo {
             }
 
             String name = result.getString(2);
-            String image = result.getString(3);
+            byte[] image = result.getBytes(3);
             String description = result.getString(4);
             int createdBy = result.getInt(5);
             LocalDateTime createdAt = result.getTimestamp(6).toLocalDateTime();
@@ -78,6 +90,28 @@ public class GroupRepoImpl implements GroupRepo {
     }
 
     @Override
+    public int getGroupOwnerId(int groupId)
+    {
+        String query = "SELECT created_by FROM groups_ WHERE id = ?;";
+
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, groupId);
+            ResultSet result = statement.executeQuery();
+
+            if (!result.next()) {
+                System.err.println("Error fetching group: No group found with id: " + groupId);
+                return 0;
+            }
+
+            return result.getInt(1);
+        } catch (SQLException e) {
+            System.err.println("Error fetching group, Failed to create statement: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    @Override
     public boolean updateGroup(Group group) {
         if (group == null || group.getId() <= 0) {
             System.err.println("Error updating group: Invalid group or ID");
@@ -86,34 +120,37 @@ public class GroupRepoImpl implements GroupRepo {
 
         String query = "UPDATE groups_ SET name = ?, image = ?, description = ?, created_by = ? WHERE id = ?;";
 
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query)) {
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, group.getName());
-            statement.setString(2, group.getImage());
-            statement.setString(3, group.getDescription());
-            statement.setInt(4, group.getCreatedBy());
-            statement.setInt(5, group.getId());
+                statement.setString(1, group.getName());
+                statement.setBytes(2, group.getImage());
+                statement.setString(3, group.getDescription());
+                statement.setInt(4, group.getCreatedBy());
+                statement.setInt(5, group.getId());
 
-            if (statement.executeUpdate() == 0) {
-                System.err.println("Error updating group: No rows affected");
-                return false;
+                if (statement.executeUpdate() == 0) {
+                    System.err.println("Error updating group: No rows affected");
+                    return false;
+                }
+                return true;
             }
-            return true;
-        } catch (SQLException e) {
+         catch (SQLException e) {
             System.err.println("Error updating group_, Failed to create statement: " + e.getMessage());
         }
         return false;
     }
 
     @Override
-    public boolean deleteGroup(Group group) {
-        if (group == null || group.getId() <= 0) {
-            System.err.println("Error deleting group: Invalid group or ID");
+    public boolean deleteGroup(int groupId) {
+        if (groupId <= 0) {
+            System.err.println("Error deleting group: Invalid group ID");
             return false;
         }
         String query = "DELETE FROM groups_ WHERE id = ?;";
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query)) {
-            statement.setInt(1, group.getId());
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, groupId);
 
             if (statement.executeUpdate() == 0) {
                 System.err.println("Error deleting group: No rows affected");
@@ -136,7 +173,8 @@ public class GroupRepoImpl implements GroupRepo {
         String placeholders = String.join(",", Collections.nCopies(ids.length, "?"));
         String query = "SELECT * FROM groups_ WHERE id IN (" + placeholders + ");";
 
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query)) {
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
             for (int i = 0; i < ids.length; i++) {
                 statement.setInt(i + 1, ids[i]);
             }
@@ -146,7 +184,7 @@ public class GroupRepoImpl implements GroupRepo {
 
             while (result.next()) {
                 groups.add(new Group(result.getInt(1),
-                        result.getString(2), result.getString(3),
+                        result.getString(2), result.getBytes(3),
                         result.getString(4), result.getInt(5),
                         result.getTimestamp(6).toLocalDateTime()));
             }
@@ -170,7 +208,8 @@ public class GroupRepoImpl implements GroupRepo {
                 "JOIN conversationparticipants cp ON c.id = cp.conversation_id " +
                 "WHERE cp.user_id = ? AND c.type = 'Group';";
 
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query)) {
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
             ResultSet result = statement.executeQuery();
             List<Group> groups = new ArrayList<>();
@@ -179,7 +218,7 @@ public class GroupRepoImpl implements GroupRepo {
                 groups.add(new Group(
                         result.getInt("id"),
                         result.getString("name"),
-                        result.getString("image"),
+                        result.getBytes("image"),
                         result.getString("description"),
                         result.getInt("created_by"),
                         result.getTimestamp("created_at").toLocalDateTime()
@@ -198,5 +237,4 @@ public class GroupRepoImpl implements GroupRepo {
         }
         return Collections.emptyList();
     }
-
 }

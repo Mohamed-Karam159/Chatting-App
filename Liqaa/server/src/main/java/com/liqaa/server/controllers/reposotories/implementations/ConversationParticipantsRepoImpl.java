@@ -4,23 +4,35 @@ import com.liqaa.server.controllers.reposotories.interfaces.ConversationParticip
 import com.liqaa.server.util.DatabaseManager;
 import com.liqaa.shared.models.entities.ConversationParticipant;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConversationParticipantsRepoImpl implements ConversationParticipantsRepo
 {
+    private static ConversationParticipantsRepo instance;
+    private ConversationParticipantsRepoImpl() {}
+
+    public static synchronized ConversationParticipantsRepo getInstance() {
+        if (instance == null) {
+            instance = new ConversationParticipantsRepoImpl();
+        }
+        return instance;
+    }
+
     @Override
     public boolean addParticipant(int userId, int conversationId) {
         if (userId == 0 || conversationId == 0) {
             System.err.println("Invalid user id or conversation id");
             return false;
         }
-        String query = "INSERT INTO conversationparticipants (user_id, conversation_id) VALUES (?, ?)";
-        try(PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(query))
-        {
+        String query = "INSERT INTO conversationparticipants (user_id, conversation_id, last_msg_time, unread_msg_count) VALUES (?, ?, NOW(), 0)";
+        try (PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(query)) {
             stmt.setInt(1, userId);
             stmt.setInt(2, conversationId);
             if (stmt.executeUpdate() == 0) {
@@ -34,32 +46,75 @@ public class ConversationParticipantsRepoImpl implements ConversationParticipant
         }
     }
 
-        @Override
-    public boolean removeParticipant(int userId, int conversationId)
-        {
-            if(userId == 0 || conversationId == 0)
-            {
-                System.err.println("Invalid user id or conversation id");
-                return false;
-            }
-            String query = "DELETE FROM conversationparticipants WHERE user_id = ? AND conversation_id = ?";
-            try(PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(query))
-            {
+    @Override
+    public boolean addParticipants(List<Integer> userIds, int conversationId) {
+        if (userIds == null || userIds.isEmpty() || conversationId == 0) {
+            System.err.println("Invalid user ids or conversation id");
+            return false;
+        }
+        String query = "INSERT INTO conversationparticipants (user_id, conversation_id) VALUES (?, ?)";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            for (Integer userId : userIds) {
+                if (userId == 0) {
+                    System.err.println("Invalid user id");
+                    continue;
+                }
                 stmt.setInt(1, userId);
                 stmt.setInt(2, conversationId);
-                if(stmt.executeUpdate()==0)
-                {
-                    System.err.println("Failed to remove participant");
+                stmt.addBatch();
+            }
+            int[] results = stmt.executeBatch();
+            for (int result : results) {
+                if (result == 0) {
+                    System.err.println("Failed to add some participants");
                     return false;
                 }
-                return true;
             }
-            catch(SQLException e)
-            {
-                System.err.println("Failed to remove participant");
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean removeParticipants(List<Integer> userIds, int conversationId) {
+        if (userIds == null || userIds.isEmpty() || conversationId == 0) {
+            System.err.println("Invalid user ids or conversation id");
+            return false;
+        }
+
+        StringBuilder sb = new StringBuilder("DELETE FROM conversationparticipants WHERE conversation_id = ? AND user_id IN (");
+        for (int i = 0; i < userIds.size(); i++) {
+            sb.append("?");
+            if (i < userIds.size() - 1) {
+                sb.append(",");
+            }
+        }
+        sb.append(")");
+        String query = sb.toString();
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, conversationId);
+            for (int i = 0; i < userIds.size(); i++) {
+                stmt.setInt(i + 2, userIds.get(i));
+            }
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected == 0) {
+                System.err.println("Failed to remove participants");
                 return false;
             }
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Failed to remove participants: " + e.getMessage());
+            return false;
+        }
     }
+
+
 
     @Override
     public ConversationParticipant getInfo(int userId, int conversationId)

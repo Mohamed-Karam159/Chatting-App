@@ -4,15 +4,22 @@ import com.liqaa.server.controllers.reposotories.interfaces.CategoryRepo;
 import com.liqaa.server.util.DatabaseManager;
 import com.liqaa.shared.models.entities.Category;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryRepoImpl implements CategoryRepo
 {
+    private static CategoryRepoImpl instance;
+
+    private CategoryRepoImpl() {}
+
+    public static synchronized CategoryRepoImpl getInstance()
+    {
+        if (instance == null)
+            instance = new CategoryRepoImpl();
+        return instance;
+    }
 
     @Override
     public int createCategory(Category category)
@@ -25,7 +32,8 @@ public class CategoryRepoImpl implements CategoryRepo
 
         String query = "INSERT INTO categories (user_id, category_name) VALUES (?, ?)";
 
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, category.getUserId());
             statement.setString(2, category.getCategoryName());
 
@@ -66,7 +74,8 @@ public class CategoryRepoImpl implements CategoryRepo
         }
 
         String query = "SELECT * FROM categories WHERE id = ?;";
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query))
         {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -99,7 +108,8 @@ public class CategoryRepoImpl implements CategoryRepo
             return false;
         }
         String query = "UPDATE categories SET category_name = ? WHERE id = ?;";
-        try (PreparedStatement statement= DatabaseManager.getConnection().prepareStatement(query))
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query))
         {
             statement.setString(1, name);
             statement.setInt(2, id);
@@ -123,7 +133,8 @@ public class CategoryRepoImpl implements CategoryRepo
             return false;
         }
         String query = "DELETE FROM categories WHERE id = ?;";
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query))
         {
             statement.setInt(1, id);
             if(statement.executeUpdate() == 0)
@@ -146,9 +157,41 @@ public class CategoryRepoImpl implements CategoryRepo
             return List.of();
         }
         String query = "SELECT * FROM categories WHERE user_id = ?;";
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query))
         {
             statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            List<Category> categories = new ArrayList<>();
+            while (resultSet.next())
+            {
+                categories.add(new Category(resultSet.getInt("id"),
+                        resultSet.getInt("user_id"),
+                        resultSet.getString("category_name"),
+                        resultSet.getTimestamp("created_at").toLocalDateTime()));
+            }
+            return categories;
+
+        } catch (SQLException e) {
+            System.err.println("Error getting categories, Failed to create statement: " + e.getMessage());
+        }
+        return List.of();
+    }
+
+    @Override
+    public List<Category> getCategoriesForContact(int userId, int contactId)
+    {
+        if(userId <= 0 || contactId <= 0)
+        {
+            System.err.println("Error getting categories: Invalid IDs");
+            return List.of();
+        }
+        String query = "SELECT * FROM categories WHERE user_id = ? AND id IN (SELECT category_id FROM usercontactcategories WHERE user_id = ?);";
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query))
+        {
+            statement.setInt(1, userId);
+            statement.setInt(2, contactId);
             ResultSet resultSet = statement.executeQuery();
             List<Category> categories = new ArrayList<>();
             while (resultSet.next())
@@ -182,7 +225,8 @@ public class CategoryRepoImpl implements CategoryRepo
                 query.append(", ");
         }
         query.append(");");
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query.toString()))
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query.toString()))
         {
             for (int i = 0; i < ids.length; i++)
                 statement.setInt(i + 1, ids[i]);
@@ -193,7 +237,8 @@ public class CategoryRepoImpl implements CategoryRepo
                 categories.add(new Category(resultSet.getInt("id"),
                         resultSet.getInt("user_id"),
                         resultSet.getString("category_name"),
-                        resultSet.getTimestamp("created_at") != null ? (resultSet.getTimestamp("created_at").toLocalDateTime()) : null));
+                        resultSet.getTimestamp("created_at") != null ?
+                                Timestamp.valueOf(resultSet.getTimestamp("created_at").toLocalDateTime()).toLocalDateTime() : null));
             }
             return categories;
 
