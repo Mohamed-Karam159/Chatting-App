@@ -91,6 +91,8 @@ public class UserContactCategoryRepoImpl implements UserContactCategoryRepo {
         }
     }
 
+
+
     @Override
     public boolean deleteUserContactCategory(UserContactCategory userContactCategory) throws SQLException {
         if (userContactCategory == null) {

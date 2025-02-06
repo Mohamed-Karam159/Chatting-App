@@ -11,7 +11,7 @@ public interface UserContactCategoryRepo {
     public boolean createUserContactCategory(UserContactCategory userContactCategory) throws SQLException;
     public List<UserContactCategory> getAllUserContactCategories() throws SQLException;
     public boolean updateUserContactCategory(UserContactCategory userContactCategory) throws SQLException;
-    public boolean deleteUserContactCategory(int userId, int categoryId) throws SQLException;
+    public boolean deleteUserContactCategory(UserContactCategory userContactCategory) throws SQLException;
     public List<UserContactCategory> getSpecificUserWithCategories(int userId) throws SQLException;
     public List<Integer> getCategoryUsers(int categoryId) throws SQLException;
 }
