@@ -11,7 +11,8 @@ public class Conversation
     private int groupId;
     private LocalDateTime createdAt;
 
-    public Conversation(int id, ConversationType type, int groupId, LocalDateTime createdAt) {
+    public Conversation(int id, ConversationType type, int groupId, LocalDateTime createdAt)
+    {
         this.id = id;
         this.type = type;
         this.groupId = groupId;

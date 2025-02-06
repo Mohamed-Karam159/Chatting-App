@@ -72,6 +72,17 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public User(int id, String displayName, String email, String passwordHash, byte[] profilePicture)
+    {
+        this.id = id;
+        this.displayName = displayName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.profilePicture = profilePicture;
+        this.isActive = true;
+        this.currentStatus = CurrentStatus.AVAILABLE;
+    }
+
 
 
     /**

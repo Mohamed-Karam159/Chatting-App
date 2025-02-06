@@ -7,7 +7,7 @@ public class Group implements Serializable
 {
     private int id;
     private String name;
-    private String image;
+    private byte[] image;
     private String description;
     private int createdBy;
     private LocalDateTime createdAt;
@@ -15,7 +15,7 @@ public class Group implements Serializable
     public Group() {
     }
 
-    public Group(int id, String name, String image, String description, int createdBy, LocalDateTime createdAt)
+    public Group(int id, String name, byte[] image, String description, int createdBy, LocalDateTime createdAt)
     {
         this.id = id;
         this.name = name;
@@ -25,11 +25,18 @@ public class Group implements Serializable
         this.createdAt = createdAt;
     }
 
-    public Group(int id, String name, String image, String description, int createdBy)
+    public Group(int id, String name, byte[] image, String description, int createdBy)
     {
         this.id = id;
         this.name = name;
         this.image = image;
+        this.description = description;
+        this.createdBy = createdBy;
+    }
+
+    public Group(String name, String description, int createdBy)
+    {
+        this.name = name;
         this.description = description;
         this.createdBy = createdBy;
     }
@@ -50,11 +57,11 @@ public class Group implements Serializable
         this.name = name;
     }
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
