@@ -1,6 +1,7 @@
 package com.liqaa.server.controllers.reposotories.interfaces;
 
 import com.liqaa.shared.models.entities.Category;
+import com.liqaa.shared.models.entities.User;
 import com.liqaa.shared.models.entities.UserContactCategory;
 
 import java.sql.SQLException;
@@ -12,4 +13,5 @@ public interface UserContactCategoryRepo {
     public boolean updateUserContactCategory(UserContactCategory userContactCategory) throws SQLException;
     public boolean deleteUserContactCategory(int userId, int categoryId) throws SQLException;
     public List<UserContactCategory> getSpecificUserWithCategories(int userId) throws SQLException;
+    public List<Integer> getCategoryUsers(int categoryId) throws SQLException;
 }

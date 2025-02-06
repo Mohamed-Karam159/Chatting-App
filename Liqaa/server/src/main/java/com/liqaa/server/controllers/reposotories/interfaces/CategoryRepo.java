@@ -13,5 +13,6 @@ public interface CategoryRepo
     boolean deleteCategory(int id);
     List<Category> getUserCategories(int id);
     List<Category> getAllCategories(int [] ids);
+    public List<Category> getCategoriesForContact(int userId, int contactId);
 }
 
