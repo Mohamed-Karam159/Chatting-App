@@ -13,6 +13,12 @@ public class Category implements Serializable {
         this.categoryName = categoryName;
     }
 
+    public Category(int id, int userId, String categoryName) {
+        this.id = id;
+        this.userId = userId;
+        this.categoryName = categoryName;
+    }
+
     public Category(int id, int userId, String categoryName, LocalDateTime createdAt) {
         this.id = id;
         this.userId = userId;

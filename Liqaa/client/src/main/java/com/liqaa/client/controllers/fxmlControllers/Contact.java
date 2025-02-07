@@ -1,4 +1,4 @@
-package com.liqaa.client.controllers.fxmlControllers;
+package com.liqaa.client.controllers.FXMLcontrollers;
 
 import javafx.scene.image.Image;
 
