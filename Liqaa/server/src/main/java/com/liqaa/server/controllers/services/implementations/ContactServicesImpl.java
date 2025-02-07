@@ -14,7 +14,20 @@ import java.util.List;
 
 public class ContactServicesImpl implements ContactServicesInt {
 
+    private static ContactServicesImpl contactServicesImpl;
     private User user;
+    private ContactServicesImpl()
+    {
+    }
+    public static ContactServicesImpl getInstance()
+    {
+        if(contactServicesImpl==null)
+        {
+            contactServicesImpl=new ContactServicesImpl();
+        }
+        return  contactServicesImpl;
+    }
+
     public User getContact(String name)// throws null exception
     {
         user=ContactImplementation.getContactImplObject().getContact(name);

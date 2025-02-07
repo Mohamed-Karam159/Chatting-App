@@ -9,8 +9,19 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class NotificationServiceImpl implements NotificationService {
+    private static NotificationServiceImpl instance;
     private NotificationRepoImpl notificationRepoImpl = new NotificationRepoImpl();
 
+    private NotificationServiceImpl() {
+        // private constructor to prevent instantiation
+    }
+
+    public static synchronized NotificationServiceImpl getInstance() {
+        if (instance == null) {
+            instance = new NotificationServiceImpl();
+        }
+        return instance;
+    }
     @Override
     public List<Notification> getUserNotifications(int userId) throws SQLException {
         return notificationRepoImpl.getUserNotifications(userId);

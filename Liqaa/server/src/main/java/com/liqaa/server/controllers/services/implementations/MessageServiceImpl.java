@@ -10,10 +10,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class MessageServiceImpl implements MessageService {
+    private static final MessageServiceImpl INSTANCE = new MessageServiceImpl();
     private final MessageDAO messageDAO;
 
-    public MessageServiceImpl(MessageDAO messageDAO) {
-        this.messageDAO = messageDAO;
+    private MessageServiceImpl() {
+        this.messageDAO = new MessageDAOImpl();
+    }
+
+    public static MessageServiceImpl getInstance() {
+        return INSTANCE;
     }
 
     @Override
@@ -56,8 +61,7 @@ public class MessageServiceImpl implements MessageService {
     // Main method for testing
     public static void main(String[] args) {
         // Initialize the DAO and Service
-        MessageDAO messageDAO = new MessageDAOImpl();
-        MessageServiceImpl messageService = new MessageServiceImpl(messageDAO);
+        MessageServiceImpl messageService = MessageServiceImpl.getInstance();
 
         // Test data
         int conversationId = 1;

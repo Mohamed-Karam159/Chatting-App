@@ -13,7 +13,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class UserServicesImpl implements UserServicesInt {
+    private static UserServicesImpl instance;
 
+    private UserServicesImpl() {}
+
+    public static UserServicesImpl getInstance() {
+        if (instance == null) {
+            instance = new UserServicesImpl();
+        }
+        return instance;
+    }
         // user Authentication
         @Override
     public User signIn (String userPhone, String userPassword)
