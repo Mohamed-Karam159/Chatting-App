@@ -1,32 +1,40 @@
 package com.liqaa.client;
 
-
-import com.liqaa.server.controllers.reposotories.implementations.AnnouncementRepoImpl;
-import com.liqaa.shared.models.entities.Announcement;
+import com.liqaa.client.network.ServerConnection;
+import com.liqaa.shared.network.Server;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.rmi.RemoteException;
 
-public class Main extends Application {
+public class Main extends Application
+{
     @Override
     public void start(Stage stage) throws IOException
     {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/liqaa/client/view/fxml/contacts.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/liqaa/client/view/fxml/primary.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Contacts");
+        stage.setTitle("Liqaa");
         stage.setScene(scene);
         stage.show();
+        
+        testServerConnection();
     }
 
-    public static void main(String[] args) throws SQLException {
+    private void testServerConnection() throws RemoteException {
+        Server server = ServerConnection.getServer();
+        if (server != null) {
+            String message = server.ping();
+            System.out.println("Connected to server successfully. Server responded: " + message);
+        } else {
+            System.err.println("Failed to connect to server.");
+        }
+    }
+
+    public static void main(String[] args)
+    {
         launch();
-//        Announcement announcement = new Announcement(1, "try1", "thhhhh", LocalDateTime.now());
-//        AnnouncementRepoImpl impl = new AnnouncementRepoImpl();
-//        impl.addNew(announcement);
     }
 }
