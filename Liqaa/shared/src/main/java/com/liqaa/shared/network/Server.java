@@ -17,6 +17,7 @@ public interface Server extends Remote
     public User signUp(User user) throws RemoteException;
 
     public User getUserInfo(String userPhone) throws RemoteException;
+    public User getUserInfoById(int userId) throws RemoteException;
     public boolean updateUserInfo (User user) throws RemoteException;
     public boolean updateUserImage ( String phone, byte[] img) throws RemoteException;
     public boolean deleteUser ( int userId) throws RemoteException;
