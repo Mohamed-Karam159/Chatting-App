@@ -167,38 +167,28 @@ public  static void main(String args[])
     @Override
     public boolean updateUser(User user)
     {
-        User updatedUser =new User();
         boolean res=false;
         if (isPhoneNumberExists(user.getPhoneNumber()))
         {
             System.out.println("this user exists");
             //update
-            String query = "UPDATE users SET  password_hash = ? ,email=?," +
-                    " name = ?, gender = ?, date_of_birth = ?, country = ?, bio = ?," +
-                    " current_status = ?, is_active = ? ,profile_picture = ? WHERE id = ?";
+            String query = "UPDATE users SET  name = ?,  bio = ?," +
+                    " current_status = ? ,profile_picture = ? WHERE id = ?";
             try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
             {
 
-                //statement.setString(1, user.getPhoneNumber());
-                statement.setString(1, user.getPasswordHash());
-                statement.setString(2, user.getEmail());
-                statement.setString(3, user.getDisplayName());
-                statement.setString(4, user.getGender().name());
-                statement.setDate(5, (user.getDateofBirth() != null) ? (new java.sql.Date(user.getDateofBirth().getTime())) : null);
-                statement.setString(6, user.getCountry());
-                statement.setString(7, user.getBio());
-                statement.setString(8, user.getCurrentstatus().toString());
-                statement.setBoolean(9, user.isActive());
+                statement.setString(1, user.getDisplayName());
+                statement.setString(2, user.getBio());
+                statement.setString(3, user.getCurrentstatus().toString());
                 if (user.getProfilepicture() != null)
                 {
                     ByteArrayInputStream profilePhoto = new ByteArrayInputStream(user.getProfilepicture());
-                    statement.setBlob(10, profilePhoto);
+                    statement.setBlob(4, profilePhoto);
                 }
                 else {
-                    statement.setNull(10, java.sql.Types.BLOB);
+                    statement.setNull(4, java.sql.Types.BLOB);
                 }
-                statement.setInt(11, user.getId());
-
+                statement.setInt(5, user.getId());
                if(statement.executeUpdate()==1)
                {
                    return true;

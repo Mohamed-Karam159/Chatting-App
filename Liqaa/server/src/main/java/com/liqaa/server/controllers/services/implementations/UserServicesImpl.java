@@ -87,8 +87,8 @@ public class UserServicesImpl implements UserServicesInt {
         @Override
         public boolean updateUserInfo (User user)
         {
-            int id=UserImplementation.getUserImplementationobject().getIdByPhoneNumber(user.getPhoneNumber());
-            user.setId(id);
+            //int id=UserImplementation.getUserImplementationobject().getIdByPhoneNumber(user.getPhoneNumber());
+            //user.setId(id);
             return UserImplementation.getUserImplementationobject().updateUser(user);
         }
         @Override
