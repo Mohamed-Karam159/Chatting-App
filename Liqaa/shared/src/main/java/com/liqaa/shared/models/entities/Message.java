@@ -33,6 +33,9 @@ public class Message {
         this(0, senderId, conversationId, content, type, sentAt, isSent, receivedAt, seenAt); // Assume id is auto-generated
     }
 
+    public Message(int currentUserId, int currentConversationId, String content, MessageType messageType) {
+    }
+
     // Getters and Setters
 
     public int getId() {

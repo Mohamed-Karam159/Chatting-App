@@ -18,6 +18,14 @@ public class FileMessage {
         this.filePath = filePath;
     }
 
+    public FileMessage(int messageId, String name, long length, String filePath)
+    {
+        this.messageId = messageId;
+        this.fileName = name;
+        this.fileSize = (int) length;
+        this.filePath = filePath;
+    }
+
     // Getters and Setters
 
     public int getId() {
