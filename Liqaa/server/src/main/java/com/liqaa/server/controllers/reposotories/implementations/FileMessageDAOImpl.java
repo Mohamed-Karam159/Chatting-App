@@ -40,7 +40,7 @@ public class FileMessageDAOImpl implements FileMessageDAO {
 
     @Override
     public FileMessage findById(int id) {
-        String sql = "SELECT * FROM FileMessages WHERE id = ?";
+        String sql = "SELECT * FROM FileMessages WHERE message_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
