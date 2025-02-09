@@ -51,6 +51,7 @@ public interface Server extends Remote
     void sendMessage(Message message) throws SQLException, RemoteException; // Send a message
     int getUnreadMessageCount(int conversationId, int userId) throws SQLException, RemoteException; // Get unread message count
     void markMessagesAsSeen(int conversationId, int userId) throws SQLException, RemoteException; // Mark messages as seen
+    public FileMessage getFileInfo(int messageId) throws SQLException, RemoteException;
 
 
 
