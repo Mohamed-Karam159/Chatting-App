@@ -179,6 +179,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server
         MessageServiceImpl.getInstance().markMessagesAsSeen(conversationId, userId);
     }
 
+    public FileMessage getFileInfo(int messageId) throws SQLException, RemoteException {
+        return MessageServiceImpl.getInstance().getFileInfo(messageId);
+    }
+
     @Override
     public void createGroup(Group group, ArrayList<Integer> groupMembers) throws RemoteException {
         GroupServicesImpl.getInstance().createGroup(group, groupMembers);
