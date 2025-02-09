@@ -1,8 +1,10 @@
 package com.liqaa.server.controllers.services.implementations;
 
+import com.liqaa.server.controllers.reposotories.implementations.FileMessageDAOImpl;
 import com.liqaa.server.controllers.reposotories.interfaces.MessageDAO;
 import com.liqaa.server.controllers.reposotories.implementations.MessageDAOImpl;
 import com.liqaa.server.controllers.services.interfaces.MessageService;
+import com.liqaa.shared.models.entities.FileMessage;
 import com.liqaa.shared.models.entities.Message;
 import com.liqaa.shared.models.enums.MessageType;
 
@@ -56,6 +58,12 @@ public class MessageServiceImpl implements MessageService {
                 messageDAO.update(message);
             }
         }
+    }
+
+    @Override
+    public FileMessage getFileInfo(int messageId) {
+        FileMessageDAOImpl fileMessageDAO = new FileMessageDAOImpl();
+        return fileMessageDAO.findById( messageId);
     }
 
     // Main method for testing
