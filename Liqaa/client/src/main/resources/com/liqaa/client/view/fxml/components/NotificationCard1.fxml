@@ -8,10 +8,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox style="-fx-border-radius: 10; -fx-border-color: #E0E0E0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.components.NotificationCard1Controller">
+<HBox prefHeight="92.0" prefWidth="773.0" style="-fx-border-radius: 10; -fx-border-color: #E0E0E0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.components.NotificationCard1Controller">
    <children>
-      <AnchorPane prefHeight="90.0" prefWidth="600.0">
+      <AnchorPane prefHeight="90.0" prefWidth="773.0">
          <children>
             <Circle fx:id="senderPhoto" fill="DODGERBLUE" layoutX="31.0" layoutY="44.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
             <Label fx:id="notificationTitle" layoutX="60.0" layoutY="14.0" text="You have unread messages from Salma">
@@ -24,7 +23,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="deleteIcon" fitHeight="34.0" fitWidth="34.0" layoutX="552.0" layoutY="27.0" onMouseClicked="#deleteAction" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="deleteIcon" fitHeight="34.0" fitWidth="34.0" layoutX="724.0" layoutY="27.0" onMouseClicked="#deleteAction" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/delete.png" />
                </image>

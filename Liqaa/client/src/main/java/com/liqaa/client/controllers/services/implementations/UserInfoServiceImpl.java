@@ -23,9 +23,4 @@ public class UserInfoServiceImpl implements UserInfoService {
         System.out.println("in client update user impl: " + user.getBio());
         return ServerConnection.getServer().updateUserInfo(user);
     }
-
-    // just for test
-    public User getUserById(int id) throws RemoteException{
-        return ServerConnection.getServer().getUserInfoById(id);
-    }
 }

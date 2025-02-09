@@ -32,8 +32,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public AnnouncementNotification getAnnouncementById(int notificationId) throws RemoteException{
-        //return ServerConnection.getServer().
-        return null;
+    public AnnouncementNotification getAnnouncementById(int notificationId) throws SQLException, RemoteException{
+        return ServerConnection.getServer().getAnnouncementNotificationsById(notificationId);
     }
 }

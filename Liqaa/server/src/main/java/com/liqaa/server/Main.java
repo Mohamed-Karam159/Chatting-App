@@ -2,6 +2,7 @@ package com.liqaa.server;
 
 import com.liqaa.server.controllers.reposotories.implementations.NotificationRepoImpl;
 import com.liqaa.server.network.ServerConnection;
+import com.liqaa.shared.models.entities.AnnouncementNotification;
 import com.liqaa.shared.models.entities.Notification;
 
 import java.rmi.RemoteException;
@@ -12,12 +13,6 @@ public class Main
     public static void main(String[] args) throws RemoteException, SQLException
     {
         startServer();
-
-//        NotificationRepoImpl repo = new NotificationRepoImpl();
-//        Notification notification = repo.getNotificationById(8);
-//        notification.setAnnouncementId(2);
-//        notification.setRead(true);
-//        repo.updateNotification(notification);
     }
 
     public static void startServer() throws RemoteException, SQLException

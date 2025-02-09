@@ -148,6 +148,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server
     }
 
     @Override
+    public AnnouncementNotification getAnnouncementNotificationsById(int notificationId) throws SQLException, RemoteException{
+        return NotificationServiceImpl.getInstance().getAnnouncementNotificationsById(notificationId);
+    }
+
+    @Override
     public boolean deleteNotification(int id) throws SQLException, RemoteException {
         return NotificationServiceImpl.getInstance().deleteNotification(id);
     }

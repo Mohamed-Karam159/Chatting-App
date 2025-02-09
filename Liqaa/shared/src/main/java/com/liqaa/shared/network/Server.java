@@ -41,6 +41,7 @@ public interface Server extends Remote
     List<Notification> getUnreadNotifications(int recipientId) throws SQLException, RemoteException;
     boolean sendNotification(Notification notification) throws SQLException, RemoteException;
     List<AnnouncementNotification> getAnnouncementNotifications() throws SQLException, RemoteException;
+    AnnouncementNotification getAnnouncementNotificationsById(int notificationId) throws SQLException, RemoteException;
     boolean deleteNotification(int id) throws SQLException, RemoteException;
     void markAllAsRead(int recipientId) throws SQLException, RemoteException;
 

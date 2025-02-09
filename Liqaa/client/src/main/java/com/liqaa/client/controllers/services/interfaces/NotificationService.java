@@ -12,5 +12,5 @@ import java.util.List;
 public interface NotificationService {
     List<Notification> getAllNotifications(int userId) throws SQLException, RemoteException;
     User getNotificationSenderData(int senderId) throws RemoteException;
-    AnnouncementNotification getAnnouncementById(int notificationId) throws RemoteException;
+    AnnouncementNotification getAnnouncementById(int notificationId) throws SQLException, RemoteException;
 }

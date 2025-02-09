@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,79 +15,63 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="655.0" prefWidth="940.0" stylesheets="@../styles/style1.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.NotificationsController">
     <left>
-        <VBox prefHeight="655.0" prefWidth="63.0" spacing="20.0" style="-fx-background-color: #384E6A;" BorderPane.alignment="CENTER">
-            <children>
-                <ImageView fx:id="profile_btn" fitHeight="43.0" fitWidth="68.0" onMouseClicked="#profile_action" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/profile.png" />
-                    </image>
-                </ImageView>
-                <ImageView fx:id="home_btn" fitHeight="35.0" fitWidth="60.0" onMouseClicked="#home_action" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/home.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets left="3.0" />
-                    </VBox.margin>
-                </ImageView>
-                <ImageView fx:id="notification_btn" fitHeight="35.0" fitWidth="60.0" onMouseClicked="#notification_action" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/active.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets left="3.0" />
-                    </VBox.margin>
-                </ImageView>
-                <ImageView fx:id="contact_btn" fitHeight="35.0" fitWidth="60.0" onMouseClicked="#contact_action" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/phone_book.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets left="3.0" />
-                    </VBox.margin>
-                </ImageView>
-                <ImageView fx:id="chatbot_btn" fitHeight="40.0" fitWidth="65.0" onMouseClicked="#chatbot_action" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/chatbot.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets left="3.0" />
-                    </VBox.margin>
-                </ImageView>
-                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#384e6a" height="228.0" stroke="#384e6a" strokeType="INSIDE" width="51.0" />
-                <ImageView fx:id="settings_btn" fitHeight="35.0" fitWidth="60.0" onMouseClicked="#settings_action" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/settings.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets left="3.0" />
-                    </VBox.margin>
-                </ImageView>
-                <ImageView fx:id="logout_btn" fitHeight="35.0" fitWidth="60.0" onMouseClicked="#logout_action" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/logout.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets left="3.0" />
-                    </VBox.margin>
-                </ImageView>
-            </children>
-            <padding>
-                <Insets left="10.0" top="15.0" />
-            </padding>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-            <BorderPane.margin>
-                <Insets top="-151.0" />
-            </BorderPane.margin>
-        </VBox>
+      <BorderPane prefHeight="656.0" prefWidth="60.0" style="-fx-background-color: #384E6A;" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="-151.0" />
+         </BorderPane.margin>
+         <bottom>
+            <AnchorPane prefHeight="168.0" prefWidth="58.0" BorderPane.alignment="CENTER">
+               <children>
+                      <ImageView fx:id="settings_btn" fitHeight="35.0" fitWidth="60.0" layoutX="10.0" layoutY="60.0" onMouseClicked="#settings_action" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../images/settings.png" />
+                          </image>
+                      </ImageView>
+                      <ImageView fx:id="logout_btn" fitHeight="35.0" fitWidth="60.0" layoutX="10.0" layoutY="120.0" onMouseClicked="#logout_action" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../images/logout.png" />
+                          </image>
+                      </ImageView>
+               </children>
+            </AnchorPane>
+         </bottom>
+         <center>
+            <AnchorPane prefHeight="286.0" prefWidth="58.0" BorderPane.alignment="CENTER">
+               <children>
+                      <ImageView fx:id="contact_btn" fitHeight="35.0" fitWidth="60.0" layoutX="12.0" layoutY="220.0" onMouseClicked="#contact_action" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../images/phone_book.png" />
+                          </image>
+                      </ImageView>
+                      <ImageView fx:id="profile_btn" fitHeight="43.0" fitWidth="68.0" layoutX="7.0" layoutY="20.0" onMouseClicked="#profile_action" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../images/profile.png" />
+                          </image>
+                      </ImageView>
+                      <ImageView fx:id="home_btn" fitHeight="35.0" fitWidth="60.0" layoutX="11.0" layoutY="88.0" onMouseClicked="#home_action" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../images/home.png" />
+                          </image>
+                      </ImageView>
+                      <ImageView fx:id="notification_btn" fitHeight="35.0" fitWidth="60.0" layoutX="12.0" layoutY="154.0" onMouseClicked="#notification_action" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../images/active.png" />
+                          </image>
+                      </ImageView>
+                      <ImageView fx:id="chatbot_btn" fitHeight="40.0" fitWidth="65.0" layoutX="10.0" layoutY="289.0" onMouseClicked="#chatbot_action" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../images/chatbot.png" />
+                          </image>
+                      </ImageView>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
     </left>
     <top>
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="520.0" BorderPane.alignment="CENTER">
@@ -178,9 +163,9 @@
                         </Button>
                     </children>
                 </HBox>
-            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="341.0" prefWidth="798.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="378.0" prefWidth="802.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
-                  <Insets />
+                  <Insets bottom="50.0" />
                </GridPane.margin>
                <content>
                       <VBox fx:id="notificationsContainer" prefHeight="339.0" prefWidth="795.0" spacing="10.0" />

@@ -7,9 +7,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<HBox style="-fx-border-radius: 10; -fx-border-color: #E0E0E0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.components.NotificationCard2Controller">
+<HBox prefHeight="92.0" prefWidth="779.0" style="-fx-border-radius: 10; -fx-border-color: #E0E0E0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.components.NotificationCard2Controller">
     <children>
-        <AnchorPane prefHeight="90.0" prefWidth="600.0">
+        <AnchorPane prefHeight="90.0" prefWidth="804.0">
             <children>
                 <Circle fx:id="senderPhoto" fill="DODGERBLUE" layoutX="31.0" layoutY="44.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
                 <Label fx:id="notificationTitle" layoutX="60.0" layoutY="14.0" text="Aya sent you an invitation request">
@@ -22,8 +22,8 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-            <Button fx:id="acceptBtn" layoutX="461.0" layoutY="32.0" mnemonicParsing="false" onAction="#acceptAction" style="-fx-background-color: green;" text="Accept" textFill="WHITE" />
-            <Button fx:id="declineBtn" layoutX="530.0" layoutY="32.0" mnemonicParsing="false" onAction="#declineAction" style="-fx-background-color: gray;" text="Decline" textFill="WHITE" />
+            <Button fx:id="acceptBtn" layoutX="640.0" layoutY="32.0" mnemonicParsing="false" onAction="#acceptAction" style="-fx-background-color: green;" text="Accept" textFill="WHITE" />
+            <Button fx:id="declineBtn" layoutX="700.0" layoutY="32.0" mnemonicParsing="false" onAction="#declineAction" style="-fx-background-color: gray;" text="Decline" textFill="WHITE" />
             </children>
         </AnchorPane>
     </children>
