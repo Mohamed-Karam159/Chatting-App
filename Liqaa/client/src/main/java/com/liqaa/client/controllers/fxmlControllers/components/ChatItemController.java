@@ -26,7 +26,8 @@ public class ChatItemController {
 
     private ChatInfo chatInfo;
 
-    public void setChatInfo(ChatInfo chatInfo) {
+    public void setChatInfo(ChatInfo chatInfo)
+    {
         this.chatInfo = chatInfo;
         name.setText(chatInfo.getName());
         if (chatInfo.getImage() != null)

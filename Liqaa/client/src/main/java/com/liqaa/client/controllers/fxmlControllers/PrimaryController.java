@@ -2,16 +2,22 @@ package com.liqaa.client.controllers.FXMLcontrollers;
 
 import com.liqaa.client.controllers.FXMLcontrollers.components.CategoryListController;
 import com.liqaa.client.controllers.FXMLcontrollers.components.ChatItemController;
+import com.liqaa.client.controllers.services.implementations.BaseMessageController;
+import com.liqaa.client.controllers.services.implementations.DataCenter;
 import com.liqaa.shared.models.ChatInfo;
+import com.liqaa.shared.models.entities.FileMessage;
+import com.liqaa.shared.models.entities.Message;
 import com.liqaa.shared.models.enums.ConversationType;
+import com.liqaa.shared.models.enums.MessageType;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Side;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Priority;
@@ -22,13 +28,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
-import javafx.scene.control.ListCell;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Pos;
 import javafx.scene.shape.Polygon;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,8 +43,6 @@ import com.liqaa.shared.models.enums.CurrentStatus;
 
 public class PrimaryController
 {
-    @FXML
-    private VBox chatBox;
     @FXML
     private TextField messageField;
     @FXML
@@ -47,15 +52,15 @@ public class PrimaryController
     @FXML
     private Label chatUserStatus;
     @FXML
-    private StackPane logoPane; // منطقة اللوجو
+    private StackPane logoPane;
     @FXML
-    private VBox chatArea; // منطقة الشات
+    private VBox chatArea;
     @FXML
-    private StackPane rightPane; // الجزء الأيمن من الشاشة
+    private StackPane rightPane;
     @FXML
-    private ImageView videoCallIcon; // أيقونة مكالمة الفيديو
+    private ImageView videoCallIcon;
     @FXML
-    private ImageView voiceCallIcon; // أيقونة مكالمة الصوت
+    private ImageView voiceCallIcon;
     @FXML
     private ImageView contact_btn;
     @FXML
@@ -73,13 +78,105 @@ public class PrimaryController
         @FXML
         private CategoryListController nullController;
 
-    //    @FXML
-    //    private ListView chatListView;
+       public static boolean isNewFileMessage= false;
+       public static File selectedFile = null;
 
         @FXML private ListView<ChatInfo> chatListView;
         private ObservableList<ChatInfo> chatList= FXCollections.observableArrayList();
+    @FXML
+    private ListView<Message> chatBox;
+    private ObservableList<Message> messages = FXCollections.observableArrayList();
+    @FXML
+    private ImageView attachFile;
+    @FXML
+    private ImageView emoji;
+    @FXML
+    private TextField search;
+    @FXML
+    private ImageView send;
 
-        @FXML
+    public int getId() {return 1;}
+    private int currentUserId = getId();
+    private int getCurrentConversationId() {return 1;}
+
+//    private void loadDummyMessages() {
+//        messages.addAll(
+//                new Message(1, currentUserId, 1, "Hello!", MessageType.TEXT, LocalDateTime.now(),
+//                        true, LocalDateTime.now(), LocalDateTime.now()),
+//                new Message(2, 2, 1, "Hi there!", MessageType.TEXT, LocalDateTime.now(),
+//                        true, LocalDateTime.now(), null),
+//                new Message(3, currentUserId, 1, "How are you?", MessageType.TEXT, LocalDateTime.now(),
+//                        true, null, null),
+//                new Message(4, 2, 1, "I'm doing well, thank you!", MessageType.TEXT, LocalDateTime.now(),
+//                        true, null, null),
+//                new Message(5, currentUserId, 1, "What are you doing today?", MessageType.TEXT, LocalDateTime.now(),
+//                        true, null, null),
+//                new Message(6, 2, 1, "I'm working on a project.", MessageType.TEXT, LocalDateTime.now(),
+//                        true, null, LocalDateTime.now())
+//        );
+//    }
+    private ListCell<Message> createMessageCell(ListView<Message> param)
+    {
+        return new ListCell<>() {
+            private Node currentRoot;
+            private BaseMessageController currentController;
+
+            @Override
+            protected void updateItem(Message message, boolean empty)
+            {
+                super.updateItem(message, empty);
+
+                if (empty || message == null) {
+                    setGraphic(null);
+                    return;
+                }
+
+                try {
+                    String fxmlFile = null;
+                    if(message.getSenderId() == currentUserId)
+                    {
+                        fxmlFile = switch (message.getType())
+                        {
+                            case TEXT -> "/com/liqaa/client/view/fxml/components/sentTextMessage.fxml";
+                            default -> "/com/liqaa/client/view/fxml/components/sentFileMessage.fxml";
+                        };
+                    }
+                    else
+                    {
+                        fxmlFile = switch (message.getType())
+                        {
+                            case TEXT -> "/com/liqaa/client/view/fxml/components/receivedTextMessage.fxml";
+                            default -> "/com/liqaa/client/view/fxml/components/receivedFileMessage.fxml";
+                        };
+                    }
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+                    Node root = loader.load();
+                    BaseMessageController controller = loader.getController();
+
+                    if (root != currentRoot) {
+                        currentRoot = root;
+                        currentController = controller;
+                        setGraphic(root);
+                    }
+
+                    currentController.setMessage(message, currentUserId);
+
+                    HBox container = (HBox) root;
+                    container.setAlignment(message.getSenderId() == currentUserId ?
+                            Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
+
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                    setGraphic(new Label("Error loading message"));
+                }
+            }
+        };
+    }
+
+
+    @FXML
         public void initialize()
         {
             chatListView.setCellFactory(new Callback<ListView<ChatInfo>, ListCell<ChatInfo>>()
@@ -115,9 +212,16 @@ public class PrimaryController
                 System.err.println("Error initializing contacts: " + e.getMessage());
             }
 
+            chatBox.setItems(messages);
+            chatBox.setCellFactory(param -> createMessageCell((ListView<Message>) param));
 
-            loadChatData();
+            // Rest of existing initialization
+//            loadDummyMessages();
+
+            chatList.setAll(DataCenter.getInstance().getChats());
+//            loadChatData();
             chatListView.setItems(chatList);
+
         }
 
 
@@ -219,11 +323,9 @@ public class PrimaryController
 
     private void handleChatClick(ChatInfo chatInfo)
     {
-        // Update the chat header with the selected user's information
         chatUserName.setText(chatInfo.getName());
         CurrentStatus status = chatInfo.getStatus();
         chatUserStatus.setText(status != null ? status.name() : " ");
-        // Update status color based on the status
         chatUserStatus.getStyleClass().clear(); // Remove any previous styles
         chatUserStatus.getStyleClass().add("chat-user-status"); // Add the base style
         if (status == CurrentStatus.AVAILABLE) {
@@ -244,28 +346,122 @@ public class PrimaryController
         chatUserImage.setFitHeight(60); // Increase image size
         chatUserImage.setFitWidth(60);  // Increase image size
         // Clear the chat box before starting a new conversation
-        chatBox.getChildren().clear();
-        // Hide the logo and show the chat area
+        chatBox.getItems().clear();
+
+        messages.clear();
+
+//        loadMessagesForChat(chatInfo.getConversationId());
+        loadMessagesForChat(1);
+
         logoPane.setVisible(false);
         chatArea.setVisible(true);
-        // Make chatArea focusable
         chatArea.requestFocus();
+
+        Platform.runLater(() ->
+        {
+            if (!messages.isEmpty()) {
+                chatBox.scrollTo(messages.size() - 1);
+                System.out.println("Scrolling to last message");
+            }
+        });
+    }
+
+    private void loadMessagesForChat(int chatId) {
+        // Replace with actual message loading logic
+        messages.addAll(
+                new Message(1, currentUserId, chatId, "Hello! (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(2, 2, chatId, "Hi there! (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(3, currentUserId, chatId, "What's up? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(4, 2, chatId, "Not much. Just hanging out. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(5, currentUserId, chatId, "Want to grab lunch? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(6, 2, chatId, "I'm not hungry right now. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(2, 2, chatId, "Hi there! (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(3, currentUserId, chatId, "What's up? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(4, 2, chatId, "Not much. Just hanging out. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(5, currentUserId, chatId, "Want to grab lunch? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(6, 2, chatId, "I'm not hungry right now. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(2, 2, chatId, "Hi there! (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(3, currentUserId, chatId, "What's up? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(4, 2, chatId, "Not much. Just hanging out. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(5, currentUserId, chatId, "Want to grab lunch? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(6, 2, chatId, "I'm not hungry right now. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(2, 2, chatId, "Hi there! (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(3, currentUserId, chatId, "What's up? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(4, 2, chatId, "Not much. Just hanging out. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(5, currentUserId, chatId, "Want to grab lunch? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(6, 2, chatId, "I'm not hungry right now. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(2, 2, chatId, "Hi there! (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(3, currentUserId, chatId, "What's up? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(4, 2, chatId, "Not much. Just hanging out. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(5, currentUserId, chatId, "Want to grab lunch? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(6, 2, chatId, "I'm not hungry right now. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(2, 2, chatId, "Hi there! (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(3, currentUserId, chatId, "What's up? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(4, 2, chatId, "Not much. Just hanging out. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(5, currentUserId, chatId, "Want to grab lunch? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(6, 2, chatId, "I'm not hungry right now. (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(2, 2, chatId, "Hi there! (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(3, 2, chatId, "What's up? (Chat " + chatId + ")",
+                        MessageType.TEXT, LocalDateTime.now(), true, null, null),
+                new Message(4, 2, chatId, "Not much. Just hanging out. (Chat " + chatId + ")",
+                        MessageType.IMAGE, LocalDateTime.now(), true, null, null),
+                new Message(5, 2, chatId, "Want to grab lunch? (Chat " + chatId + ")",
+                        MessageType.DOCUMENT, LocalDateTime.now(), true, null,LocalDateTime.now()),
+                new Message(6, currentUserId, chatId, "I'm not hungry right now. (Chat " + chatId + ")",
+                        MessageType.AUDIO, LocalDateTime.now(),false, null, null)
+        );
     }
 
     @FXML
     private void handleSendMessage() {
         try {
-            String message = messageField.getText().trim();
-            if (!message.isEmpty()) {
-                // User's message
-                HBox messageBubble = createMessageBubble(message, true);
-                chatBox.getChildren().add(messageBubble);
-                // Clear the input field
+            String content = messageField.getText().trim();
+            if (!content.isEmpty())
+            {
+                Message message = new Message(currentUserId, getCurrentConversationId(), content, MessageType.TEXT, LocalDateTime.now(), true, null, null);
                 messageField.clear();
-                // Add an automatic reply (optional)
-                String reply = "This is an automatic reply.";
-                HBox replyBubble = createMessageBubble(reply, false);
-                chatBox.getChildren().add(replyBubble);
+                chatBox.getItems().add(message);
+
+                Platform.runLater(() ->
+                {
+                    if (!messages.isEmpty()) {
+                        chatBox.scrollTo(messages.size() - 1);
+                        System.out.println("Scrolling to last message");
+                    }
+                });
+                //todo: send text message
             }
         } catch (Exception e) {
             System.err.println("Error in handleSendMessage: " + e.getMessage());
@@ -274,35 +470,12 @@ public class PrimaryController
 
     @FXML
     private void handleKeyPressed(KeyEvent event) {
-        // عند الضغط على زر Enter
         if (event.getCode().toString().equals("ENTER")) {
-            handleSendMessage(); // إرسال الرسالة
+            handleSendMessage();
         }
     }
-    private HBox createMessageBubble(String message, boolean isUser) {
-        HBox bubbleContainer = new HBox();
-        bubbleContainer.getStyleClass().add("bubble-container");
-        bubbleContainer.setAlignment(isUser ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT); // استخدام Pos هنا
-        StackPane bubbleWrapper = new StackPane();
-        // إضافة الذيل
-        Polygon tail = new Polygon();
-        if (isUser) {
-            tail.getPoints().addAll(20.0, 0.0, 10.0, 10.0, 20.0, 20.0);
-            tail.getStyleClass().add("bubble-right-tail");
-        } else {
-            tail.getPoints().addAll(0.0, 0.0, 10.0, 10.0, 0.0, 20.0);
-            tail.getStyleClass().add("bubble-left-tail");
-        }
-        StackPane bubble = new StackPane();
-        bubble.getStyleClass().add(isUser ? "bubble-right" : "bubble-left");
-        Label messageText = new Label(message);
-        messageText.getStyleClass().add("bubble-text");
-        bubble.getChildren().add(messageText);
-        bubbleWrapper.getChildren().addAll(tail, bubble);
-        bubbleContainer.getChildren().add(bubbleWrapper);
-        return bubbleContainer;
-    }
-    // Event handlers for the sidebar buttons
+
+
     @FXML
     public void profile_action(MouseEvent mouseEvent) {
         System.out.println("profile btn is clicked");
@@ -331,4 +504,81 @@ public class PrimaryController
     public void logout_action(MouseEvent mouseEvent) {
         System.out.println("logout btn is clicked");
     }
+
+    @FXML
+    public void addEmoji(MouseEvent event)
+    {
+        ContextMenu emojiMenu = new ContextMenu();
+
+        String[] emojis = {"😊", "😂", "👍", "🔥", "🎉", "🙏", "🤔","👏"};
+
+        for (String emoji : emojis) {
+            MenuItem item = new MenuItem(emoji);
+            item.setOnAction(e -> messageField.appendText(emoji));
+            emojiMenu.getItems().add(item);
+        }
+
+        emojiMenu.show(emoji, Side.BOTTOM, 0, 0);
+    }
+
+    @FXML
+    public void attachFile(MouseEvent event)
+    {
+        ContextMenu attachMenu = new ContextMenu();
+
+        String[] types = {"Document", "Image", "Audio", "Video"};
+
+        for (String type : types) {
+            MenuItem item = new MenuItem(type);
+            item.setOnAction(e -> openFileChooser(type));
+            attachMenu.getItems().add(item);
+        }
+        attachMenu.show(attachFile, Side.BOTTOM, 0, 0);
+    }
+
+    private void openFileChooser(String type)
+    {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select " + type + " File");
+        MessageType messageType = null;
+        switch (type) {
+            case "Document":
+                messageType = MessageType.DOCUMENT;
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Documents", "*.pdf", "*.docx", "*.txt"));
+                break;
+            case "Image":
+                messageType = MessageType.IMAGE;
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+                break;
+            case "Audio":
+                messageType = MessageType.AUDIO;
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Audio", "*.mp3", "*.wav", "*.ogg"));
+                break;
+            case "Video":
+                messageType = MessageType.VIDEO;
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Videos", "*.mp4", "*.avi", "*.mkv"));
+                break;
+        }
+
+        selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null)
+        {
+            Message message = new Message(currentUserId, getCurrentConversationId(), null, messageType, LocalDateTime.now(), true, null, null);
+            int messageId=0; // todo: return of service
+            FileMessage fileMessage = new FileMessage( messageId, selectedFile.getName(), selectedFile.length()/1024, null);
+            //todo : send file info using service
+            messageField.clear();
+            chatBox.getItems().add(message);
+
+            Platform.runLater(() ->
+            {
+                if (!messages.isEmpty()) {
+                    chatBox.scrollTo(messages.size() - 1);
+                }
+            });
+            isNewFileMessage = true;
+            //TODO: call sendMessageFile function here and upload the file
+        }
+    }
+
 }
