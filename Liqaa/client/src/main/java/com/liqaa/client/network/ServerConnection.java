@@ -32,8 +32,8 @@ public class ServerConnection
                 alert.setHeaderText(null);
                 alert.showAndWait();
 //                CurrentChat.setCurrentChat(null);
-//                ListCoordinatorImpl.getListCoordinator().flushLists();
-                //                    SwitchScenes.getInstance().switchToSignInSecond(PrimaryStage.getInstance().getPrimaryStage());
+//                DataCenter.getInstance().flushLists();
+//                SwitchScenes.getInstance().switchToSignInSecond(PrimaryStage.getInstance().getPrimaryStage());
             });
             return null;
         }
