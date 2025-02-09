@@ -8,6 +8,7 @@ public class Category implements Serializable {
     private String categoryName;
     private LocalDateTime createdAt;
 
+    public Category(){}
     public Category(int userId, String categoryName) {
         this.userId = userId;
         this.categoryName = categoryName;
