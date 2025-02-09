@@ -1,37 +1,257 @@
-/*.table-view .column-header-background {
-    -fx-opacity: 0; 
+/* تنسيقات عامة */
+.root {
+    -fx-font-family: 'Arial';
+    -fx-base: #384E6A;
+    -fx-background: #f4f4f4;
 }
 
-.table-view .column-header {
-    -fx-opacity: 0; 
+/* تنسيقات الـ ListView */
+.list-view {
     -fx-background-color: transparent;
-}*/
-
-.table-row-cell {
-    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
 }
 
-.table-view .column-header .label {
-    -fx-font-size: 18px;
-    -fx-font-family: 'Montserrat';
-    -fx-font-weight: bold;
-    -fx-alignment: center;
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #384E6A;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: rgba(56, 78, 106, 0.1);
+    -fx-cursor: hand;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: rgba(56, 78, 106, 0.2);
+    -fx-text-fill: #384E6A;
+}
+
+.list-cell:filled:selected:focused {
+    -fx-border-color: transparent;
+}
+
+.list-cell .hbox {
+    -fx-spacing: 10px;
+    -fx-alignment: center-left;
+}
+
+.list-cell .image-view {
+    -fx-fit-height: 25px;
+    -fx-fit-width: 25px;
+}
+
+.list-cell .circle {
+    -fx-fill: #EC2323;
+}
+
+.list-cell .circle.available {
+    -fx-fill: #33EC23;
+}
+
+.list-cell .text {
+    -fx-fill: #384E6A;
+    -fx-font-size: 14px;
+}
+
+.list-cell .action-icon {
+    -fx-fit-height: 20px;
+    -fx-fit-width: 20px;
+    -fx-cursor: hand;
+}
+
+.list-cell .action-icon:hover {
+    -fx-opacity: 0.8;
+}
+
+/* تنسيقات الأزرار */
+.button {
+    -fx-background-color: #384E6A;
     -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
+}
+
+.button:hover {
+    -fx-background-color: rgba(56, 78, 106, 0.9);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 2);
+}
+
+.button#removeCategoryBtn {
+    -fx-background-color: #ff4444;
+}
+
+.button#removeCategoryBtn:hover {
+    -fx-background-color: rgba(255, 68, 68, 0.9);
+}
+
+/* تنسيقات حقل البحث */
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #384E6A;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused {
+    -fx-border-color: #2c3e50;
+}
+
+/* تنسيقات الـ HBox الخاص بحقل البحث */
+.hbox {
+    -fx-background-color: rgba(56, 78, 106, 0.34);
+    -fx-background-radius: 20px;
+    -fx-padding: 5px;
+}
+
+/* تنسيقات الـ VBox */
+.vbox {
     -fx-background-color: #384E6A;
 }
 
-.table-view {
-    -fx-column-border-visible: false;  /* Hide vertical column borders */
-    -fx-table-cell-border-color: transparent;  /* Hide cell borders */
-    -fx-border-color: transparent;              /* Optional: Hide outer border */
+/* تنسيقات الصور */
+.image-view#logo {
+    -fx-fit-height: 60px;
+    -fx-fit-width: 112px;
 }
 
-// To hide the vertical lines that exist among the table columns
-.no-border .table-row-cell {
-    -fx-border-color: transparent;
-    -fx-border-width: 0 0 1px 0; /* Only show horizontal lines (bottom border) */
+/* تنسيقات النصوص */
+.text#title {
+    -fx-fill: #384E6A;
+    -fx-font-size: 48px;
+    -fx-font-family: 'Arial Bold';
 }
 
-.no-border .table-cell {
-    -fx-border-color: transparent; /* Remove cell borders */
+/* تنسيقات الخطوط */
+.line {
+    -fx-stroke: #cdcdcd;
+}
+
+/* تنسيقات الـ Pagination */
+.pagination {
+    -fx-background-color: transparent;
+    -fx-page-information-visible: false;
+}
+
+.pagination .button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #384E6A;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-border-color: #384E6A;
+    -fx-border-width: 1px;
+    -fx-padding: 5px 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
+}
+
+.pagination .button:hover {
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #384E6A;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 2);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-transition: all 0.3s ease;
+}
+
+.pagination .button:selected {
+    -fx-background-color: rgba(56, 78, 106, 0.2);
+    -fx-text-fill: #384E6A;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.pagination .left-arrow, .pagination .right-arrow {
+    -fx-background-color: transparent;
+    -fx-text-fill: #384E6A;
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #384E6A;
+    -fx-border-width: 1px;
+    -fx-padding: 5px 10px;
+}
+
+.pagination .left-arrow:hover, .pagination .right-arrow:hover {
+    -fx-background-color: rgba(56, 78, 106, 0.1);
+    -fx-text-fill: #384E6A;
+}
+
+/* تنسيقات الـ Header */
+.header-hbox {
+    -fx-background-color: #384E6A;
+    -fx-padding: 15px;
+    -fx-spacing: 20px;
+    -fx-alignment: center-left;
+    -fx-border-color: #cdcdcd;
+    -fx-border-width: 0 0 1px 0;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+}
+
+.header-text {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-fill: white;
+    -fx-padding: 0 20px;
+}
+
+/* تنسيقات الدايلوج */
+.dialog-pane {
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #384E6A;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #384E6A;
+    -fx-border-radius: 10px 10px 0 0;
+    -fx-background-radius: 10px 10px 0 0;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .content {
+    -fx-padding: 20px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #384E6A;
+}
+
+.dialog-pane .button {
+    -fx-background-color: #384E6A;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: rgba(56, 78, 106, 0.9);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
+}
+
+.dialog-pane .button:cancel {
+    -fx-background-color: #ff4444;
+    -fx-text-fill: white;
+}
+
+.dialog-pane .button:cancel:hover {
+    -fx-background-color: rgba(255, 68, 68, 0.9);
 }
