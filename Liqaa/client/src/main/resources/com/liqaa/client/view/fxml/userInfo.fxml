@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="579.0" prefWidth="422.0" style="-fx-border-color: black; -fx-border-radius: 50; -fx-background-radius: 50;" stylesheets="@../styles/style1.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.UserInfoController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="579.0" prefWidth="422.0" style="-fx-border-color: black; -fx-border-radius: 50; -fx-background-radius: 50;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.UserInfoController">
     <top>
         <GridPane prefHeight="246.0" prefWidth="330.0" BorderPane.alignment="CENTER">
             <columnConstraints>
@@ -197,7 +197,7 @@
             <children>
                 <BorderPane prefHeight="200.0" prefWidth="200.0">
                     <center>
-                        <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#saveAction" style="-fx-background-color: #384E6A;" text="Save Changes" textFill="WHITE" BorderPane.alignment="CENTER">
+                        <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#saveAction" stylesheets="@../styles/userInfoStyle.css" text="Save Changes" textFill="WHITE" BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="Arial Bold" size="18.0" />
                             </font>

@@ -35,4 +35,34 @@ public class NotificationServiceImpl implements NotificationService {
     public AnnouncementNotification getAnnouncementById(int notificationId) throws SQLException, RemoteException{
         return ServerConnection.getServer().getAnnouncementNotificationsById(notificationId);
     }
+
+    @Override
+    public List<Notification> getAllAcceptedInvitations(int userId) throws SQLException, RemoteException{
+        return ServerConnection.getServer().getAcceptedInvitations(userId);
+    }
+
+    @Override
+    public List<Notification> getAllDeclinedInvitations(int userId) throws SQLException, RemoteException{
+        return ServerConnection.getServer().getDeclinedInvitations(userId);
+    }
+
+    @Override
+    public List<Notification> getAllFriendRequests(int userId) throws SQLException, RemoteException{
+        return ServerConnection.getServer().getUpcomingRequests(userId);
+    }
+
+    @Override
+    public List<Notification> getAnnouncements(int userId) throws SQLException, RemoteException{
+        return ServerConnection.getServer().getAnnouncements(userId);
+    }
+
+    @Override
+    public Boolean deleteNotification(int notificationId)  throws SQLException, RemoteException{
+        return ServerConnection.getServer().deleteNotification(notificationId);
+    }
+
+    @Override
+    public Boolean addToContactList(int userId, int newContactId) throws RemoteException{
+        return ServerConnection.getServer().addContact(userId, newContactId);
+    }
 }
