@@ -5,6 +5,7 @@ module com.liqaa.client {
     requires com.liqaa.shared;
     requires java.sql;
     requires java.rmi;
+    requires java.management;
 
     exports com.liqaa.client.controllers.FXMLcontrollers.components;
     exports com.liqaa.client.controllers.FXMLcontrollers;
