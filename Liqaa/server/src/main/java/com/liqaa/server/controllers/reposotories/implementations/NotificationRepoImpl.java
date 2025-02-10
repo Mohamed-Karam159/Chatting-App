@@ -285,6 +285,25 @@ public class NotificationRepoImpl implements NotificationRepo {
     }
 
     @Override
+    public AnnouncementNotification getAnnouncementNotificationsById(int notificationId) throws SQLException{
+        try(Connection connection = DatabaseManager.getConnection();) {
+            String query = "SELECT n.id, a.title, a.content, n.is_read AS isRead, n.sent_at AS sentAt " +
+                    "FROM Notifications n " +
+                    "JOIN Announcements a ON n.announcement_id = a.id " +
+                    "WHERE n.type = 'Announcement' AND n.id = ?";
+            try(PreparedStatement statement = connection.prepareStatement(query);){
+                statement.setInt(1, notificationId);
+                try(ResultSet resultSet = statement.executeQuery();) {
+                    if (resultSet.next()) {
+                        return new AnnouncementNotification(resultSet.getInt("id"), resultSet.getString("title"), resultSet.getString("content"), resultSet.getBoolean("isRead"), resultSet.getTimestamp("sentAt").toLocalDateTime());
+                    }
+                    return null;
+                }
+            }
+        }
+    }
+
+    @Override
     public List<Notification> getUnreadNotifications(int id) throws SQLException {
         try(Connection connection = DatabaseManager.getConnection();) {
             String query = "SELECT id, recipient_id, sender_id, announcement_id, type, is_read, sent_at FROM notifications WHERE is_read = FALSE AND recipient_id = ?";

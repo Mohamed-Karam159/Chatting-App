@@ -15,6 +15,7 @@ public interface NotificationService {
     List<Notification> getUnreadNotifications(int recipientId) throws SQLException;
     boolean sendNotification(Notification notification) throws SQLException;
     List<AnnouncementNotification> getAnnouncementNotifications() throws SQLException;
+    AnnouncementNotification getAnnouncementNotificationsById(int notificationId) throws SQLException;
     boolean deleteNotification(int id) throws SQLException;
     void markAllAsRead(int recipientId) throws SQLException;
 }

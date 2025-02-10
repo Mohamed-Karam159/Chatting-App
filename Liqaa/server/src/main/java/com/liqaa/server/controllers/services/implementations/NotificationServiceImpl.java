@@ -22,6 +22,7 @@ public class NotificationServiceImpl implements NotificationService {
         }
         return instance;
     }
+
     @Override
     public List<Notification> getUserNotifications(int userId) throws SQLException {
         return notificationRepoImpl.getUserNotifications(userId);
@@ -45,6 +46,11 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<AnnouncementNotification> getAnnouncementNotifications() throws SQLException{
         return notificationRepoImpl.getAnnouncementNotifications();
+    }
+
+    @Override
+    public AnnouncementNotification getAnnouncementNotificationsById(int notificationId) throws SQLException{
+        return notificationRepoImpl.getAnnouncementNotificationsById(notificationId);
     }
 
     @Override

@@ -47,13 +47,14 @@ public class ContactImplementation implements ContactInterface {
     public User getContact(String DisplayName )
     {
         User user=new User();
-        String query="SELECT users.name,users.phone_number,users.bio,users.current_status ,users.is_active ,users.profile_picture FROM  users  JOIN  contacts ON users.id = contacts.contact_id WHERE users.name = ? ";
+        String query="SELECT users.id,users.name,users.phone_number,users.bio,users.current_status ,users.is_active ,users.profile_picture FROM  users  JOIN  contacts ON users.id = contacts.contact_id WHERE users.name = ? ";
         try(PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
         {
             statement.setString(1, DisplayName);
             ResultSet result = statement.executeQuery();
             if (result.next())
             {
+                user.setId(result.getInt("id"));
                 user.setDisplayName(result.getString("name"));
                 user.setPhoneNumber(result.getString("phone_number"));
                 user.setBio(result.getString("bio"));
@@ -82,7 +83,7 @@ public class ContactImplementation implements ContactInterface {
     {
         // Specific info about friend>> name, phone, status, bio, image,is active
         List<User> userFriends= new ArrayList<>();
-        String query="SELECT users.name,users.phone_number,users.bio,users.current_status ,users.is_active ,users.profile_picture FROM  users  INNER JOIN contacts ON users.id = contacts.contact_id WHERE contacts.user_id = ? ";
+        String query="SELECT users.id, users.name,users.phone_number,users.bio,users.current_status ,users.is_active ,users.profile_picture FROM  users  INNER JOIN contacts ON users.id = contacts.contact_id WHERE contacts.user_id = ? ";
         try(PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
         {
             statement.setInt(1, userID);
@@ -90,6 +91,7 @@ public class ContactImplementation implements ContactInterface {
             while (result.next())
             {
                 User user=new User();
+                user.setId(result.getInt("id"));
                 user.setDisplayName(result.getString("name"));
                 user.setPhoneNumber(result.getString("phone_number"));
                 user.setBio(result.getString("bio"));

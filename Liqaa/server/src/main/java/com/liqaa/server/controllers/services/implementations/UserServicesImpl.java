@@ -5,7 +5,6 @@ import com.liqaa.server.controllers.services.interfaces.UserServicesInt;
 import com.liqaa.shared.models.entities.User;
 import com.liqaa.shared.models.enums.CurrentStatus;
 import com.liqaa.shared.models.enums.Gender;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -74,10 +73,22 @@ public class UserServicesImpl implements UserServicesInt {
             return user;
         }
         @Override
+    public User getUserInfoById(int userId)
+    {
+        User user=new User();
+        user= UserImplementation.getUserImplementationobject().getUserById(userId);
+        user.setPasswordHash(null); //do not return pass value
+        if(user==null)
+        {
+            return null;
+        }
+        return user;
+    }
+        @Override
         public boolean updateUserInfo (User user)
         {
-            int id=UserImplementation.getUserImplementationobject().getIdByPhoneNumber(user.getPhoneNumber());
-            user.setId(id);
+            //int id=UserImplementation.getUserImplementationobject().getIdByPhoneNumber(user.getPhoneNumber());
+            //user.setId(id);
             return UserImplementation.getUserImplementationobject().updateUser(user);
         }
         @Override

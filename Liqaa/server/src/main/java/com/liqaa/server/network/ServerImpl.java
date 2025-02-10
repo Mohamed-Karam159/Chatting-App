@@ -62,7 +62,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server
     public User getUserInfo(String userPhone) throws RemoteException {
         return userServices.getUserInfo(userPhone);
     }
-
+    @Override
+    public User getUserInfoById(int userId) throws RemoteException {
+        return userServices.getUserInfoById(userId);
+    }
     @Override
     public boolean updateUserInfo(User user) throws RemoteException {
         return userServices.updateUserInfo(user);
@@ -147,6 +150,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server
     @Override
     public List<AnnouncementNotification> getAnnouncementNotifications() throws SQLException, RemoteException {
         return NotificationServiceImpl.getInstance().getAnnouncementNotifications();
+    }
+
+    @Override
+    public AnnouncementNotification getAnnouncementNotificationsById(int notificationId) throws SQLException, RemoteException{
+        return NotificationServiceImpl.getInstance().getAnnouncementNotificationsById(notificationId);
     }
 
     @Override

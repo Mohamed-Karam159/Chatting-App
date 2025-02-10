@@ -17,6 +17,7 @@ public interface Server extends Remote
     public User signUp(User user) throws RemoteException;
 
     public User getUserInfo(String userPhone) throws RemoteException;
+    public User getUserInfoById(int userId) throws RemoteException;
     public boolean updateUserInfo (User user) throws RemoteException;
     public boolean updateUserImage ( String phone, byte[] img) throws RemoteException;
     public boolean deleteUser ( int userId) throws RemoteException;
@@ -40,6 +41,7 @@ public interface Server extends Remote
     List<Notification> getUnreadNotifications(int recipientId) throws SQLException, RemoteException;
     boolean sendNotification(Notification notification) throws SQLException, RemoteException;
     List<AnnouncementNotification> getAnnouncementNotifications() throws SQLException, RemoteException;
+    AnnouncementNotification getAnnouncementNotificationsById(int notificationId) throws SQLException, RemoteException;
     boolean deleteNotification(int id) throws SQLException, RemoteException;
     void markAllAsRead(int recipientId) throws SQLException, RemoteException;
 
