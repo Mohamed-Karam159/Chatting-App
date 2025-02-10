@@ -57,10 +57,8 @@ public class UserInfoController implements Initializable {
 
     private File selectedFile;
 
-    private String username = "root", password = "root", url_ = "jdbc:mysql://localhost:3306/liqaa";
-
     CurrentUserImpl impl = new CurrentUserImpl();
-    User currentUser = impl.getCurrentUser();
+    User currentUser = new User(1,"Ibrahim","ibrahim@gmail.com","password",null);  // todo:  = impl.getCurrentUser();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -75,8 +73,14 @@ public class UserInfoController implements Initializable {
         userCountry = currentUser.getCountry();
         userStatus = String.valueOf(currentUser.getCurrentstatus());
 
-        InputStream inputStream = new ByteArrayInputStream(userPhoto);
-        Image image = new Image(inputStream);
+        //todo: check if
+        Image image;
+        if(userPhoto == null)
+            image = new Image(getClass().getResourceAsStream("/com/liqaa/client/view/images/defaultProfileImage.png"));
+        else {
+            InputStream inputStream = new ByteArrayInputStream(userPhoto);
+            image = new Image(inputStream);
+        }
         profilePhoto.setFill(new ImagePattern(image));
         profilePhoto.setStroke(null);
         nameTextField.setText(userName);

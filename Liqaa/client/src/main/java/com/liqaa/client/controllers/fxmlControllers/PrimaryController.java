@@ -6,6 +6,7 @@ import com.liqaa.client.controllers.services.implementations.BaseMessageControll
 import com.liqaa.client.controllers.services.implementations.ConversationServices;
 import com.liqaa.client.controllers.services.implementations.DataCenter;
 import com.liqaa.client.controllers.services.implementations.MessageServices;
+import com.liqaa.client.util.SceneManager;
 import com.liqaa.shared.models.ChatInfo;
 import com.liqaa.shared.models.entities.FileMessage;
 import com.liqaa.shared.models.entities.Message;
@@ -23,6 +24,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,6 +35,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Pos;
@@ -333,37 +336,51 @@ public class PrimaryController
             handleSendMessage();
         }
     }
-
-
     @FXML
     public void profile_action(MouseEvent mouseEvent) {
         System.out.println("profile btn is clicked");
+        // Opens the user info scene in a new, undecorated stage.
+        SceneManager.getInstance().showUserInfoSceneInNewStage();
     }
+
     @FXML
     public void home_action(MouseEvent mouseEvent) {
         System.out.println("home btn is clicked");
+        // Switches the primary stage to the home scene.
+        SceneManager.getInstance().showPrimaryScene();
     }
+
     @FXML
     public void notification_action(MouseEvent mouseEvent) {
         System.out.println("notification btn is clicked");
+        // Switches the primary stage to the notifications scene.
+        SceneManager.getInstance().showNotificationScene();
     }
+
     @FXML
     public void contact_action(MouseEvent mouseEvent) {
         System.out.println("contact btn is clicked");
+        // Switches the primary stage to the contact scene.
+        SceneManager.getInstance().showContactScene();
     }
+
     @FXML
     public void chatbot_action(MouseEvent mouseEvent) {
         System.out.println("chatbot btn is clicked");
+        // Unfinished action – leave as is for now.
     }
+
     @FXML
     public void settings_action(MouseEvent mouseEvent) {
         System.out.println("settings btn is clicked");
+        // Unfinished action – leave as is for now.
     }
+
     @FXML
     public void logout_action(MouseEvent mouseEvent) {
         System.out.println("logout btn is clicked");
+        // Unfinished action – leave as is for now.
     }
-
     @FXML
     public void addEmoji(MouseEvent event)
     {

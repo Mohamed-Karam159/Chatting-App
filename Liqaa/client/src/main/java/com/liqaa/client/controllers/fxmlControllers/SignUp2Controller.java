@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import com.liqaa.client.Main;
+import com.liqaa.client.util.SceneManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -40,7 +42,7 @@ public class SignUp2Controller {
 
     public void initialize() {
         System.out.println("Signup2");
-        // Example: Load default image 
+        // Example: Load default image
 
         try {
             Image userImage = new Image(getClass().getResource("/com/liqaa/client/view/images/Defaultimage.png").toExternalForm());
@@ -55,7 +57,7 @@ public class SignUp2Controller {
     @FXML
     void handleProfilePictureButton(ActionEvent event) {
         System.out.println("Choose picture clicked");
-        // choose photo 
+        // choose photo
         // Create a FileChooser to select an image
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose an Image");
@@ -89,7 +91,7 @@ public class SignUp2Controller {
         SignInButton.setOnAction(e -> {
             System.out.println("Sign In button clicked.");
             try {
-                Main.setRoot("/com/liqaa/client/view/fxml/SignIn");
+                SceneManager.getInstance().showSignInScene();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println("signIn exception: " + ex.getMessage());
@@ -102,7 +104,7 @@ public class SignUp2Controller {
         SignUpButton.setOnAction(e -> {
             System.out.println("Sign up button clicked.");
             try {
-                Main.setRoot("/com/liqaa/client/view/fxml/SignUp1");
+                SceneManager.getInstance().showSignUpScene1();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println("signup exception: " + ex.getMessage());

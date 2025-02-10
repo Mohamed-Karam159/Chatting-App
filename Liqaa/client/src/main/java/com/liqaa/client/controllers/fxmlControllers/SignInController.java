@@ -1,5 +1,6 @@
 package com.liqaa.client.controllers.FXMLcontrollers;
 import com.liqaa.client.Main;
+import com.liqaa.client.util.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -27,10 +28,10 @@ public class SignInController {
     private String p="01143451668";
     private String pas="1234567sa";
     public void initialize() {
-        
+
         System.out.println("sign in controller");
          SignInButton.setDisable(true);
-  
+
 }
 
     @FXML
@@ -58,7 +59,7 @@ public class SignInController {
         SignUpButton.setOnAction(e -> {
             System.out.println("Sign up button clicked.");
             try {
-                Main.setRoot("/com/liqaa/client/view/fxml/SignUp1");
+                SceneManager.getInstance().showSignUpScene1();
             }  catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println("signIn exception: " + ex.getMessage());

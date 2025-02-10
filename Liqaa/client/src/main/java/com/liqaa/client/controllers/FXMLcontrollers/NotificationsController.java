@@ -3,6 +3,7 @@ package com.liqaa.client.controllers.FXMLcontrollers;
 import com.liqaa.client.controllers.FXMLcontrollers.components.NotificationCard1Controller;
 import com.liqaa.client.controllers.FXMLcontrollers.components.NotificationCard2Controller;
 import com.liqaa.client.controllers.services.implementations.NotificationServiceImpl;
+import com.liqaa.client.util.SceneManager;
 import com.liqaa.shared.models.entities.Notification;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -107,13 +108,16 @@ public class NotificationsController implements Initializable {
 
     public void home_action(MouseEvent mouseEvent) {
         System.out.println("home btn is clicked");
+        SceneManager.getInstance().showPrimaryScene();
     }
 
     public void notification_action(MouseEvent mouseEvent) {
         System.out.println("notification btn is clicked");
+//        SceneManager.getInstance().showNotificationScene();
     }
 
     public void contact_action(MouseEvent mouseEvent) {
+        SceneManager.getInstance().showContactScene();
         System.out.println("contact btn is clicked");
     }
 

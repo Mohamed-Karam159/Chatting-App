@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import com.liqaa.client.Main;
+import com.liqaa.client.util.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
@@ -84,12 +85,7 @@ public class SignUp1Controller {
     public void setSignInButtonOnAction() {
         SignInButton.setOnAction(e -> {
             System.out.println("Sign In button clicked.");
-            try {
-                Main.setRoot("/com/liqaa/client/view/fxml/SignIn");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                System.out.println("signIn exception: " + ex.getMessage());
-            }
+            SceneManager.getInstance().showSignInScene();
 
             // Add logic to handle sign-in action
         });
@@ -109,12 +105,7 @@ public class SignUp1Controller {
             gender = GenderField.getValue();
             // Check if all sections are filled or not
             if (checkAllData()) {
-                try {
-                    Main.setRoot("/com/liqaa/client/view/fxml/SignUp2");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    System.out.println("signup2 exception: " + ex.getMessage());
-                }
+                SceneManager.getInstance().showSignUpScene2();
             } else {
                 Alert a = new Alert(Alert.AlertType.NONE);
                 a.setAlertType(Alert.AlertType.INFORMATION);
