@@ -50,7 +50,7 @@
                         </VBox.margin>
                     </HBox>
 
-                    <GridPane alignment="CENTER" hgap="32.0" maxWidth="900.0" prefHeight="424.0" prefWidth="367.0" style="-fx-background-radius: 50ptx;" vgap="10.0" VBox.vgrow="ALWAYS">
+                    <GridPane alignment="CENTER" hgap="32.0" maxWidth="900.0" prefHeight="424.0" prefWidth="367.0" style="-fx-background-radius: 50px;" vgap="10.0" VBox.vgrow="ALWAYS">
                         <children>
                             <ComboBox fx:id="GenderField" maxWidth="800.0" onAction="#handleGenderField" prefHeight="40.0" prefWidth="200.0" promptText="Gender" style="-fx-background-color: white; -fx-background-radius: 50px;" stylesheets="@../styles/styles.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                 <opaqueInsets>
@@ -60,7 +60,7 @@
                             <DatePicker fx:id="DateField" editable="false" maxWidth="800.0" onAction="#handleDateField" prefHeight="40.0" prefWidth="200.0" promptText="1/1/2002" style="-fx-background-color: white;" stylesheets="@../styles/datePicker.css" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                             <HBox alignment="CENTER" prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: White; -fx-background-radius: 50px;">
                                 <children>
-                                    <TextField fx:id="NameField" onAction="#handleNameField" prefHeight="15.0" prefWidth="150.0" promptText="Name" style="-fx-background-color: Tranparent;" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="NameField" onAction="#handleNameField" prefHeight="15.0" prefWidth="150.0" promptText="Name" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS" />
                                     <ImageView fitHeight="30.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
                                             <Image url="@../images/image.jpeg" />
@@ -70,7 +70,7 @@
                             </HBox>
                             <HBox alignment="CENTER" prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: White; -fx-background-radius: 50px;" GridPane.columnIndex="1">
                                 <children>
-                                    <TextField fx:id="PhoneField" onAction="#handlePhoneField" promptText="Phone" style="-fx-background-color: Tranparent;" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="PhoneField" onAction="#handlePhoneField" promptText="Phone" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS" />
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
                                             <Image url="@../images/phone.png" />
@@ -80,7 +80,7 @@
                             </HBox>
                             <HBox alignment="CENTER" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: White; -fx-background-radius: 50px;" GridPane.rowIndex="2">
                                 <children>
-                                    <TextField fx:id="EmailField" onAction="#handleEmailField" prefHeight="15.0" prefWidth="140.0" promptText="   @gmail.com" style="-fx-background-color: Tranparent;" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="EmailField" onAction="#handleEmailField" prefHeight="15.0" prefWidth="140.0" promptText="   @gmail.com" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS" />
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
                                             <Image url="@../images/email.png" />
@@ -110,7 +110,7 @@
                             </HBox>
                             <HBox alignment="CENTER" prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: White; -fx-background-radius: 50px;" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                 <children>
-                                    <TextField fx:id="CountryField" onAction="#handleCountryField" promptText="Country" style="-fx-background-color: Tranparent;" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="CountryField" onAction="#handleCountryField" promptText="Country" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS" />
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
                                             <Image url="@../images/country.png" />

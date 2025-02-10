@@ -51,7 +51,7 @@
                     </HBox>
                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="300.0" style="-fx-background-color: White; -fx-background-radius: 15px;">
                         <children>
-                            <TextField fx:id="PhoneField" promptText="Phone" style="-fx-background-color: Tranparent;" HBox.hgrow="ALWAYS" />
+                            <TextField fx:id="PhoneField" promptText="Phone" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS" />
                             <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
                                     <Image url="@../images/phone.png" />
@@ -60,7 +60,7 @@
                         </children></HBox>
                     <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 15px;" stylesheets="@../styles/styles.css">
                         <children>
-                            <PasswordField fx:id="PasswordField" prefHeight="26.0" prefWidth="258.0" promptText="Password" style="-fx-background-color: Tranparent;" HBox.hgrow="ALWAYS">
+                            <PasswordField fx:id="PasswordField" prefHeight="26.0" prefWidth="258.0" promptText="Password" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
                                 <HBox.margin>
                                     <Insets top="2.0" />
                                 </HBox.margin>
@@ -80,7 +80,7 @@
                     </HBox>
 
 
-                    <Button fx:id="LogInButton" maxHeight="50.0" onAction="#handleLogInButton" opacity="0.91" prefWidth="84.0" style="-fx-background-color: #329ba2; -fx-text-fill: white; -fx-font-size: 15px; -fx-padding: 5 5; -fx-font-style: bold;" styleClass="redius" stylesheets="@../styles/SignButton.css" text="LogIn">
+                    <Button fx:id="LogInButton" maxHeight="50.0" onAction="#handleLogInButton" opacity="0.91" prefWidth="84.0" style="-fx-background-color: #329ba2; -fx-text-fill: white; -fx-font-size: 15px; -fx-padding: 5 5; -fx-font-weight: bold;" styleClass="redius" stylesheets="@../styles/SignButton.css" text="LogIn">
                         <opaqueInsets>
                             <Insets />
                         </opaqueInsets>

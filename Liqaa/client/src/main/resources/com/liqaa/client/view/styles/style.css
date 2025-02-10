@@ -24,7 +24,7 @@
 // To hide the vertical lines that exist among the table columns
 .no-border .table-row-cell {
     -fx-border-color: transparent;
-    -fx-border-width: 0 0 1px 0; /* Only show horizontal lines (bottom border) */
+    -fx-border-width: 0 0 1 0; /* Only show horizontal lines (bottom border) */
 }
 .no-border .table-cell {
     -fx-border-color: transparent; /* Remove cell borders */
