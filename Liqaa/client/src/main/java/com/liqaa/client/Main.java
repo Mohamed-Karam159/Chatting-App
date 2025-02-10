@@ -1,10 +1,12 @@
 package com.liqaa.client;
 
 import com.liqaa.client.network.ServerConnection;
+import com.liqaa.client.util.SceneManager;
 import com.liqaa.shared.network.Server;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -15,16 +17,20 @@ public class Main extends Application
     @Override
     public void start(Stage stage) throws IOException
     {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/liqaa/client/view/fxml/notifications.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Image appIcon = new Image(getClass().getResourceAsStream("/com/liqaa/client/view/images/logoIcon.png"));
+        stage.getIcons().add(appIcon);
+
+        SceneManager.initialize(stage);
+        SceneManager.getInstance().showSignUpScene1();
+
         stage.setTitle("Liqaa");
-        stage.setScene(scene);
         stage.show();
-        
+
         testServerConnection();
     }
 
-    private void testServerConnection() throws RemoteException {
+    private void testServerConnection() throws RemoteException
+    {
         Server server = ServerConnection.getServer();
         if (server != null) {
             String message = server.ping();
@@ -34,10 +40,8 @@ public class Main extends Application
         }
     }
 
-    public static void main(String[] args) throws SQLException, RemoteException {
-        //System.out.println(new CurrentUserImpl().getCurrentUser());
-       // System.out.println(NotificationServiceImpl.getInstance().getAllNotifications(3));
-
+    public static void main(String[] args) throws SQLException, RemoteException
+    {
         launch();
     }
 }
