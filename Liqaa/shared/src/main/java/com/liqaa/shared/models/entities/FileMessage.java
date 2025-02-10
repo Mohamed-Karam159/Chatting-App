@@ -1,6 +1,8 @@
 package com.liqaa.shared.models.entities;
 
-public class FileMessage {
+import java.io.Serializable;
+
+public class FileMessage implements Serializable {
     private int id;
     private int messageId;
     private String fileName;
@@ -24,6 +26,13 @@ public class FileMessage {
         this.fileName = name;
         this.fileSize = (int) length;
         this.filePath = filePath;
+    }
+
+    public FileMessage(String name, long length, String absolutePath)
+    {
+        this.fileName = name;
+        this.fileSize = (int) length;
+        this.filePath = absolutePath;
     }
 
     // Getters and Setters

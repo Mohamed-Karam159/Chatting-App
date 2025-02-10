@@ -2,9 +2,10 @@ package com.liqaa.shared.models.entities;
 
 import com.liqaa.shared.models.enums.MessageType;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Message {
+public class Message implements Serializable {
     private int id;
     private int senderId;
     private int conversationId;

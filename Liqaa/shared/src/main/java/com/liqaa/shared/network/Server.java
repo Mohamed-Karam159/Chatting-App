@@ -48,11 +48,14 @@ public interface Server extends Remote
 
     List<Message> getMessagesByConversationId(int conversationId) throws SQLException, RemoteException; // Without pagination
     List<Message> getMessagesByConversationId(int conversationId, int offset, int limit) throws SQLException, RemoteException; // With pagination
-    void sendMessage(Message message) throws SQLException, RemoteException; // Send a message
+    int sendMessage(Message message) throws SQLException, RemoteException; // Send a message
     int getUnreadMessageCount(int conversationId, int userId) throws SQLException, RemoteException; // Get unread message count
     void markMessagesAsSeen(int conversationId, int userId) throws SQLException, RemoteException; // Mark messages as seen
     public FileMessage getFileInfo(int messageId) throws SQLException, RemoteException;
-
+    public int sendFile(FileMessage fileInfo) throws SQLException, RemoteException;
+    public boolean uploadFile(byte[] fileData, String fileName, int conversationId, int messageId) throws RemoteException;
+    public void deleteMessage(int messageId) throws SQLException, RemoteException;
+    public byte[] downloadFile(int messageId, int conversationId) throws RemoteException;
 
 
     public void createGroup(Group group, ArrayList<Integer> groupMembers) throws RemoteException;
@@ -114,4 +117,6 @@ public interface Server extends Remote
     Map<Category, List<Integer>> getCategoriesWithContacts(int userId) throws RemoteException;
 
     String ping() throws RemoteException;
+
+
 }
