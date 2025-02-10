@@ -38,6 +38,7 @@ public interface Server extends Remote
     List<Notification> getUpcomingRequests(int recipientId) throws SQLException, RemoteException;
     List<Notification> getAcceptedInvitations(int recipientId) throws SQLException, RemoteException;
     List<Notification> getDeclinedInvitations(int recipientId) throws SQLException, RemoteException;
+    List<Notification> getAnnouncements(int recipientId) throws SQLException, RemoteException;
     List<Notification> getUnreadNotifications(int recipientId) throws SQLException, RemoteException;
     boolean sendNotification(Notification notification) throws SQLException, RemoteException;
     List<AnnouncementNotification> getAnnouncementNotifications() throws SQLException, RemoteException;

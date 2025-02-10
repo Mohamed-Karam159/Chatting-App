@@ -57,10 +57,10 @@ public class UserInfoController implements Initializable {
 
     private File selectedFile;
 
-    private String username = "root", password = "root", url_ = "jdbc:mysql://localhost:3306/liqaa";
+    private CurrentUserImpl impl = new CurrentUserImpl();
+    private User currentUser = impl.getCurrentUser();
 
-    CurrentUserImpl impl = new CurrentUserImpl();
-    User currentUser = impl.getCurrentUser();
+    private Image selectedImage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -105,8 +105,8 @@ public class UserInfoController implements Initializable {
         );
         selectedFile = fileChooser.showOpenDialog(NotificationsController.myStage);
         if (selectedFile != null) {
-            Image image = new Image(selectedFile.toURI().toString());
-            profilePhoto.setFill(new ImagePattern(image));
+            selectedImage = new Image(selectedFile.toURI().toString());
+            profilePhoto.setFill(new ImagePattern(selectedImage));
         }
     }
 
@@ -126,6 +126,7 @@ public class UserInfoController implements Initializable {
         if (selectedFile != null) {
             byte[] newProfilePicture = Files.readAllBytes(selectedFile.toPath());
             currentUser.setProfilepicture(newProfilePicture);
+            Platform.runLater(() -> NotificationsController.mainProfilePhoto.setFill(new ImagePattern(selectedImage)));
         } else {
             currentUser.setProfilepicture(userPhoto);
         }

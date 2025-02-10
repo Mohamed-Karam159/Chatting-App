@@ -22,8 +22,8 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-            <Button fx:id="acceptBtn" layoutX="640.0" layoutY="32.0" mnemonicParsing="false" onAction="#acceptAction" style="-fx-background-color: green;" text="Accept" textFill="WHITE" />
-            <Button fx:id="declineBtn" layoutX="700.0" layoutY="32.0" mnemonicParsing="false" onAction="#declineAction" style="-fx-background-color: gray;" text="Decline" textFill="WHITE" />
+            <Button fx:id="acceptBtn" layoutX="591.0" layoutY="32.0" mnemonicParsing="false" onAction="#acceptAction" prefHeight="26.0" prefWidth="86.0" style="-fx-background-color: green;" text="Accept" textFill="WHITE" />
+            <Button fx:id="declineBtn" layoutX="685.0" layoutY="31.0" mnemonicParsing="false" onAction="#declineAction" prefHeight="26.0" prefWidth="86.0" style="-fx-background-color: gray;" text="Decline" textFill="WHITE" />
             </children>
         </AnchorPane>
     </children>

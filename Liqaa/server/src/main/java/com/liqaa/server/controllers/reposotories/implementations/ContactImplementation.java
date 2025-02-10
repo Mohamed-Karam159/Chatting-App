@@ -125,20 +125,18 @@ public class ContactImplementation implements ContactInterface {
             return false;
         }
         String query = "INSERT INTO contacts (user_id, contact_id,  is_blocked) VALUES (?, ?, ?)";
-        try(PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
-        {
-                statement.setInt(1, contact.getUserId());
-                statement.setInt(2, contact.getContactId());
-                statement.setBoolean(3, contact.getIsBlocked());
-                System.out.println("Contact created successfully");
-                if( statement.executeUpdate()==1) // if it is created it will return 1
-                      return true;
-        }catch(SQLException e)
-        {
-            System.err.println("Error creating contact: " + e.getMessage());
-            e.printStackTrace();
+        try(Connection connection = DatabaseManager.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query);) {
+            statement.setInt(1, contact.getUserId());
+            statement.setInt(2, contact.getContactId());
+            statement.setBoolean(3, contact.getIsBlocked());
+            System.out.println("Contact created successfully");
+            if (statement.executeUpdate() == 1) // if it is created it will return 1
+                return true;
+            return false; // // Error occurred during creation
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return false; // // Error occurred during creation
     }
     @Override
     public boolean deleteById(int userId, int contactId)

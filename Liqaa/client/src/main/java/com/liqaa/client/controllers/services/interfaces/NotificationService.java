@@ -13,4 +13,10 @@ public interface NotificationService {
     List<Notification> getAllNotifications(int userId) throws SQLException, RemoteException;
     User getNotificationSenderData(int senderId) throws RemoteException;
     AnnouncementNotification getAnnouncementById(int notificationId) throws SQLException, RemoteException;
+    List<Notification> getAllAcceptedInvitations(int userId) throws SQLException, RemoteException;
+    List<Notification> getAllDeclinedInvitations(int userId) throws SQLException, RemoteException;
+    List<Notification> getAllFriendRequests(int userId) throws SQLException, RemoteException;
+    List<Notification> getAnnouncements(int userId) throws SQLException, RemoteException;
+    Boolean deleteNotification(int notificationId)  throws SQLException, RemoteException;
+    Boolean addToContactList(int userId, int newContactId) throws RemoteException;
 }
