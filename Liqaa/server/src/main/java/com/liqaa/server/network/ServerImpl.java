@@ -6,6 +6,11 @@ import com.liqaa.shared.models.entities.*;
 import com.liqaa.shared.network.Server;
 import com.liqaa.server.controllers.services.interfaces.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
@@ -165,8 +170,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server
     }
 
     @Override
-    public void sendMessage(Message message) throws SQLException, RemoteException {
-        MessageServiceImpl.getInstance().sendMessage(message);
+    public int sendMessage(Message message) throws  RemoteException {
+       int id= MessageServiceImpl.getInstance().sendMessage(message);
+
+        return id;
     }
 
     @Override
@@ -182,6 +189,50 @@ public class ServerImpl extends UnicastRemoteObject implements Server
     public FileMessage getFileInfo(int messageId) throws SQLException, RemoteException {
         return MessageServiceImpl.getInstance().getFileInfo(messageId);
     }
+    public int sendFile(FileMessage fileInfo) throws SQLException, RemoteException
+    {
+        return MessageServiceImpl.getInstance().sendFile(fileInfo);
+    }
+
+    @Override
+    public boolean uploadFile(byte[] fileData, String fileName, int conversationId, int messageId) throws RemoteException {
+        try
+        {
+            // Create conversation directory if needed
+            String basePath = "./files/" + conversationId + "/";
+            new File(basePath).mkdirs();
+
+            // Save file
+            Path filePath = Paths.get(basePath + messageId + "_" + fileName);
+            Files.write(filePath, fileData);
+
+            MessageServiceImpl.getInstance().updateFileInfo(messageId, filePath);
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public void deleteMessage(int messageId) throws SQLException, RemoteException {
+        MessageServiceImpl.getInstance().deleteMessage(messageId);
+    }
+
+    @Override
+    public byte[] downloadFile(int messageId, int conversationId) throws RemoteException {
+            try
+            {
+                FileMessage metadata = MessageServiceImpl.getInstance().getFileInfo(messageId);
+                Path filePath = Paths.get(metadata.getFilePath());
+                return Files.readAllBytes(filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+    }
+
 
     @Override
     public void createGroup(Group group, ArrayList<Integer> groupMembers) throws RemoteException {
