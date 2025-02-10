@@ -48,6 +48,7 @@ public class NotificationsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         notificationList = FXCollections.observableArrayList();
         notificationList.addListener((ListChangeListener<Notification>) change -> {
             updateUI();
