@@ -50,6 +50,8 @@ public abstract class BaseMessageController
 
     protected void setStatusIndicator(ImageView statusIcon, Message message)
     {
+        if(statusIcon == null)
+            return;
         if (message.getSeenAt() != null) {
 
             statusIcon.setImage(BLUE_DOUBLE_CHECK);

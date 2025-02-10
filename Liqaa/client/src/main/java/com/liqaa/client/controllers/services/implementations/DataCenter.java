@@ -7,7 +7,6 @@ import com.liqaa.shared.models.entities.Message;
 import com.liqaa.shared.models.entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 
 public class DataCenter
 {
@@ -19,7 +18,8 @@ public class DataCenter
 
     private Category currentCategory ;
     private User currentUser = new User(1,"Ibrahim","ibrahim@gmail.com","password",null);
-    private Conversation currentConversation;
+    private ChatInfo currentChat;
+    private int currentConversationId;
 
     private DataCenter() {}
 
@@ -51,9 +51,24 @@ public class DataCenter
         return currentUser;
     }
 
-    public Conversation getCurrentConversation()
+    public int getcurrentUserId()
     {
-        return currentConversation;
+        return currentUser.getId();
+    }
+
+    public ChatInfo getCurrentChat()
+    {
+        return currentChat;
+    }
+
+    public void setCurrentChat(ChatInfo chat)
+    {
+        currentChat = chat;
+    }
+
+    public int getCurrentConversationId()
+    {
+        return currentChat.getConversationId();
     }
 
     public Category getCurrentCategory()
@@ -72,9 +87,9 @@ public class DataCenter
         currentUser = user;
     }
 
-    public void setCurrentConversation(Conversation conversation)
+    public void setCurrentConversationId(int conversationId)
     {
-        currentConversation = conversation;
+        currentConversationId = conversationId;
     }
 
     public void flushData()
@@ -87,9 +102,9 @@ public class DataCenter
     public void initializeDefaultCategories()
     {
         categories.setAll(
-                new Category(-2, "All"),
-                new Category(-3, "Unread"),
-                new Category(-4, "Groups")
+                new Category(-2, 0, "All"),
+                new Category(-3, 0, "Unread"),
+                new Category(-4, 0, "Groups")
         );
         setCurrentCategory(categories.get(0));
     }
