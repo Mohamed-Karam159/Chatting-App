@@ -1,5 +1,6 @@
 package com.liqaa.client.controllers.FXMLcontrollers;
 
+import com.liqaa.client.util.SceneManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -179,37 +180,37 @@ public class ContactsController implements Initializable {
     // Event handlers for the buttons
     @FXML
     private void profile_action(MouseEvent event) {
-        System.out.println("Profile button clicked!");
+        SceneManager.getInstance().showUserInfoSceneInNewStage();
     }
 
     @FXML
     private void home_action(MouseEvent event) {
-        System.out.println("Home button clicked!");
+        SceneManager.getInstance().showPrimaryScene();
     }
 
     @FXML
     private void notification_action(MouseEvent event) {
-        System.out.println("Notification button clicked!");
+        SceneManager.getInstance().showNotificationScene();
     }
 
     @FXML
     private void contact_action(MouseEvent event) {
-        System.out.println("Contact button clicked!");
+//        SceneManager.getInstance().showContactScene();
     }
 
     @FXML
     private void chatbot_action(MouseEvent event) {
-        System.out.println("Chatbot button clicked!");
+       // todo: SceneManager.getInstance().showChatBotScene();
     }
 
     @FXML
     private void settings_action(MouseEvent event) {
-        System.out.println("Settings button clicked!");
+//    todo:    SceneManager.getInstance().showSettingsScene();
     }
 
     @FXML
     private void logout_action(MouseEvent event) {
-        System.out.println("Logout button clicked!");
+       //todo logout
     }
 
     @FXML

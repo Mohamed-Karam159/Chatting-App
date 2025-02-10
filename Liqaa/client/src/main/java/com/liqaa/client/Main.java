@@ -21,7 +21,7 @@ public class Main extends Application
         stage.getIcons().add(appIcon);
 
         SceneManager.initialize(stage);
-        SceneManager.getInstance().showSignUpScene1();
+        SceneManager.getInstance().showPrimaryScene();
 
         stage.setTitle("Liqaa");
         stage.show();
