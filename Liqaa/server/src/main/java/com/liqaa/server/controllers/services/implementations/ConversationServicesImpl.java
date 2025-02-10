@@ -111,6 +111,7 @@ public class ConversationServicesImpl implements ConversationServices
     }
 
     @Override
+    @Deprecated
     public List<ChatInfo> getUnreadConversations(int userId, int limit, int offset)
     {
         if (userId > 0)
