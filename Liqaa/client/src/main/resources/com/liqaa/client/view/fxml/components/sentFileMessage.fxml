@@ -43,14 +43,14 @@
                <Font name="Roboto Bold" size="13.0" />
             </font>
          </Text>
-         <Text fx:id="fileSize" fill="#565353" fontSmoothingType="LCD" layoutX="65.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3.6 MB" wrappingWidth="59.19999821484089">
+         <Text fx:id="fileSize" fill="#565353" layoutX="65.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3.6 MB" wrappingWidth="59.19999821484089">
             <font>
-               <Font name="Roboto" size="11.0" />
+               <Font name="Roboto Bold" size="11.0" />
             </font>
          </Text>
-         <Text fx:id="fileType" fill="#565353" fontSmoothingType="LCD" layoutX="65.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TXT File" wrappingWidth="83.99998600780964">
+         <Text fx:id="fileType" fill="#565353" layoutX="65.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TXT File" wrappingWidth="83.99998600780964">
             <font>
-               <Font name="Roboto" size="11.0" />
+               <Font name="Roboto Bold" size="11.0" />
             </font>
          </Text>
          <Separator layoutX="-1.0" layoutY="99.0" prefHeight="2.0" prefWidth="166.0" />
