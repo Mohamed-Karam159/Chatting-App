@@ -71,13 +71,14 @@ public class CategoryListController
             switch (categoryId)
             {
                 case -2: // "All" category
-                    ConversationServices.getInstance().loadAllConversations(DataCenter.getInstance().getCurrentUser().getId());
+                    System.out.println("Loading all conversations"+ DataCenter.getInstance().getcurrentUserId());
+                    ConversationServices.getInstance().loadAllConversations(DataCenter.getInstance().getcurrentUserId());
                     break;
                 case -3: // "Unread" category
-                    ConversationServices.getInstance().loadUnreadConversations(DataCenter.getInstance().getCurrentUser().getId());
+                    ConversationServices.getInstance().loadUnreadConversations(DataCenter.getInstance().getcurrentUserId());
                     break;
                 case -4: // "Groups" category
-                    ConversationServices.getInstance().loadGroupConversations(DataCenter.getInstance().getCurrentUser().getId());
+                    ConversationServices.getInstance().loadGroupConversations(DataCenter.getInstance().getcurrentUserId());
                     break;
 
                 default:
