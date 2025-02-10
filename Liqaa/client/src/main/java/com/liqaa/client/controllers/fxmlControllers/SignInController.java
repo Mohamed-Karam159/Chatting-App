@@ -52,18 +52,18 @@ public class SignInController {
 
     }
 
-    @FXML
-    void handleSignUpButton(ActionEvent event) {
-        System.out.println("SignUpButton");
-        SignUpButton.setOnAction(e -> {
-            System.out.println("Sign up button clicked.");
-            try {
-                Main.setRoot("/com/liqaa/client/view/fxml/SignUp1");
-            }  catch (Exception ex) {
-                ex.printStackTrace();
-                System.out.println("signIn exception: " + ex.getMessage());
-            }});
-
-    }
+//    @FXML
+//    void handleSignUpButton(ActionEvent event) {
+//        System.out.println("SignUpButton");
+//        SignUpButton.setOnAction(e -> {
+//            System.out.println("Sign up button clicked.");
+//            try {
+//                Main.setRoot("/com/liqaa/client/view/fxml/SignUp1");
+//            }  catch (Exception ex) {
+//                ex.printStackTrace();
+//                System.out.println("signIn exception: " + ex.getMessage());
+//            }});
+//
+//    }
 
 }

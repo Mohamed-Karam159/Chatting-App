@@ -80,59 +80,59 @@ public class SignUp1Controller {
     }
 
     // Event Handlers
-    @FXML
-    public void setSignInButtonOnAction() {
-        SignInButton.setOnAction(e -> {
-            System.out.println("Sign In button clicked.");
-            try {
-                Main.setRoot("/com/liqaa/client/view/fxml/SignIn");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                System.out.println("signIn exception: " + ex.getMessage());
-            }
+//    @FXML
+//    public void setSignInButtonOnAction() {
+//        SignInButton.setOnAction(e -> {
+//            System.out.println("Sign In button clicked.");
+//            try {
+//                Main.setRoot("/com/liqaa/client/view/fxml/SignIn");
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//                System.out.println("signIn exception: " + ex.getMessage());
+//            }
+//
+//            // Add logic to handle sign-in action
+//        });
+//    }
 
-            // Add logic to handle sign-in action
-        });
-    }
-
-    @FXML
-    public void setNextButtonOnAction() {
-        NextButton.setOnAction(e -> {
-            System.out.println("Next button clicked.");
-
-            name = NameField.getText();
-            phone = PhoneField.getText();
-            email = EmailField.getText();
-            password = passwordField.getText();
-            confirmPassword = ConfirmationpasswordField.getText();
-            country = CountryField.getText();
-            gender = GenderField.getValue();
-            // Check if all sections are filled or not
-            if (checkAllData()) {
-                try {
-                    Main.setRoot("/com/liqaa/client/view/fxml/SignUp2");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    System.out.println("signup2 exception: " + ex.getMessage());
-                }
-            } else {
-                Alert a = new Alert(Alert.AlertType.NONE);
-                a.setAlertType(Alert.AlertType.INFORMATION);
-                a.setContentText("Please complete all required fields before proceeding.");
-                a.show(); // Add this line to display the alert
-            }
-
-            // Test output
-            System.out.println(name);
-            System.out.println(phone);
-            System.out.println(password);
-            System.out.println(country);
-            System.out.println(confirmPassword);
-            System.out.println(gender);
-            System.out.println(email);
-            System.out.println(date);
-        });
-    }
+//    @FXML
+//    public void setNextButtonOnAction() {
+//        NextButton.setOnAction(e -> {
+//            System.out.println("Next button clicked.");
+//
+//            name = NameField.getText();
+//            phone = PhoneField.getText();
+//            email = EmailField.getText();
+//            password = passwordField.getText();
+//            confirmPassword = ConfirmationpasswordField.getText();
+//            country = CountryField.getText();
+//            gender = GenderField.getValue();
+//            // Check if all sections are filled or not
+//            if (checkAllData()) {
+//                try {
+//                    Main.setRoot("/com/liqaa/client/view/fxml/SignUp2");
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                    System.out.println("signup2 exception: " + ex.getMessage());
+//                }
+//            } else {
+//                Alert a = new Alert(Alert.AlertType.NONE);
+//                a.setAlertType(Alert.AlertType.INFORMATION);
+//                a.setContentText("Please complete all required fields before proceeding.");
+//                a.show(); // Add this line to display the alert
+//            }
+//
+//            // Test output
+//            System.out.println(name);
+//            System.out.println(phone);
+//            System.out.println(password);
+//            System.out.println(country);
+//            System.out.println(confirmPassword);
+//            System.out.println(gender);
+//            System.out.println(email);
+//            System.out.println(date);
+//        });
+//    }
 
     @FXML
     public void handleNameField() {

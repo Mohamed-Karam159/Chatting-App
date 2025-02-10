@@ -29,10 +29,13 @@ public class NotificationCard1Controller implements Initializable {
     @FXML
     private Label notificationDate;
 
+    private int curNotificationId;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     public void setNotificationData(Notification notification) throws RemoteException, SQLException {
+        curNotificationId = notification.getId();
         User sender = NotificationServiceImpl.getInstance().getNotificationSenderData(notification.getSenderId());
         if(notification.getType().toString().equals("REQUEST_ACCEPTED")) notificationTitle.setText(sender.getDisplayName() + " accepted your invitation request");
         else if(notification.getType().toString().equals("REQUEST_DECLINED")) notificationTitle.setText(sender.getDisplayName() + " declined your invitation request");
@@ -48,17 +51,15 @@ public class NotificationCard1Controller implements Initializable {
             image = new Image(getClass().getResource("/com/liqaa/client/view/images/announcement.png").toExternalForm());
         }
         else {
-            image = new Image(getClass().getResource("/com/liqaa/client/view/images/defaultProfileImage.png").toExternalForm());
-            //System.out.println(Arrays.toString(sender.getProfilepicture()) + "\nmmmmmmmmmmm\n");
-//            byte[] userPhoto = sender.getProfilepicture();
-//            InputStream inputStream = new ByteArrayInputStream(userPhoto);
-//            image = new Image(inputStream);
+            byte[] userPhoto = sender.getProfilepicture();
+            InputStream inputStream = new ByteArrayInputStream(userPhoto);
+            image = new Image(inputStream);
         }
         senderPhoto.setFill(new ImagePattern(image));
         senderPhoto.setStroke(null);
     }
 
-    public void deleteAction(){
-        System.out.println("delete icon is clicked");
+    public void deleteAction() throws SQLException, RemoteException {
+        NotificationServiceImpl.getInstance().deleteNotification(curNotificationId);
     }
 }

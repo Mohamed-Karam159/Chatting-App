@@ -14,11 +14,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="655.0" prefWidth="940.0" stylesheets="@../styles/style1.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.NotificationsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="655.0" prefWidth="940.0" stylesheets="@../styles/notificationStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.NotificationsController">
     <left>
       <BorderPane prefHeight="656.0" prefWidth="60.0" style="-fx-background-color: #384E6A;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -48,11 +49,6 @@
                               <Image url="@../images/phone_book.png" />
                           </image>
                       </ImageView>
-                      <ImageView fx:id="profile_btn" fitHeight="43.0" fitWidth="68.0" layoutX="7.0" layoutY="20.0" onMouseClicked="#profile_action" pickOnBounds="true" preserveRatio="true">
-                          <image>
-                              <Image url="@../images/profile.png" />
-                          </image>
-                      </ImageView>
                       <ImageView fx:id="home_btn" fitHeight="35.0" fitWidth="60.0" layoutX="11.0" layoutY="88.0" onMouseClicked="#home_action" pickOnBounds="true" preserveRatio="true">
                           <image>
                               <Image url="@../images/home.png" />
@@ -68,6 +64,7 @@
                               <Image url="@../images/chatbot.png" />
                           </image>
                       </ImageView>
+                  <Circle fx:id="profilePhoto" fill="DODGERBLUE" layoutX="29.0" layoutY="43.0" onMouseClicked="#profile_action" radius="23.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </AnchorPane>
          </center>
@@ -113,8 +110,8 @@
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints maxHeight="163.59998168945313" minHeight="10.0" prefHeight="54.79998779296875" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="163.59998168945313" minHeight="10.0" prefHeight="66.79998779296874" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="439.00001220703126" minHeight="0.0" prefHeight="400.40001220703124" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="163.59998168945313" minHeight="10.0" prefHeight="45.600006103515625" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="439.00001220703126" minHeight="0.0" prefHeight="423.99999389648445" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <HBox fx:id="tabs" prefHeight="31.0" prefWidth="794.0" spacing="20.0" style="-fx-background-color: #384E6A; -fx-background-radius: 15;" GridPane.columnIndex="1">
@@ -136,7 +133,7 @@
                         <MenuButton fx:id="invitStatusBtn" mnemonicParsing="false" onMouseEntered="#statusMouseEntered" onMouseExited="#statusMouseExited" prefHeight="31.0" prefWidth="177.0" style="-fx-background-color: #384E6A;" text="Invitations Status" textFill="WHITE">
                             <items>
                                 <MenuItem fx:id="accepted" mnemonicParsing="false" onAction="#acceptedAction" text="Accepted" />
-                                <MenuItem fx:id="rejected" mnemonicParsing="false" onAction="#rejectedAction" text="Declined" />
+                                <MenuItem fx:id="rejected" mnemonicParsing="false" onAction="#declinedAction" text="Declined" />
                             </items>
                             <font>
                                 <Font name="Arial Bold" size="16.0" />
@@ -171,18 +168,7 @@
                       <VBox fx:id="notificationsContainer" prefHeight="339.0" prefWidth="795.0" spacing="10.0" />
                </content>
             </ScrollPane>
-                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <children>
-                        <Text fill="#40bfc7" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Poppins;" text="Mark all as read" wrappingWidth="150.80899053812027">
-                            <font>
-                                <Font name="System Bold" size="20.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets left="643.0" top="35.0" />
-                            </HBox.margin>
-                        </Text>
-                    </children>
-                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             </children>
             <BorderPane.margin>
                 <Insets bottom="10.0" left="40.0" right="38.0" top="-30.0" />

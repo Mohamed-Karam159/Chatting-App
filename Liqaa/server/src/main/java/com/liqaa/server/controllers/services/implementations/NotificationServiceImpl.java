@@ -44,6 +44,11 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public List<Notification> getAnnouncements(int recipientId) throws SQLException{
+        return notificationRepoImpl.getAnnouncements(recipientId);
+    }
+
+    @Override
     public List<AnnouncementNotification> getAnnouncementNotifications() throws SQLException{
         return notificationRepoImpl.getAnnouncementNotifications();
     }

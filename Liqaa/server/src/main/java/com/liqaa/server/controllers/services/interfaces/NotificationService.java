@@ -12,6 +12,7 @@ public interface NotificationService {
     List<Notification> getUpcomingRequests(int recipientId) throws SQLException;
     List<Notification> getAcceptedInvitations(int recipientId) throws SQLException;
     List<Notification> getDeclinedInvitations(int recipientId) throws SQLException;
+    List<Notification> getAnnouncements(int recipientId) throws SQLException;
     List<Notification> getUnreadNotifications(int recipientId) throws SQLException;
     boolean sendNotification(Notification notification) throws SQLException;
     List<AnnouncementNotification> getAnnouncementNotifications() throws SQLException;

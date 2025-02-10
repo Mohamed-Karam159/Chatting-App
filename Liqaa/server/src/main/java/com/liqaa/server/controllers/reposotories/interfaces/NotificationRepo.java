@@ -21,6 +21,7 @@ public interface NotificationRepo {
     List<Notification> getUserFriendRequests(int recipientId) throws SQLException;
     List<Notification> getAcceptedInvitations(int id) throws SQLException; // receiverId = id
     List<Notification> getDeclinedInvitations(int id) throws SQLException; // receiverId = id
+    List<Notification> getAnnouncements(int id) throws SQLException;
     List<AnnouncementNotification> getAnnouncementNotifications() throws SQLException;
     AnnouncementNotification getAnnouncementNotificationsById(int notificationId) throws SQLException;
     List<Notification> getUnreadNotifications(int id) throws SQLException; // receiverId = id

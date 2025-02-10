@@ -84,29 +84,29 @@ public class SignUp2Controller {
         //if false ,show error Msg
     }
 
-    @FXML
-    void handleSignInButton(ActionEvent event) {
-        SignInButton.setOnAction(e -> {
-            System.out.println("Sign In button clicked.");
-            try {
-                Main.setRoot("/com/liqaa/client/view/fxml/SignIn");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                System.out.println("signIn exception: " + ex.getMessage());
-            }
-        });
-    }
+//    @FXML
+//    void handleSignInButton(ActionEvent event) {
+//        SignInButton.setOnAction(e -> {
+//            System.out.println("Sign In button clicked.");
+//            try {
+//                Main.setRoot("/com/liqaa/client/view/fxml/SignIn");
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//                System.out.println("signIn exception: " + ex.getMessage());
+//            }
+//        });
+//    }
 
-    @FXML
-    void handleSignUpButton(ActionEvent event) {
-        SignUpButton.setOnAction(e -> {
-            System.out.println("Sign up button clicked.");
-            try {
-                Main.setRoot("/com/liqaa/client/view/fxml/SignUp1");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                System.out.println("signup exception: " + ex.getMessage());
-            }
-        });
-    }
+//    @FXML
+//    void handleSignUpButton(ActionEvent event) {
+//        SignUpButton.setOnAction(e -> {
+//            System.out.println("Sign up button clicked.");
+//            try {
+//                Main.setRoot("/com/liqaa/client/view/fxml/SignUp1");
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//                System.out.println("signup exception: " + ex.getMessage());
+//            }
+//        });
+//    }
 }
