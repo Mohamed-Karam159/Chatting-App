@@ -289,25 +289,25 @@ public class ConversationRepoImpl implements ConversationRepo
                 "c.id, " +
                 "c.type, " +
                 "c.created_at, " +
-                "cp.unread_msg_count, " +
-                "cp.last_msg_time, " +
+                "cp_user.unread_msg_count, " + // Changed to cp_user
+                "cp_user.last_msg_time, " +    // Changed to cp_user
                 "CASE WHEN c.type = 'GROUP' THEN g.id ELSE u.id END AS recipient_id, " +
                 "CASE WHEN c.type = 'GROUP' THEN g.name ELSE u.name END AS recipient_name, " +
                 "CASE WHEN c.type = 'GROUP' THEN g.image ELSE u.profile_picture END AS recipient_image, " +
-                "u.current_status " +
+                "CASE WHEN c.type = 'GROUP' THEN NULL ELSE u.current_status END AS current_status " + // Handle NULL for groups
                 "FROM Conversations c " +
                 "INNER JOIN ConversationParticipants cp_user " +
                 "ON c.id = cp_user.conversation_id " +
                 "AND cp_user.user_id = ? " +
-                "INNER JOIN ConversationParticipants cp " +
-                "ON cp.conversation_id = c.id " +
+                "LEFT JOIN ConversationParticipants cp " + // Changed to LEFT JOIN
+                "ON c.id = cp.conversation_id " +
                 "AND cp.user_id <> ? " +
+                "AND c.type = 'DIRECT' " + // Only join for direct conversations
                 "LEFT JOIN Users u " +
                 "ON u.id = cp.user_id " +
                 "LEFT JOIN Groups_ g " +
-                "ON c.group_id = g.id"+
-                "ORDER BY cp.last_msg_time DESC ";
-
+                "ON c.group_id = g.id " +
+                "ORDER BY cp_user.last_msg_time DESC"; // Order by user's last_msg_time
 
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -324,12 +324,17 @@ public class ConversationRepoImpl implements ConversationRepo
                 String recipientName = result.getString("recipient_name");
                 byte[] image = result.getBytes("recipient_image");
 
+                // Handle NULL current_status for groups
+                String currentStatusStr = result.getString("current_status");
+                CurrentStatus currentStatus = currentStatusStr != null ?
+                        CurrentStatus.valueOf(currentStatusStr) : null;
+
                 chatInfos.add(new ChatInfo(
                         result.getInt("id"),
                         type,
                         recipientId,
                         recipientName,
-                        CurrentStatus.valueOf(result.getString("current_status")),
+                        currentStatus,
                         image,
                         result.getInt("unread_msg_count"),
                         result.getTimestamp("last_msg_time") != null ?
@@ -344,7 +349,7 @@ public class ConversationRepoImpl implements ConversationRepo
         return List.of();
     }
 
-        @Override
+    @Override
         public List<ChatInfo> getAllConversations(int userId, int limit, int offset) {
             if (userId <= 0) {
                 System.err.println("Error in getAllConversations: userId is invalid");
@@ -406,7 +411,6 @@ public class ConversationRepoImpl implements ConversationRepo
             return List.of();
         }
 
-
     @Override
     public List<ChatInfo> getGroupConversations(int userId) {
         if (userId <= 0) {
@@ -415,24 +419,24 @@ public class ConversationRepoImpl implements ConversationRepo
         }
 
         String query = """
-            SELECT 
-                c.id, 
-                c.created_at, 
-                g.id AS group_id,
-                g.name AS group_name, 
-                g.description AS group_description, 
-                g.image AS group_image, 
-                cp.unread_msg_count, 
-                cp.last_msg_time 
-            FROM Conversations c
-            INNER JOIN ConversationParticipants cp_user 
-                ON c.id = cp_user.conversation_id AND cp_user.user_id = ?
-            INNER JOIN Groups_ g 
-                ON c.group_id = g.id
-            INNER JOIN ConversationParticipants cp 
-                ON cp.conversation_id = c.id
-            ORDER BY cp.last_msg_time DESC
-            """;
+        SELECT 
+            c.id, 
+            c.created_at, 
+            g.id AS group_id,
+            g.name AS group_name, 
+            g.description AS group_description, 
+            g.image AS group_image, 
+            cp_user.unread_msg_count,  -- Use current user's unread count
+            cp_user.last_msg_time      -- Use current user's last message time
+        FROM Conversations c
+        INNER JOIN ConversationParticipants cp_user 
+            ON c.id = cp_user.conversation_id 
+            AND cp_user.user_id = ?
+        INNER JOIN Groups_ g 
+            ON c.group_id = g.id
+        WHERE c.type = 'GROUP'  -- Ensure we only get group conversations
+        ORDER BY cp_user.last_msg_time DESC  -- Order by user's last message time
+        """;
 
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -458,6 +462,7 @@ public class ConversationRepoImpl implements ConversationRepo
                 return chatInfos;
             }
         } catch (SQLException e) {
+            System.err.println("Error in getGroupConversations: " + e.getMessage());
             e.printStackTrace();
         }
         return List.of();
@@ -514,35 +519,48 @@ public class ConversationRepoImpl implements ConversationRepo
         return List.of();
     }
 
-
     @Override
-    public List<ChatInfo> getUnreadConversations(int userId)
-    {
+    public List<ChatInfo> getUnreadConversations(int userId) {
         if (userId <= 0) {
             System.err.println("Error in getUnreadConversations: userId is invalid");
             return List.of();
         }
 
         String query = """
-            SELECT 
-                c.id, c.type, c.created_at, 
-                u.id AS user_id, u.name AS user_name, u.profile_picture AS user_image, u.current_status,
-                g.id AS group_id, g.name AS group_name, g.image AS group_image, g.description AS group_description,
-                cp_user.unread_msg_count, cp_user.last_msg_time
-            FROM conversations c
-            INNER JOIN conversationparticipants cp_user 
-                ON c.id = cp_user.conversation_id AND cp_user.user_id = ?
-            LEFT JOIN users u 
-                ON u.id = (SELECT cp_other.user_id 
-                           FROM conversationparticipants cp_other 
-                           WHERE cp_other.conversation_id = c.id 
-                           AND cp_other.user_id != ? 
-                           LIMIT 1)
-            LEFT JOIN groups_ g 
-                ON c.group_id = g.id
-            WHERE cp_user.unread_msg_count > 0 
-            ORDER BY cp.last_msg_time DESC ";
-            """;
+        SELECT 
+            c.id, 
+            c.type, 
+            c.created_at, 
+            cp_user.unread_msg_count, 
+            cp_user.last_msg_time,
+            CASE 
+                WHEN c.type = 'GROUP' THEN g.id 
+                ELSE u.id 
+            END AS entity_id,
+            CASE 
+                WHEN c.type = 'GROUP' THEN g.name 
+                ELSE u.name 
+            END AS entity_name,
+            CASE 
+                WHEN c.type = 'GROUP' THEN g.image 
+                ELSE u.profile_picture 
+            END AS entity_image,
+            u.current_status
+        FROM conversations c
+        INNER JOIN conversationparticipants cp_user 
+            ON c.id = cp_user.conversation_id 
+            AND cp_user.user_id = ?
+        LEFT JOIN conversationparticipants cp_other
+            ON c.id = cp_other.conversation_id 
+            AND cp_other.user_id <> ?
+            AND c.type = 'DIRECT'
+        LEFT JOIN users u 
+            ON u.id = cp_other.user_id
+        LEFT JOIN groups_ g 
+            ON c.group_id = g.id
+        WHERE cp_user.unread_msg_count > 0 
+        ORDER BY cp_user.last_msg_time DESC
+        """;
 
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -554,36 +572,19 @@ public class ConversationRepoImpl implements ConversationRepo
                 List<ChatInfo> chatInfos = new ArrayList<>();
 
                 while (result.next()) {
-                    ConversationType type = ConversationType.valueOf(result.getString("type").toUpperCase());
-
-                    int entityId = 0;
-                    String entityName = null;
-                    byte[] entityImage = null;
-                    CurrentStatus currentStatus = null;
-
-                    if (type == ConversationType.GROUP) {
-                        entityId = result.getInt("group_id");
-                        entityName = result.getString("group_name");
-                        entityImage = result.getBytes("group_image");
-                    } else if (type == ConversationType.DIRECT) {
-                        entityId = result.getInt("user_id");
-                        entityName = result.getString("user_name");
-                        entityImage = result.getBytes("user_image");
-                        currentStatus = Optional.ofNullable(result.getString("current_status"))
-                                                .map(CurrentStatus::valueOf)
-                                                .orElse(null);
-                    } else {
-                        System.err.println("Error in getUnreadConversations: unknown conversation type");
-                        continue;
-                    }
+                    ConversationType type = ConversationType.valueOf(
+                            result.getString("type").toUpperCase()
+                    );
 
                     ChatInfo chatInfo = new ChatInfo(
                             result.getInt("id"),
                             type,
-                            entityId,
-                            entityName,
-                            currentStatus,
-                            entityImage,
+                            result.getInt("entity_id"),
+                            result.getString("entity_name"),
+                            type == ConversationType.DIRECT
+                                    ? CurrentStatus.valueOf(result.getString("current_status"))
+                                    : null,
+                            result.getBytes("entity_image"),
                             result.getInt("unread_msg_count"),
                             result.getTimestamp("last_msg_time") != null
                                     ? result.getTimestamp("last_msg_time").toLocalDateTime()

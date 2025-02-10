@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MessageDAO {
-    void save(Message message);
+    int save(Message message);
     Optional<Message> findById(int id);
     List<Message> findAll();
     List<Message> findByConversationId(int conversationId, int offset, int limit); // New method for pagination
