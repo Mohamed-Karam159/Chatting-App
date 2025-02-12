@@ -11,6 +11,8 @@ public class SceneManager
 {
     private static SceneManager instance;
     private final Stage stage;
+    private SceneType currentScene = SceneType.UNKNOWN; // Default
+
 
     private SceneManager(Stage stage) {
         this.stage = stage;
@@ -31,6 +33,15 @@ public class SceneManager
     }
 
 
+    public SceneType getCurrentScene() {
+        return currentScene;
+    }
+
+    public void setCurrentScene(SceneType currentScene) {
+        this.currentScene = currentScene;
+    }
+
+
     public void showUserInfoSceneInNewStage() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/com/liqaa/client/view/fxml/userInfo.fxml"));
@@ -39,6 +50,7 @@ public class SceneManager
             newStage.initStyle(StageStyle.UNDECORATED);
             newStage.setScene(newScene);
             newStage.show();
+            setCurrentScene(SceneType.UNKNOWN);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,13 +58,14 @@ public class SceneManager
 
     public void showPrimaryScene() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/com/liqaa/client/view/fxml/primary.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/liqaa/client/view/fxml/primarynew.fxml"));
             Scene newScene = new Scene(root);
             double width = stage.getWidth();
             double height = stage.getHeight();
             stage.setScene(newScene);
             stage.setWidth(width);
             stage.setHeight(height);
+            setCurrentScene(SceneType.PRIMARY);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,13 +73,14 @@ public class SceneManager
 
     public void showNotificationScene() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/com/liqaa/client/view/fxml/notifications.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/liqaa/client/view/fxml/notificationsnew.fxml"));
             Scene newScene = new Scene(root);
             double width = stage.getWidth();
             double height = stage.getHeight();
             stage.setScene(newScene);
             stage.setWidth(width);
             stage.setHeight(height);
+            setCurrentScene(SceneType.NOTIFICATION);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,6 +95,7 @@ public class SceneManager
             stage.setScene(newScene);
             stage.setWidth(width);
             stage.setHeight(height);
+            setCurrentScene(SceneType.CONTACT);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,6 +111,7 @@ public class SceneManager
             stage.setScene(newScene);
             stage.setWidth(width);
             stage.setHeight(height);
+            setCurrentScene(SceneType.SIGN_IN);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -111,6 +127,7 @@ public class SceneManager
             stage.setScene(newScene);
             stage.setWidth(width);
             stage.setHeight(height);
+            setCurrentScene(SceneType.SIGN_UP_1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,8 +142,20 @@ public class SceneManager
             stage.setScene(newScene);
             stage.setWidth(width);
             stage.setHeight(height);
+            setCurrentScene(SceneType.SIGN_UP_2);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public enum SceneType
+    {
+        PRIMARY,
+        NOTIFICATION,
+        CONTACT,
+        SIGN_IN,
+        SIGN_UP_1,
+        SIGN_UP_2,
+        UNKNOWN // Fallback for untracked scenes
     }
 }
