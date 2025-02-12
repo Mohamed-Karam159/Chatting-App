@@ -237,43 +237,40 @@ public  static void main(String args[])
 
 
     @Override
-    public User getUserById(int userId)
-    {
+    public User getUserById(int userId) {
         String query = "SELECT * FROM users WHERE id = ?";
         User user = new User();
-    try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query))
-    {
-        statement.setInt(1, userId);
-        ResultSet result = statement.executeQuery();
-        if (result.next())
-        {
-            user.setId(result.getInt("id"));
-            user.setPhoneNumber(result.getString("phone_number"));
-            user.setPasswordHash(result.getString("password_hash"));
-            user.setEmail(result.getString("email"));
-            user.setDisplayName(result.getString("name"));
-            user.setGender(Gender.valueOf(result.getString("gender").toUpperCase()));
-            user.setDateofBirth(result.getDate("date_of_birth") != null ? new java.sql.Date(result.getDate("date_of_birth").getTime()) : null);
-            user.setCountry(result.getString("country"));
-            user.setBio(result.getString("bio"));
-            user.setIsActive(result.getBoolean("is_active"));
-            user.setCurrentstatus(CurrentStatus.valueOf(result.getString("current_status").toUpperCase()));
-            user.setCreatedAt(result.getTimestamp("created_at")!= null ? LocalTime.from(result.getTimestamp("created_at").toLocalDateTime()) : null);
-            Blob profilePhotoBlob = result.getBlob("profile_picture");
-            if (profilePhotoBlob != null) {
-                int blobLength = (int) profilePhotoBlob.length();
-                byte[] profilePhotoBytes = profilePhotoBlob.getBytes(1, blobLength);
-                user.setProfilepicture(profilePhotoBytes);
+        try(Connection connection = DatabaseManager.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query);) {
+            statement.setInt(1, userId);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                user.setId(result.getInt("id"));
+                user.setPhoneNumber(result.getString("phone_number"));
+                user.setPasswordHash(result.getString("password_hash"));
+                user.setEmail(result.getString("email"));
+                user.setDisplayName(result.getString("name"));
+                user.setGender(Gender.valueOf(result.getString("gender").toUpperCase()));
+                user.setDateofBirth(result.getDate("date_of_birth") != null ? new java.sql.Date(result.getDate("date_of_birth").getTime()) : null);
+                user.setCountry(result.getString("country"));
+                user.setBio(result.getString("bio"));
+                user.setIsActive(result.getBoolean("is_active"));
+                user.setCurrentstatus(CurrentStatus.valueOf(result.getString("current_status").toUpperCase()));
+                user.setCreatedAt(result.getTimestamp("created_at") != null ? LocalTime.from(result.getTimestamp("created_at").toLocalDateTime()) : null);
+                Blob profilePhotoBlob = result.getBlob("profile_picture");
+                if (profilePhotoBlob != null) {
+                    int blobLength = (int) profilePhotoBlob.length();
+                    byte[] profilePhotoBytes = profilePhotoBlob.getBytes(1, blobLength);
+                    user.setProfilepicture(profilePhotoBytes);
+                } else {
+                    user.setProfilepicture(null);
+                }
             }
-            else {
-                user.setProfilepicture(null);
-            }
+            return user;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-    }catch(SQLException e) {
-        e.printStackTrace(); // Handle or log the exception properly
     }
-        return user;
-}
   @Override
     public User getUserbyPhone(String userPhone)
     {
@@ -282,7 +279,8 @@ public  static void main(String args[])
         if (isPhoneNumberExists(userPhone))
         {
             System.out.println("This user exists");
-        try (PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(query)) {
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);) {
             statement.setString(1, userPhone);
             ResultSet result = statement.executeQuery();
             if (result.next()) {
