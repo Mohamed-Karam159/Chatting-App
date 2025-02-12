@@ -15,7 +15,7 @@ public class Main extends Application
     @Override
     public void start(Stage stage) throws IOException
     {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/liqaa/client/view/fxml/notifications.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/liqaa/client/view/fxml/contacts.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Liqaa");
         stage.setScene(scene);
