@@ -12,7 +12,7 @@
 
 <HBox fx:id="messageBubble" alignment="BOTTOM_RIGHT" prefHeight="78.0" prefWidth="210.0" style="-fx-background-radius: 20 20 20 20;" styleClass="message-container" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.components.TextMessageController">
 
-   <HBox alignment="CENTER_LEFT" prefHeight="30.0" style="-fx-background-color: #ededed; -fx-background-radius: 20 0 0 20;">
+   <HBox alignment="CENTER_LEFT" prefHeight="30.0" style="-fx-background-color: #e5f0ff; -fx-background-radius: 20 0 0 20;">
       <children>
 
          <VBox alignment="CENTER_LEFT" style="-fx-padding: 5px 10px 5px 20px; -fx-background-radius: 20 0 0 20;">
@@ -29,7 +29,7 @@
       </children>
    </HBox>
 
-   <AnchorPane fx:id="footerContainer" prefHeight="207.0" prefWidth="21.0" style="-fx-background-color: #ededed; -fx-background-radius: 0 30 0 0;">
+   <AnchorPane fx:id="footerContainer" prefHeight="207.0" prefWidth="21.0" style="-fx-background-color: #e5f0ff; -fx-background-radius: 0 30 0 0;">
       <children>
          <ImageView fx:id="statusIcon" fitHeight="34.0" fitWidth="35.0" layoutX="26.0" layoutY="21.0">
             <image>

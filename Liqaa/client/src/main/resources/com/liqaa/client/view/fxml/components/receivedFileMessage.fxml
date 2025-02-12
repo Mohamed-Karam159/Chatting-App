@@ -13,7 +13,7 @@
 
 <HBox fx:id="messageBubble" alignment="BOTTOM_RIGHT" prefHeight="156.0" prefWidth="30.0" style="-fx-background-radius: 20 20 20 20;" styleClass="message-container" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.components.FileMessageController">
 
-    <AnchorPane fx:id="footerContainer" prefHeight="0.0" prefWidth="166.0" style="-fx-background-color: #cde3ff; -fx-background-radius: 20 20 20 0;" stylesheets="@../../styles/hovor.css">
+    <AnchorPane fx:id="footerContainer" prefHeight="0.0" prefWidth="166.0" style="-fx-background-color: #b0d3ff; -fx-background-radius: 20 20 20 0;" stylesheets="@../../styles/hovor.css">
         <children>
             <ImageView fx:id="statusIcon" fitHeight="34.0" fitWidth="35.0" layoutX="107.0" layoutY="100.0" visible="false">
                 <image>
@@ -37,9 +37,9 @@
          </ImageView>
          <TextFlow layoutX="19.0" layoutY="8.0" prefHeight="34.0" prefWidth="138.0" style="-fx-alignment: center-left; -fx-text-alignment: left;">
             <children>
-               <Text fx:id="fileName" fill="#565353" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="File1" wrappingWidth="128.80004246532917">
+               <Text fx:id="fileName" fill="#565353" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="File1" wrappingWidth="26.30859375">
                   <font>
-                     <Font name="Roboto Bold" size="13.0" />
+                     <Font name="Roboto Bold" size="12.0" />
                   </font>
                </Text>
             </children>

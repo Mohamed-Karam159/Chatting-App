@@ -12,7 +12,6 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-
 <HBox prefHeight="148.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.components.TextMessageController">
    <children>
       <VBox prefHeight="148.0" prefWidth="364.0" HBox.hgrow="NEVER">
@@ -41,10 +40,10 @@
                   <HBox alignment="CENTER_RIGHT" prefHeight="37.0" prefWidth="270.0" style="-fx-background-radius: 20 20 20 20;" BorderPane.alignment="CENTER">
                      <children>
                         <HBox maxWidth="52.0" minWidth="52.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="140.0" />
-                        <Pane minWidth="165.0" prefHeight="38.0" prefWidth="105.0" style="-fx-background-radius: 0 0 0 20; -fx-background-color: #cde3ff;" HBox.hgrow="NEVER" />
-                        <Pane style="-fx-background-color: #cde3ff; -fx-background-radius: 0 0 20 0;" HBox.hgrow="ALWAYS">
+                        <Pane minWidth="165.0" prefHeight="38.0" prefWidth="105.0" style="-fx-background-radius: 0 0 0 20; -fx-background-color: #b0d3ff;" HBox.hgrow="NEVER" />
+                        <Pane style="-fx-background-color: #b0d3ff; -fx-background-radius: 0 0 20 0;" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label fx:id="timeLabel" alignment="BOTTOM_LEFT" layoutX="67.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" styleClass="message-time" text="10:35 AM">
+                              <Label fx:id="timeLabel" alignment="BOTTOM_LEFT" layoutX="67.0" layoutY="10.0" prefHeight="18.0" prefWidth="62.0" styleClass="message-time" text="10:35 AM" textFill="#000000c5">
                                  <font>
                                     <Font name="Roboto Bold" size="11.0" />
                                  </font>
@@ -57,7 +56,7 @@
                <center>
             
                                                 <VBox alignment="CENTER_LEFT" style="-fx-background-radius: 20 20 20 20;" BorderPane.alignment="CENTER">
-                     <TextFlow fx:id="contentFlow" nodeOrientation="LEFT_TO_RIGHT" prefHeight="217.0" prefWidth="218.0" style="-fx-background-color: #cde3ff; -fx-background-radius: 0 20 0 0; -fx-padding: 15 15 0 15;" styleClass="text-flow" VBox.vgrow="ALWAYS">
+                     <TextFlow fx:id="contentFlow" nodeOrientation="LEFT_TO_RIGHT" prefHeight="217.0" prefWidth="218.0" style="-fx-background-color: #b0d3ff; -fx-background-radius: 0 20 0 0; -fx-padding: 15 15 0 15;" styleClass="text-flow" VBox.vgrow="ALWAYS">
                         <children>
                            <Text fx:id="contentLabel" fill="#413f3f" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="this is dummy message for testing this dumb design" wrappingWidth="246.97558403015137">
                               <font>
