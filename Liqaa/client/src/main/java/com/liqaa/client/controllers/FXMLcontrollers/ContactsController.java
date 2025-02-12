@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Dialog;
+import com.liqaa.shared.models.Contact;
 
 
 
@@ -115,6 +116,7 @@ public class ContactsController implements Initializable {
             }
         });
     }
+
 
     private HBox createContactCell(Contact item) {
         HBox hBox = new HBox(10); // تقليل المسافة بين العناصر
@@ -227,7 +229,7 @@ public class ContactsController implements Initializable {
 
             // Apply custom styles to the dialog
             dialog.getDialogPane().getStylesheets().add(
-                    getClass().getResource("/com/liqaa/client/view/styles/style1.css").toExternalForm()
+                    getClass().getResource("/com/liqaa/client/view/styles/contactStyle.css").toExternalForm()
             );
 
             // Create the fields
@@ -293,7 +295,7 @@ public class ContactsController implements Initializable {
 
             // Apply custom styles to the dialog
             dialog.getDialogPane().getStylesheets().add(
-                    getClass().getResource("/com/liqaa/client/view/styles/style1.css").toExternalForm()
+                    getClass().getResource("/com/liqaa/client/view/styles/contactStyle.css").toExternalForm()
             );
 
             // Create the layout
@@ -371,7 +373,7 @@ public class ContactsController implements Initializable {
 
                 // Apply custom styles to the dialog
                 contactsDialog.getDialogPane().getStylesheets().add(
-                        getClass().getResource("/com/liqaa/client/view/styles/style1.css").toExternalForm()
+                        getClass().getResource("/com/liqaa/client/view/styles/contactStyle.css").toExternalForm()
                 );
 
                 // Set button types (Add and Close)
@@ -483,7 +485,7 @@ public class ContactsController implements Initializable {
             setDialogLogo(dialog, 0.1, 0.3, 0.50, 0.0);
             // Apply custom styles to the dialog
             dialog.getDialogPane().getStylesheets().add(
-                    getClass().getResource("/com/liqaa/client/view/styles/style1.css").toExternalForm()
+                    getClass().getResource("/com/liqaa/client/view/styles/contactStyle.css").toExternalForm()
             );
 
             Optional<String> result = dialog.showAndWait();
@@ -499,25 +501,51 @@ public class ContactsController implements Initializable {
     @FXML
     private void removeCategoryAction() {
         try {
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Remove Category");
-            dialog.setHeaderText("Enter the category name to remove:");
-            dialog.setContentText("Category:");
-            dialog.setGraphic(null);
+            ComboBox<String> categoryComboBox = new ComboBox<>();
+            categoryComboBox.setPromptText("Select a category to remove");
+            categoryComboBox.getItems().addAll("Category1", "Category2", "Category3");
 
-            setDialogLogo(dialog, 0.1, 0.3, 0.50, 0.0);
-            // Apply custom styles to the dialog
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setTitle("Remove Category");
+            dialog.setHeaderText("Select the category to remove:");
+
+            // إضافة ID للـ Dialog
+            dialog.getDialogPane().setId("removeCategoryDialog");
+
+            // أو إضافة Class
+            dialog.getDialogPane().getStyleClass().add("custom-dialog");
+
+            dialog.getDialogPane().setContent(categoryComboBox);
+
+            // إضافة أزرار Remove و Cancel
+            dialog.getDialogPane().getButtonTypes().addAll(new ButtonType("Remove", ButtonBar.ButtonData.OK_DONE), ButtonType.CANCEL);
+
+            // تطبيق الاستايل
             dialog.getDialogPane().getStylesheets().add(
-                    getClass().getResource("/com/liqaa/client/view/styles/style1.css").toExternalForm()
+                    getClass().getResource("/com/liqaa/client/view/styles/contactStyle.css").toExternalForm()
             );
 
-            Optional<String> result = dialog.showAndWait();
-            result.ifPresent(categoryName -> {
-                System.out.println("Category to remove: " + categoryName);
-            });
+            Optional<ButtonType> result = dialog.showAndWait();
+            if (result.isPresent() && result.get().getButtonData() == ButtonBar.ButtonData.OK_DONE) {
+                String selectedCategory = categoryComboBox.getValue();
+                if (selectedCategory != null && !selectedCategory.isEmpty()) {
+                    System.out.println("Category to remove: " + selectedCategory);
+                    removeCategoryFromDummyData(selectedCategory);
+                } else {
+                    System.out.println("No category selected.");
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error in removeCategoryAction: " + e.getMessage());
         }
+    }
+
+    // دالة لإزالة الفئة من البيانات الوهمية
+    private void removeCategoryFromDummyData(String categoryName) {
+        // هنا يمكنك إزالة الفئة من البيانات الوهمية
+        // مثال:
+        // dummyData.remove(categoryName);
+        System.out.println("Removed category: " + categoryName);
     }
 }

@@ -1,7 +1,7 @@
 package com.liqaa.client.controllers.FXMLcontrollers;
 
 
-import com.liqaa.client.controllers.services.implementations.CurrentUserImpl;
+import com.liqaa.client.controllers.services.implementations.DataCenter;
 import com.liqaa.client.controllers.services.implementations.UserInfoServiceImpl;
 import com.liqaa.client.network.ServerConnection;
 import com.liqaa.shared.models.entities.User;
@@ -57,8 +57,9 @@ public class UserInfoController implements Initializable {
 
     private File selectedFile;
 
-    CurrentUserImpl impl = new CurrentUserImpl();
-    User currentUser = new User(1,"Ibrahim","ibrahim@gmail.com","password",null);  // todo:  = impl.getCurrentUser();
+    private User currentUser = DataCenter.getInstance().getCurrentUser();
+
+    private Image selectedImage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,14 +74,8 @@ public class UserInfoController implements Initializable {
         userCountry = currentUser.getCountry();
         userStatus = String.valueOf(currentUser.getCurrentstatus());
 
-        //todo: check if
-        Image image;
-        if(userPhoto == null)
-            image = new Image(getClass().getResourceAsStream("/com/liqaa/client/view/images/defaultProfileImage.png"));
-        else {
-            InputStream inputStream = new ByteArrayInputStream(userPhoto);
-            image = new Image(inputStream);
-        }
+        InputStream inputStream = userPhoto != null ? new ByteArrayInputStream(userPhoto) : getClass().getResourceAsStream("/com/liqaa/client/view/images/defaultProfileImage.png");
+        Image image = new Image(inputStream);
         profilePhoto.setFill(new ImagePattern(image));
         profilePhoto.setStroke(null);
         nameTextField.setText(userName);
@@ -109,8 +104,8 @@ public class UserInfoController implements Initializable {
         );
         selectedFile = fileChooser.showOpenDialog(NotificationsController.myStage);
         if (selectedFile != null) {
-            Image image = new Image(selectedFile.toURI().toString());
-            profilePhoto.setFill(new ImagePattern(image));
+            selectedImage = new Image(selectedFile.toURI().toString());
+            profilePhoto.setFill(new ImagePattern(selectedImage));
         }
     }
 
@@ -130,6 +125,7 @@ public class UserInfoController implements Initializable {
         if (selectedFile != null) {
             byte[] newProfilePicture = Files.readAllBytes(selectedFile.toPath());
             currentUser.setProfilepicture(newProfilePicture);
+            Platform.runLater(() -> NotificationsController.mainProfilePhoto.setFill(new ImagePattern(selectedImage)));
         } else {
             currentUser.setProfilepicture(userPhoto);
         }

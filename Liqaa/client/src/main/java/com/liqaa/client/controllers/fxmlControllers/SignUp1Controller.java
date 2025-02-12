@@ -83,17 +83,14 @@ public class SignUp1Controller {
     // Event Handlers
     @FXML
     public void setSignInButtonOnAction() {
-        SignInButton.setOnAction(e -> {
             System.out.println("Sign In button clicked.");
             SceneManager.getInstance().showSignInScene();
 
             // Add logic to handle sign-in action
-        });
     }
 
     @FXML
     public void setNextButtonOnAction() {
-        NextButton.setOnAction(e -> {
             System.out.println("Next button clicked.");
 
             name = NameField.getText();
@@ -122,7 +119,6 @@ public class SignUp1Controller {
             System.out.println(gender);
             System.out.println(email);
             System.out.println(date);
-        });
     }
 
     @FXML

@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -26,12 +28,16 @@ public class NotificationCard2Controller implements Initializable {
     @FXML
     private Label notificationDate;
 
+    private int curNotificationId, senderId;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 
     public void setNotificationData(Notification notification) throws RemoteException, SQLException {
+        curNotificationId = notification.getId();
+        senderId = notification.getSenderId();
         User sender = NotificationServiceImpl.getInstance().getNotificationSenderData(notification.getSenderId());
         if(notification.getType().toString().equals("REQUEST_ACCEPTED")) notificationTitle.setText(sender.getDisplayName() + " accepted your invitation request");
         else if(notification.getType().toString().equals("REQUEST_DECLINED")) notificationTitle.setText(sender.getDisplayName() + " declined your invitation request");
@@ -47,21 +53,20 @@ public class NotificationCard2Controller implements Initializable {
             image = new Image(getClass().getResource("/com/liqaa/client/view/images/announcement.png").toExternalForm());
         }
         else {
-            image = new Image(getClass().getResource("/com/liqaa/client/view/images/defaultProfileImage.png").toExternalForm());
-            //System.out.println(Arrays.toString(sender.getProfilepicture()) + "\nmmmmmmmmmmm\n");
-//            byte[] userPhoto = sender.getProfilepicture();
-//            InputStream inputStream = new ByteArrayInputStream(userPhoto);
-//            image = new Image(inputStream);
+            byte[] userPhoto = sender.getProfilepicture();
+            InputStream inputStream = new ByteArrayInputStream(userPhoto);
+            image = new Image(inputStream);
         }
         senderPhoto.setFill(new ImagePattern(image));
         senderPhoto.setStroke(null);
     }
 
-    public void acceptAction(){
-        System.out.println("accept button is clicked");
+    public void acceptAction() throws SQLException, RemoteException {
+        NotificationServiceImpl.getInstance().addToContactList(7, senderId); // replace 7 with the current user ID
+        NotificationServiceImpl.getInstance().deleteNotification(curNotificationId);
     }
 
-    public void declineAction(){
-        System.out.println("decline button is clicked");
+    public void declineAction() throws SQLException, RemoteException {
+        NotificationServiceImpl.getInstance().deleteNotification(curNotificationId);
     }
 }

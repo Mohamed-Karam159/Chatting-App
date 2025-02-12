@@ -37,7 +37,8 @@ public class SignInController {
     @FXML
     void handleLogInButton(ActionEvent event) {
        // User login(String phone , String password); >> return null or user info
-        if (!PhoneField.getText().equals(p) || !PasswordField.getText().equals(pas)) {
+        if (!PhoneField.getText().equals(p) || !PasswordField.getText().equals(pas))
+        {
             // Your code here for when the phone or password do not match
 
             Alert a = new Alert(Alert.AlertType.NONE);
@@ -56,15 +57,15 @@ public class SignInController {
     @FXML
     void handleSignUpButton(ActionEvent event) {
         System.out.println("SignUpButton");
-        SignUpButton.setOnAction(e -> {
             System.out.println("Sign up button clicked.");
             try {
                 SceneManager.getInstance().showSignUpScene1();
             }  catch (Exception ex) {
                 ex.printStackTrace();
                 System.out.println("signIn exception: " + ex.getMessage());
-            }});
-
+            }
     }
 
 }
+
+

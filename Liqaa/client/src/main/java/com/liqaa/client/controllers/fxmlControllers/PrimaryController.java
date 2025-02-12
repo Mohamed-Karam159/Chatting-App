@@ -238,6 +238,8 @@ public class PrimaryController
 
             ConversationServices.getInstance().loadAllConversations(DataCenter.getInstance().getcurrentUserId());
             chatBox.setItems(DataCenter.getInstance().getMessages());
+
+            DataCenter.getInstance().initializeListeners();
         }
 
 

@@ -10,7 +10,6 @@ import com.liqaa.client.util.SceneManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -88,7 +87,6 @@ public class SignUp2Controller {
 
     @FXML
     void handleSignInButton(ActionEvent event) {
-        SignInButton.setOnAction(e -> {
             System.out.println("Sign In button clicked.");
             try {
                 SceneManager.getInstance().showSignInScene();
@@ -96,12 +94,10 @@ public class SignUp2Controller {
                 ex.printStackTrace();
                 System.out.println("signIn exception: " + ex.getMessage());
             }
-        });
     }
 
     @FXML
     void handleSignUpButton(ActionEvent event) {
-        SignUpButton.setOnAction(e -> {
             System.out.println("Sign up button clicked.");
             try {
                 SceneManager.getInstance().showSignUpScene1();
@@ -109,6 +105,5 @@ public class SignUp2Controller {
                 ex.printStackTrace();
                 System.out.println("signup exception: " + ex.getMessage());
             }
-        });
     }
 }
