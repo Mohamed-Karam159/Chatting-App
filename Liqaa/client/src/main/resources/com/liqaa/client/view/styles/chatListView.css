@@ -1,7 +1,7 @@
 .list-view {
     -fx-border-width: 0;
     -fx-border-color: transparent;
-    -fx-background-color: white;
+    -fx-background-color: #f4f4f4;
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
@@ -13,12 +13,12 @@
 }
 
 .list-view .list-cell {
-    -fx-background-color: white;
+    -fx-background-color: #f4f4f4;
     -fx-text-fill: rgba(0, 0, 0, .8);
 }
 
 .list-view .list-cell:hover {
-    -fx-background-color: #F5F5F5;
+    -fx-background-color: #E6E6E6;
     -fx-text-fill: rgba(0, 0, 0, .8);
 }
 

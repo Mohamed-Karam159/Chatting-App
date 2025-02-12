@@ -9,7 +9,7 @@
 .list-view {
     -fx-scroll-to-top: true;
     -fx-cell-selection-enabled: false;
-    -fx-background-color: white;
+    -fx-background-color:  #f4f4f4;
     -fx-background-insets: 0;
     -fx-padding: 10 10 10 10;
     -fx-scroll-top: 1000000; /* scroll to bottom initially */
@@ -24,7 +24,7 @@
 }
 
 .list-view .list-cell {
-    -fx-background-color: white;
+    -fx-background-color:  #f4f4f4;
     -fx-background-insets: 0;
     -fx-padding: 10 10 10 10;
     -fx-text-fill: rgba(0, 0, 0, .8);

@@ -15,3 +15,8 @@
     -fx-opacity: 0.7; /* Makes the image 30% darker */
 }
 
+
+.hover-effect2:hover .text {
+    -fx-font-weight: bold;
+}
+
