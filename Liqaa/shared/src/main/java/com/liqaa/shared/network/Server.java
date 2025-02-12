@@ -12,6 +12,10 @@ import java.util.Map;
 
 public interface Server extends Remote
 {
+    void registerClient(Client client, int userId) throws RemoteException;
+
+    void unregisterClient(int userId) throws RemoteException;
+
     public User signIn (String userPhone, String userPassword) throws RemoteException;
     public boolean logout(String userPhone) throws RemoteException;
     public User signUp(User user) throws RemoteException;
@@ -38,6 +42,7 @@ public interface Server extends Remote
     List<Notification> getUpcomingRequests(int recipientId) throws SQLException, RemoteException;
     List<Notification> getAcceptedInvitations(int recipientId) throws SQLException, RemoteException;
     List<Notification> getDeclinedInvitations(int recipientId) throws SQLException, RemoteException;
+    List<Notification> getAnnouncements(int recipientId) throws SQLException, RemoteException;
     List<Notification> getUnreadNotifications(int recipientId) throws SQLException, RemoteException;
     boolean sendNotification(Notification notification) throws SQLException, RemoteException;
     List<AnnouncementNotification> getAnnouncementNotifications() throws SQLException, RemoteException;

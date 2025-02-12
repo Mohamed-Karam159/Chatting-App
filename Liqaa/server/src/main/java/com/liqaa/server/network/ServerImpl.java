@@ -18,18 +18,50 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import com.liqaa.shared.network.Client;
 
 public class ServerImpl extends UnicastRemoteObject implements Server
 {
-    public static ConcurrentHashMap<Integer, Client> onlineClients = new ConcurrentHashMap<>();
-
+    private final Map<Integer, Client> onlineClients = new ConcurrentHashMap<>();
     private static ServerImpl server;
 
     private ServerImpl() throws RemoteException
     {
         super();
     }
+
+
+    @Override
+    public synchronized void registerClient(Client client, int userId) throws RemoteException {
+        onlineClients.put(userId, client);
+    }
+
+    @Override
+    public synchronized void unregisterClient(int userId) throws RemoteException {
+        onlineClients.remove(userId);
+    }
+
+    private void notifyClientsAboutMessage(Message message, List<Integer> recipients) {
+        recipients.forEach(userId -> {
+            Client client = onlineClients.get(userId);
+            if (client != null) {
+                try {
+                    client.receiveMessage(message);
+                } catch (RemoteException e) {
+                    System.out.println("Client " + userId + " disconnected");
+                    onlineClients.remove(userId);
+                }
+            }
+        });
+    }
+
+    // Similar methods for other notifications (status changes, new contacts, etc.)
+
+    // Example usage for message notification
+//    private void notifyAboutMessage(int userId, Message message) {
+//        notifyUser(userId, client -> client.receiveMessage(message));
+//    }
 
     public static Server getServer() {
         try {
@@ -136,6 +168,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server
     @Override
     public List<Notification> getDeclinedInvitations(int recipientId) throws SQLException, RemoteException {
         return NotificationServiceImpl.getInstance().getDeclinedInvitations(recipientId);
+    }
+
+    @Override
+    public List<Notification> getAnnouncements(int recipientId) throws SQLException, RemoteException {
+        return NotificationServiceImpl.getInstance().getAnnouncements(recipientId);
     }
 
     @Override
