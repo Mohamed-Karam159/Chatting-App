@@ -18,8 +18,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800" xmlns="http://javafx.com/javafx/20.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.SignUp1Controller">
-    <SplitPane cache="true" dividerPositions="0.5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.liqaa.client.controllers.FXMLcontrollers.SignUp1Controller">
+    <SplitPane cache="true" dividerPositions="0.5" stylesheets="@../styles/hovor.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
 
             <VBox alignment="CENTER" style="-fx-background-color: #f5f5f5; -fx-padding: 10;">
@@ -38,12 +38,12 @@
 
                     <HBox alignment="CENTER" maxWidth="170.0" prefHeight="35.0" prefWidth="200.0" stylesheets="@../styles/styles.css">
                         <children>
-                            <Button fx:id="SignInButton" contentDisplay="CENTER" onAction="#setSignInButtonOnAction" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: white; -fx-font-size: 15px; -fx-border-width: 1; -fx-background-radius: 15px 0px 0px 15px; -fx-padding: 5 5;" text="Sign In" textAlignment="JUSTIFY">
+                            <Button fx:id="SignInButton" contentDisplay="CENTER" onAction="#setSignInButtonOnAction" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: white; -fx-font-size: 15px; -fx-border-width: 1; -fx-background-radius: 15px 0px 0px 15px; -fx-padding: 5 5;" styleClass="hover-effect" text="Sign In" textAlignment="JUSTIFY">
                                 <font>
                                     <Font size="14.0" />
                                 </font>
                             </Button>
-                            <Button fx:id="SignUpButton" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: #329ba2; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 0px 15px 15px 0px; -fx-padding: 5 5;" text="Sign Up" textAlignment="CENTER" />
+                            <Button fx:id="SignUpButton" prefHeight="31.0" prefWidth="84.0" style="-fx-background-color: #329ba2; -fx-text-fill: white; -fx-font-size: 15px; -fx-background-radius: 0px 15px 15px 0px; -fx-padding: 5 5;" styleClass="hover-effect" text="Sign Up" textAlignment="CENTER" />
                         </children>
                         <VBox.margin>
                             <Insets top="100.0" />
