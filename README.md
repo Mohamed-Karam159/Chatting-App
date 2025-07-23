@@ -112,7 +112,7 @@ java -jar client/target/client-1.0-SNAPSHOT.jar
 
 ## Development Team
 - Ibrahim Diab (Project lead)
-- [Hazim Karam](https://github.com/Hazim-Karam159)
+- [Mohamed Karam](https://github.com/Mohamed-Karam159)
 - Alaa Hathout
 - Salma Abdelnaser
 
